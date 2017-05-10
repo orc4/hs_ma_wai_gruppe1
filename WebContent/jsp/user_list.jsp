@@ -1,33 +1,33 @@
 <%@ page language="java" contentType="text/html" %>
-<%@ page import="model.*" %>
+<%@ page import="data_model.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>      
-    <title>Bibliothek</title>     
+    <title>Userverwaltung</title>     
   </head>
   <body>
   	<table border="1">
   		<tbody>
 	  		<tr>
 	  			<td>Id</td>				
-				<td>Titel</td>
-				<td>Autor</td>
+				<td>Vorname</td>
+				<td>Nachname</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>			
-			<c:forEach var="book" items="${books}">
+			<c:forEach var="user" items="${users}">
 				<tr>
-					<td><c:out value="${book.id}"/></td>					
-					<td><c:out value="${book.title}"/></td>
-					<td><c:out value="${book.author}"/></td>
-					<td><a href="edit?action=edit&id=${book.id}">Ändern</a></td>
-					<td><a href="edit?action=delete&id=${book.id}">Löschen</a></td>
+					<td><c:out value="${user.id}"/></td>					
+					<td><c:out value="${user.vorname}"/></td>
+					<td><c:out value="${user.nachname}"/></td>
+					<td><a href="edit?action=edit&id=${user.id}">Ändern</a></td>
+					<td><a href="edit?action=delete&id=${user.id}">Löschen</a></td>
 				</tr>
 			</c:forEach>	
   		</tbody>
   	</table>
   	<br>
-  	<a href="edit?action=add">Neues Buch hinzufügen</a>
+  	<a href="edit?action=add">Neues User hinzufügen</a>
   </body>
 </html>

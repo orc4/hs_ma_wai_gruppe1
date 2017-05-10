@@ -1,12 +1,22 @@
 <Context>
-	<Resource name="jdbc/libraryDB"
+	<Resource name="jdbc/wai_gr1"
 			  auth="Container"
 			  type="javax.sql.DataSource"
 			  driverClassName="org.postgresql.Driver"
-		      url="jdbc:postgresql://127.0.0.1/ss17-gruppe7_DB"
+		      url="jdbc:postgresql://127.0.0.1/wai_gr1"
     		  username="postgres"
-    		  password=""
-    		  maxActive="250" maxIdle="5"
+    		  password="dummy"
+    		  maxTotal="250" maxIdle="5"
 	/>
+	<Resource name="jdbc/waiDB" auth="Container" type="javax.sql.DataSource"
+			driverClassName="org.postgresql.Driver"
+	        url="jdbc:postgresql://localhost/wai_gr1"
+   		    username="postgres" password="lala"
+   		    maxActive="10" maxIdle="2" maxWait="-1" validationQuery="SELECT 1"/>
+    		      
+	
+    <Environment name="wai_hilf" value="true" type="java.lang.Boolean" override="false"/>
+    <Environment name="projectPath" value="/home/aaron/data/Master/2.sem/wai/workspace/wai_hilf/WebContent" type="java.lang.String" override="false"/>
+    <Environment name="configPath" value="/config" type="java.lang.String" override="false"/>
+	
 </Context>
-

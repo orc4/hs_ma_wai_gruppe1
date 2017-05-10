@@ -8,7 +8,7 @@ public class StorageFactory {
 		return instance;
 	}
 
-	public Storage getStorageFactory() {
+	public Storage getStorage() {
 		return new StorageImpl();
 	}
 

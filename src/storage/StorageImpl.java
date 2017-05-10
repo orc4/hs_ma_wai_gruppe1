@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.NamingException;
@@ -16,22 +17,24 @@ import utils.JNDIFactory;
 
 public class StorageImpl implements Storage {
 	protected JNDIFactory jndiFactory = JNDIFactory.getInstance();
+	private Connection connection = null;
+	private Statement statement = null;
+	private ResultSet resultSet = null;
 
-	public ResultSet progressSql(String sqlStatement) throws NamingException, SQLException {
-		Connection connection = null;
-		Statement statement = null;
-		ResultSet resultSet = null;
-
+	public ResultSet progressSql(String sqlStatement) {
+		// Example !!!
 		try {
-			connection = jndiFactory.getConnection("jdbc/waiDB");
-
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("select id, value from test");
+			resultSet = statement.executeQuery(sqlStatement);
 
 			// while (resultSet.next())
 			// jlog.info(resultSet.getInt("id") + " has value: " +
 			// resultSet.getString("value"));
 
+		} catch (NamingException | SQLException e) {
+			// sollte Nie vorkommen!
+			e.printStackTrace();
 		} finally {
 			if (connection != null)
 				try {
@@ -39,14 +42,12 @@ public class StorageImpl implements Storage {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			if (statement != null)
 				try {
 					statement.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			if (resultSet != null)
 				try {
 					resultSet.close();
@@ -55,6 +56,7 @@ public class StorageImpl implements Storage {
 				}
 		}
 		return resultSet;
+
 	}
 
 	@Override
@@ -101,8 +103,47 @@ public class StorageImpl implements Storage {
 
 	@Override
 	public List<User> listUser() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<User> userList = new ArrayList<>();
+
+		try {
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery("select id, vorname, nachname from wai_user");
+
+			while (resultSet.next()) {
+				User u = new User(resultSet.getLong("id"), resultSet.getString("vorname"),
+						resultSet.getString("nachname"));
+				userList.add(u);
+			}
+			// while (resultSet.next())
+			// jlog.info(resultSet.getInt("id") + " has value: " +
+			// resultSet.getString("value"));
+
+		} catch (NamingException | SQLException e) {
+			// sollte Nie vorkommen!
+			e.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			if (resultSet != null)
+				try {
+					resultSet.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return userList;
 	}
 
 	@Override

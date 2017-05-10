@@ -1,0 +1,18 @@
+postgres local
+dbname: wai_gr1
+
+
+
+sql zum anlegen:
+CREATE TABLE public.wai_user
+(
+  id integer NOT NULL DEFAULT nextval('wai_user_id_seq'::regclass),
+  vorname character varying,
+  nachname character varying,
+  CONSTRAINT wai_user_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.wai_user
+  OWNER TO postgres;
