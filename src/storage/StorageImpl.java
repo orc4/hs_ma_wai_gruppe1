@@ -33,7 +33,7 @@ public class StorageImpl implements Storage {
 			// resultSet.getString("value"));
 
 		} catch (NamingException | SQLException e) {
-			// sollte Nie vorkommen!
+			// sollte Nie vorkommen!!
 			e.printStackTrace();
 		} finally {
 			if (connection != null)
@@ -116,10 +116,6 @@ public class StorageImpl implements Storage {
 						resultSet.getString("nachname"));
 				userList.add(u);
 			}
-			// while (resultSet.next())
-			// jlog.info(resultSet.getInt("id") + " has value: " +
-			// resultSet.getString("value"));
-
 		} catch (NamingException | SQLException e) {
 			// sollte Nie vorkommen!
 			e.printStackTrace();
