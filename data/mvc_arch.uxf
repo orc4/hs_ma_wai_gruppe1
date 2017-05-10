@@ -65,6 +65,7 @@ m1=require
     <panel_attributes>_Storage_
 --
 +getCamList(): List&lt;Cam&gt;
++getCamForUser(UserId:long): List&lt;Cam&gt;
 +addCam(cam:Cam)
 +editCam(id:long,newCam:Cam)
 +delCam(id:long)

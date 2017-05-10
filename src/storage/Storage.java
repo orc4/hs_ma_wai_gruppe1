@@ -11,6 +11,8 @@ public interface Storage {
 
 	public List<Cam> getCamList();
 
+	public List<Cam> getCamForUser(long User);
+
 	public void addCam(Cam cam);
 
 	public void editCam(long id, Cam newCam);
