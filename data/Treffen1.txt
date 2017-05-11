@@ -3,7 +3,10 @@ Dennis:
 Datenbanken vor allem StorageImpl
 
 Aaron:
-Servlets (bzw. Controller) + Datenbank anlegen
+Servlet User-Management
+Servlet Cam-Management
+(Servlet Bildersuche)
+erledigt - Datenbank anlegen
 Schnittstellen zu Storage nochmals überarbeiten
 
 Mylena:
