@@ -16,15 +16,22 @@ WITH (
   OIDS=FALSE
 );
   
-CREATE TABLE public.wai_cam_user
+CREATE TABLE public.wai_user
 (
-  cam_id bigint NOT NULL,
-  user_id bigint NOT NULL,
-  CONSTRAINT wai_cam_user_pkey PRIMARY KEY (cam_id, user_id)
+  id integer NOT NULL DEFAULT nextval('wai_user_id_seq'::regclass),
+  vorname character varying,
+  nachname character varying,
+  can_mod_cam boolean NOT NULL DEFAULT false,
+  can_mod_user boolean NOT NULL DEFAULT false,
+  can_delegate_cam boolean NOT NULL DEFAULT false,
+  can_see_all boolean NOT NULL DEFAULT false,
+  salt character varying(120),
+  CONSTRAINT wai_user_pkey PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
+
 CREATE TABLE public.wai_picture
 (
   id integer NOT NULL DEFAULT nextval('wai_picture_id_seq'::regclass),

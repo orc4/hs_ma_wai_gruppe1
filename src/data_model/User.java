@@ -5,6 +5,8 @@ public class User {
 	private long id;
 	private String vorname;
 	private String nachname;
+
+	private String salt;
 	private boolean can_mod_cam = false;
 	private boolean can_mod_user = false;
 	private boolean can_see_all_cam = false;
@@ -28,6 +30,14 @@ public class User {
 
 	public String getVorname() {
 		return vorname;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	public void setVorname(String vorname) {
