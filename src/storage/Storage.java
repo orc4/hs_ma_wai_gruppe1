@@ -32,4 +32,7 @@ public interface Storage {
 	public List<Date> getMonthsWithPictures(Cam cam, Date from, Date to);
 
 	public Picture getPicture(long id);
+
+	public User getUserByName(String vorname, String nachname);
+
 }

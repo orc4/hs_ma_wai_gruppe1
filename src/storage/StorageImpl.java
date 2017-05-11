@@ -166,4 +166,10 @@ public class StorageImpl implements Storage {
 		return null;
 	}
 
+	@Override
+	public User getUserByName(String vorname, String nachname) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
