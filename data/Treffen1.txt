@@ -1,0 +1,13 @@
+ 
+Dennis:
+Datenbanken vor allem StorageImpl
+
+Aaron:
+Servlets (bzw. Controller) + Datenbank anlegen
+Schnittstellen zu Storage nochmals überarbeiten
+
+Mylena:
+JSPs + html dazu
+
+Wer noch zeit+Lust hat:
+Tool zum Download (wai-helf)
