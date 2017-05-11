@@ -4,15 +4,51 @@ hhhh
 
 
 sql zum anlegen:
+CREATE TABLE public.wai_cam
+(
+  id integer NOT NULL DEFAULT nextval('wai_cam_id_seq'::regclass),
+  name character varying(1024),
+  uri character varying(1024),
+  "interval" character varying(1024),
+  CONSTRAINT wai_cam_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+  
+CREATE TABLE public.wai_cam_user
+(
+  cam_id bigint NOT NULL,
+  user_id bigint NOT NULL,
+  CONSTRAINT wai_cam_user_pkey PRIMARY KEY (cam_id, user_id)
+)
+WITH (
+  OIDS=FALSE
+);
+CREATE TABLE public.wai_picture
+(
+  id integer NOT NULL DEFAULT nextval('wai_picture_id_seq'::regclass),
+  cam_id bigint,
+  date date,
+  path character varying(1024),
+  CONSTRAINT wai_picture_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+
 CREATE TABLE public.wai_user
 (
   id integer NOT NULL DEFAULT nextval('wai_user_id_seq'::regclass),
   vorname character varying,
   nachname character varying,
+  can_mod_cam boolean NOT NULL DEFAULT false,
+  can_mod_user boolean NOT NULL DEFAULT false,
+  can_delegate_cam boolean NOT NULL DEFAULT false,
+  can_see_all boolean NOT NULL DEFAULT false,
   CONSTRAINT wai_user_pkey PRIMARY KEY (id)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE public.wai_user
-  OWNER TO postgres;
+
