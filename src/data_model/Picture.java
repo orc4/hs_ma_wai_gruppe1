@@ -7,6 +7,11 @@ public class Picture {
 	private long id;
 	private String path;
 	private Date date;
+	private Cam cam;
+
+	public Cam getCam() {
+		return cam;
+	}
 
 	public long getId() {
 		return id;
