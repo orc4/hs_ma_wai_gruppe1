@@ -15,8 +15,7 @@ import storage.StorageFactory;
 
 public class UserList extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -605260502302364704L;
 	final Storage storageDao = StorageFactory.getInstance().getStorage();
 
 	@Override
