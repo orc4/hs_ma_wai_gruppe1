@@ -5,12 +5,29 @@ public class User {
 	private long id;
 	private String vorname;
 	private String nachname;
-
+	private String username;
+	private String password;
 	private String salt;
 	private boolean can_mod_cam = false;
 	private boolean can_mod_user = false;
 	private boolean can_see_all_cam = false;
 	private boolean can_delegate_cam = false;
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public boolean isCan_mod_cam() {
 		return can_mod_cam;
