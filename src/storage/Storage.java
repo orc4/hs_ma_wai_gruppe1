@@ -33,6 +33,6 @@ public interface Storage {
 
 	public Picture getPicture(long id);
 
-	public User getUserByName(String vorname, String nachname);
+	public User getUserByName(String username);
 
 }
