@@ -13,12 +13,12 @@
 <!--     <welcome-file>default.jsp</welcome-file> -->
 <!--   </welcome-file-list> -->
     <servlet>
-    <servlet-name>UserList</servlet-name>
-    <servlet-class>servlets.UserList</servlet-class>
+    <servlet-name>Manager</servlet-name>
+    <servlet-class>servlets.Manager</servlet-class>
   </servlet>
   
     <servlet-mapping>
-    <servlet-name>UserList</servlet-name>
+    <servlet-name>Manager</servlet-name>
     <url-pattern>/user_list</url-pattern>
   </servlet-mapping>
   

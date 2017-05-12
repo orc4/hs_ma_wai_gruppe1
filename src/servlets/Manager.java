@@ -13,7 +13,7 @@ import data_model.User;
 import storage.Storage;
 import storage.StorageFactory;
 
-public class UserList extends HttpServlet {
+public class Manager extends HttpServlet {
 
 	private static final long serialVersionUID = -605260502302364704L;
 	final Storage storageDao = StorageFactory.getInstance().getStorage();
