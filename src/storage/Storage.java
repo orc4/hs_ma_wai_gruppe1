@@ -35,4 +35,6 @@ public interface Storage {
 
 	public User getUserByName(String username);
 
+	public User getUserById(Long id);
+
 }

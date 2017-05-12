@@ -172,4 +172,10 @@ public class StorageImpl implements Storage {
 		return null;
 	}
 
+	@Override
+	public User getUserById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
