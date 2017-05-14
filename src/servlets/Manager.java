@@ -3,6 +3,11 @@ package servlets;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,20 +19,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import data_model.Cam;
+import data_model.Picture;
 import data_model.User;
 import exception.MissingParameterException;
+import exception.UserLoginIncorrect;
 import exception.UserNotLoggedIn;
 import exception.UserNotPermitted;
 import storage.Storage;
 import storage.StorageFactory;
 
 public class Manager extends HttpServlet {
+	// Allgemeiner Parameter
+	private final int MAX_PICTURES = 200;
+
 	private final String ACTION_HANDLE_USER_MOD = "handle_user_mod";
 	private final String ACTION_HANDLE_USER_LIST = "handle_user_list";
 	private final String ACTION_HANDLE_CAM_MOD = "handle_cam_mode";
 	private final String ACTION_HANDLE_CAM_LIST = "handle_cam_list";
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_MOD = "handle_user_cam_delegate_mod";
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_LIST = "handle_user_cam_delegate_list";
+	private final String ACTION_HANDLE_PASSWORD_CHANGE = "handle_password_change";
+	private final String ACTION_HANDLE_VIEW_CAMS = "handle_view_cams";
+	private final String ACTION_HANDLE_VIEW_CAMS_SEARCH = "handle_view_cams_search";
+	private final String ACTION_HANDLE_VIEW_CAM_SINGLE = "handle_view_cam_single";
 
 	// User Variablen
 	private final String PARAMETER_USER_ID = "userId";
@@ -35,11 +49,21 @@ public class Manager extends HttpServlet {
 	private final String PARAMETER_USER_NACHNAME = "userNachname";
 	private final String PARAMETER_USER_USERNAME = "userUsername";
 	private final String PARAMETER_USER_PASSWORD = "userPassword";
+	private final String PARAMETER_USER_PASSWORD_NEW1 = "userPasswordNew1";
+	private final String PARAMETER_USER_PASSWORD_NEW2 = "userPasswordNew2";
 	private final String PARAMETER_USER_SALT = "userSalt";
 	private final String PARAMETER_USER_CAN_MOD_CAM = "user_can_mode_cam";
 	private final String PARAMETER_USER_CAN_MOD_USER = "user_can_mod_user";
 	private final String PARAMETER_USER_CAN_SEE_ALL_CAM = "user_can_see_all_cam";
 	private final String PARAMETER_USER_CAN_DELEGATE_CAM = "user_can_delegate_cam";
+	private final String PARAMETER_CAM_ID = "cam_id";
+	private final String PARAMETER_CAM_DATE_FROM = "cam_date_from";
+	private final String PARAMETER_CAM_DATE_TO = "cam_date_to";
+	private final String PARAMETER_CAM_YEAR = "cam_date_year";
+	private final String PARAMETER_CAM_MONTH = "cam_date_month";
+	private final String PARAMETER_CAM_DAY = "cam_date_day";
+	private final String PARAMETER_CAM_HOUR = "cam_date_hour";
+
 	// Für Cam/User zuweisung
 	private final String PARAMETER_USERID = "userid";
 	private final String PARAMETER_CAMID = "camid";
@@ -83,11 +107,235 @@ public class Manager extends HttpServlet {
 		case ACTION_HANDLE_USER_CAM_DELEGATE_LIST:
 			this.handle_user_cam_delegate_list(request, response);
 			break;
+		case ACTION_HANDLE_PASSWORD_CHANGE:
+			this.handle_password_change(request, response);
+			break;
+		case ACTION_HANDLE_VIEW_CAMS:
+			this.handle_view_cams(request, response);
+			break;
+		case ACTION_HANDLE_VIEW_CAMS_SEARCH:
+			this.handle_view_cams_search(request, response);
+			break;
+		case ACTION_HANDLE_VIEW_CAM_SINGLE:
+			this.handle_view_cam_single(request, response);
+			break;
 
 		default:
 			// TODO: Log rein - ungültiger wert oder Error
 			break;
 		}
+
+	}
+
+	private void handle_view_cam_single(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		User user = this.getLoggedInUser(request);
+		if (user == null) {
+			throw new UserNotLoggedIn();
+		}
+
+		// Prüfen ob parameter gesetzt sind
+		if (request.getParameter(PARAMETER_CAM_ID) == null) {
+			throw new MissingParameterException();
+		}
+
+		// Pflicht Parameter
+		long camId = Long.getLong(request.getParameter(PARAMETER_CAM_ID));
+
+		// Liste von Storage holen
+		List<Cam> camList = storageDao.getCamForUser(user.getId());
+
+		// Prüfen ob recht auf Cam?
+		boolean hasRights = false;
+		if (user.isCan_see_all_cam()) {
+			hasRights = true;
+		} else {
+			for (Cam cam : camList) {
+				if (cam.getId() == camId) {
+					hasRights = true;
+				}
+			}
+		}
+
+		if (!hasRights)
+			throw new UserNotPermitted(user.getUsername());
+
+		int year = -1;
+		int month = -1;
+		int day = -1;
+		int hour = -1;
+
+		// Versuchen Jahr zu holen
+		if (request.getParameter(PARAMETER_CAM_YEAR) != null) {
+			int tmp = Integer.parseInt(request.getParameter(PARAMETER_CAM_YEAR));
+			if (tmp >= 1970) {
+				year = tmp;
+			}
+		}
+
+		// Versuchen Monat zu holen
+		if (request.getParameter(PARAMETER_CAM_MONTH) != null) {
+			int tmp = Integer.parseInt(request.getParameter(PARAMETER_CAM_MONTH));
+			if (tmp >= 1 && tmp <= 12) {
+				month = tmp;
+			}
+		}
+
+		// Versuchen Tag zu holen
+		if (request.getParameter(PARAMETER_CAM_DAY) != null) {
+			int tmp = Integer.parseInt(request.getParameter(PARAMETER_CAM_DAY));
+			if (tmp >= 0 && tmp <= 31) {
+				day = tmp;
+			}
+		}
+
+		// Versuchen Stunde zu holen
+		if (request.getParameter(PARAMETER_CAM_HOUR) != null) {
+			int tmp = Integer.parseInt(request.getParameter(PARAMETER_CAM_HOUR));
+			if (tmp >= 0 && tmp <= 24) {
+				day = tmp % 24; // Falls 24 - dann 0!
+			}
+		}
+
+		// Nr. 1 - nur camId - dann Monate mit Bilder anzeigen
+		if (month == -1 | year == -1) {
+			List<Date> monthList = storageDao.getMonthsWithPictures(camId, new Date(2011, 1, 1),
+					new Date(Calendar.getInstance().getTimeInMillis()));
+			request.setAttribute("months", monthList);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_view_months.jsp");
+			dispatcher.forward(request, response);
+		} else if (day == -1) {
+			// Nr. 2 - mit monat - Tage mit Bilder anzeigen
+			List<Date> dayList = storageDao.getDaysWithPictures(camId, new Date(2011, 1, 1),
+					new Date(Calendar.getInstance().getTimeInMillis()));
+			request.setAttribute("days", dayList);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_view_days.jsp");
+			dispatcher.forward(request, response);
+		} else if (hour == -1) {
+			// Nr 3. - Tag - Stunden von Tag
+			List<Date> hourList = storageDao.getHoursWithPictures(camId, new Date(2011, 1, 1),
+					new Date(Calendar.getInstance().getTimeInMillis()));
+			request.setAttribute("days", hourList);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_view_hours.jsp");
+			dispatcher.forward(request, response);
+
+		} else {
+			// Nr 4. - Stunde - Alle Bilder einer Stunde (max 60?!)
+			DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH");
+			String target = year + "." + month + "." + day + " " + hour;
+			java.util.Date result = null;
+			try {
+				result = df.parse(target);
+			} catch (ParseException e) {
+				// Darf eigentlich NIEEE knallen!
+				e.printStackTrace();
+			}
+			Date dateFrom = new Date(result.getTime());
+			Date dateTo = new Date(result.getTime() + 3600000);
+
+			List<Picture> picList = storageDao.getPictureBetween(camId, dateFrom, dateTo, MAX_PICTURES);
+			request.setAttribute("pics", picList);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_view_pics.jsp");
+			dispatcher.forward(request, response);
+		}
+
+	}
+
+	private void handle_view_cams_search(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// User Holen
+		User user = this.getLoggedInUser(request);
+		if (user == null) {
+			throw new UserNotLoggedIn();
+		}
+
+		// Prüfen ob parameter gesetzt sind
+		if (request.getParameter(PARAMETER_CAM_ID) == null | request.getParameter(PARAMETER_CAM_DATE_FROM) == null
+				| request.getParameter(PARAMETER_CAM_DATE_TO) == null) {
+			throw new MissingParameterException();
+
+		}
+
+		// Liste von Storage holen
+		List<Cam> camList = storageDao.getCamForUser(user.getId());
+
+		long camId = Long.getLong(request.getParameter(PARAMETER_CAM_ID));
+		Date dateFrom = Date.valueOf(request.getParameter(PARAMETER_CAM_DATE_FROM));
+		Date dateTo = Date.valueOf(request.getParameter(PARAMETER_CAM_DATE_TO));
+
+		// Prüfen ob recht auf Cam?
+		boolean hasRights = false;
+		if (user.isCan_see_all_cam()) {
+			hasRights = true;
+		} else {
+			for (Cam cam : camList) {
+				if (cam.getId() == camId) {
+					hasRights = true;
+				}
+			}
+		}
+
+		if (!hasRights)
+			throw new UserNotPermitted(user.getUsername());
+
+		// Bilder Aus db holen
+		List<Picture> picList = storageDao.getPictureBetween(camId, dateFrom, dateTo, MAX_PICTURES);
+
+		// Liste als Parameter setzen
+		request.setAttribute("pics", picList);
+
+		// Return
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_cam_search.jsp");
+		dispatcher.forward(request, response);
+
+	}
+
+	private void handle_view_cams(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// User Holen
+		User user = this.getLoggedInUser(request);
+		if (user == null) {
+			throw new UserNotLoggedIn();
+		}
+
+		// Liste von Storage holen
+		List<Cam> camList = storageDao.getCamForUser(user.getId());
+
+		// Liste als Parameter setzen
+		request.setAttribute("cams", camList);
+		// Return
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_cam_list.jsp");
+		dispatcher.forward(request, response);
+
+	}
+
+	private void handle_password_change(HttpServletRequest request, HttpServletResponse response) {
+		// User holen
+		User user = this.getLoggedInUser(request);
+		if (user == null) {
+			throw new UserNotLoggedIn();
+		}
+
+		if (request.getParameter(PARAMETER_USER_PASSWORD) == null
+				| request.getParameter(PARAMETER_USER_PASSWORD_NEW1) == null
+				| request.getParameter(PARAMETER_USER_PASSWORD_NEW2) == null) {
+			throw new MissingParameterException();
+		}
+
+		String passwordOld = request.getParameter(PARAMETER_USER_PASSWORD);
+		String passwordNew1 = request.getParameter(PARAMETER_USER_PASSWORD_NEW1);
+		String passwordNew2 = request.getParameter(PARAMETER_USER_PASSWORD_NEW2);
+		if (passwordOld.equals(user.getPassword())) {
+			throw new UserLoginIncorrect(user.getUsername());
+		}
+		if (passwordNew1 != passwordNew2) {
+			throw new MissingParameterException();
+			// FIXME: vill hier noch andere exception mit meldung werfen?
+		}
+
+		user.setPassword(passwordNew1);
+		storageDao.editUser(user.getId(), user);
+		// TODO: Wohin soll der request laufen?!
 
 	}
 
