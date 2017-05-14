@@ -4,23 +4,28 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
-      <y>500</y>
+      <x>820</x>
+      <y>480</y>
       <w>200</w>
-      <h>90</h>
+      <h>170</h>
     </coordinates>
     <panel_attributes>_Servlet.Manager_
 --
 
 doGet()
-doPost()</panel_attributes>
+doPost()
+--
+handle_cam_mod()
+handle_cam_list()
+handle_user_mod()
+handle_user_list()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>560</x>
-      <y>660</y>
+      <x>630</x>
+      <y>760</y>
       <w>180</w>
       <h>60</h>
     </coordinates>
@@ -32,8 +37,8 @@ m2=provide user Control
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>460</y>
+      <x>440</x>
+      <y>560</y>
       <w>190</w>
       <h>120</h>
     </coordinates>
@@ -45,8 +50,8 @@ m2=provide user Control
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>510</y>
+      <x>170</x>
+      <y>610</y>
       <w>280</w>
       <h>70</h>
     </coordinates>
@@ -57,8 +62,8 @@ m2=provide user Control
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>600</x>
-      <y>800</y>
+      <x>670</x>
+      <y>900</y>
       <w>600</w>
       <h>240</h>
     </coordinates>
@@ -82,8 +87,8 @@ m2=provide user Control
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>250</x>
-      <y>910</y>
+      <x>320</x>
+      <y>1010</y>
       <w>280</w>
       <h>80</h>
     </coordinates>
@@ -97,8 +102,8 @@ _+getStorageInstance():StorageFactory_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>430</y>
+      <x>170</x>
+      <y>530</y>
       <w>280</w>
       <h>70</h>
     </coordinates>
@@ -109,8 +114,8 @@ _+getStorageInstance():StorageFactory_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>660</y>
+      <x>440</x>
+      <y>760</y>
       <w>210</w>
       <h>60</h>
     </coordinates>
@@ -122,8 +127,8 @@ m1=require
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>450</y>
+      <x>440</x>
+      <y>550</y>
       <w>190</w>
       <h>60</h>
     </coordinates>
@@ -134,8 +139,8 @@ m1=require
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>100</y>
+      <x>170</x>
+      <y>160</y>
       <w>280</w>
       <h>70</h>
     </coordinates>
@@ -146,8 +151,8 @@ m1=require
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>270</y>
+      <x>170</x>
+      <y>370</y>
       <w>280</w>
       <h>70</h>
     </coordinates>
@@ -158,8 +163,8 @@ m1=require
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>350</y>
+      <x>170</x>
+      <y>450</y>
       <w>280</w>
       <h>70</h>
     </coordinates>
@@ -170,21 +175,21 @@ m1=require
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>540</x>
-      <y>470</y>
-      <w>180</w>
+      <x>610</x>
+      <y>510</y>
+      <w>230</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>lt=-()
 m2=provide user Control
 </panel_attributes>
-    <additional_attributes>160.0;70.0;10.0;10.0</additional_attributes>
+    <additional_attributes>210.0;10.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>380</y>
+      <x>440</x>
+      <y>480</y>
       <w>190</w>
       <h>130</h>
     </coordinates>
@@ -196,8 +201,8 @@ m2=provide user Control
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>20</y>
+      <x>170</x>
+      <y>80</y>
       <w>280</w>
       <h>70</h>
     </coordinates>
@@ -208,8 +213,8 @@ m2=provide user Control
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1030</x>
-      <y>730</y>
+      <x>1100</x>
+      <y>830</y>
       <w>80</w>
       <h>90</h>
     </coordinates>
@@ -221,21 +226,21 @@ m2=provide
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>890</x>
-      <y>540</y>
-      <w>180</w>
-      <h>210</h>
+      <x>1010</x>
+      <y>520</y>
+      <w>130</w>
+      <h>330</h>
     </coordinates>
     <panel_attributes>lt=)-
 
 </panel_attributes>
-    <additional_attributes>150.0;180.0;10.0;10.0</additional_attributes>
+    <additional_attributes>100.0;300.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>100</x>
-      <y>630</y>
+      <x>170</x>
+      <y>730</y>
       <w>280</w>
       <h>70</h>
     </coordinates>
@@ -246,8 +251,8 @@ m2=provide
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>720</x>
-      <y>620</y>
+      <x>790</x>
+      <y>720</y>
       <w>160</w>
       <h>100</h>
     </coordinates>
@@ -261,8 +266,8 @@ doPost()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>300</y>
+      <x>440</x>
+      <y>400</y>
       <w>200</w>
       <h>200</h>
     </coordinates>
@@ -274,8 +279,8 @@ doPost()</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>700</x>
-      <y>360</y>
+      <x>920</x>
+      <y>270</y>
       <w>200</w>
       <h>90</h>
     </coordinates>
@@ -289,8 +294,8 @@ doPost()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>870</x>
-      <y>660</y>
+      <x>940</x>
+      <y>760</y>
       <w>180</w>
       <h>110</h>
     </coordinates>
@@ -302,53 +307,153 @@ doPost()</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>890</x>
-      <y>400</y>
-      <w>180</w>
-      <h>350</h>
+      <x>1090</x>
+      <y>310</y>
+      <w>50</w>
+      <h>540</h>
     </coordinates>
     <panel_attributes>lt=)-
 
 </panel_attributes>
-    <additional_attributes>150.0;320.0;10.0;10.0</additional_attributes>
+    <additional_attributes>20.0;510.0;30.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>780</x>
+      <x>850</x>
       <y>280</y>
-      <w>170</w>
-      <h>90</h>
+      <w>180</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>lt=-()
 m2=provide user Control
 </panel_attributes>
-    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+    <additional_attributes>70.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>120</y>
+      <x>440</x>
+      <y>180</y>
       <w>430</w>
-      <h>200</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=)-
 
 </panel_attributes>
-    <additional_attributes>400.0;170.0;10.0;10.0</additional_attributes>
+    <additional_attributes>400.0;110.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>370</x>
-      <y>50</y>
+      <x>440</x>
+      <y>110</y>
       <w>430</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>lt=)-
+
+</panel_attributes>
+    <additional_attributes>400.0;180.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>170</x>
+      <y>0</y>
+      <w>280</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>_Cam_List_Normal_user_
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>30</y>
+      <w>430</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>lt=)-
+
+</panel_attributes>
+    <additional_attributes>400.0;260.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>800</x>
+      <y>20</y>
+      <w>280</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>_get_log_
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>170</x>
+      <y>290</y>
+      <w>280</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>_Cam_User_delegate_
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>320</y>
+      <w>210</w>
       <h>270</h>
     </coordinates>
     <panel_attributes>lt=)-
 
 </panel_attributes>
-    <additional_attributes>400.0;240.0;10.0;10.0</additional_attributes>
+    <additional_attributes>180.0;240.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>170</x>
+      <y>810</y>
+      <w>280</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>_User_ChangePW_
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>440</x>
+      <y>770</y>
+      <w>210</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=)-
+m1=require
+</panel_attributes>
+    <additional_attributes>180.0;20.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>840</x>
+      <y>80</y>
+      <w>110</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>lt=)-
+
+</panel_attributes>
+    <additional_attributes>20.0;190.0;90.0;10.0</additional_attributes>
   </element>
 </diagram>
