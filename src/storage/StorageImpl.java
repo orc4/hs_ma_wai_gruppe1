@@ -178,4 +178,16 @@ public class StorageImpl implements Storage {
 		return null;
 	}
 
+	@Override
+	public void setUserCamAllow(long userId, long camId) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void unsetUserCamAllow(long userId, long camId) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -37,4 +37,8 @@ public interface Storage {
 
 	public User getUserById(Long id);
 
+	public void setUserCamAllow(long userId, long camId);
+
+	public void unsetUserCamAllow(long userId, long camId);
+
 }

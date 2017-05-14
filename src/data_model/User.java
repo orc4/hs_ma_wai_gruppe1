@@ -13,6 +13,21 @@ public class User {
 	private boolean can_see_all_cam = false;
 	private boolean can_delegate_cam = false;
 
+	public User(long id, String vorname, String nachname, String username, String password, String salt,
+			boolean can_mod_cam, boolean can_mod_user, boolean can_see_all_cam, boolean can_delegate_cam) {
+		super();
+		this.id = id;
+		this.vorname = vorname;
+		this.nachname = nachname;
+		this.username = username;
+		this.password = password;
+		this.salt = salt;
+		this.can_mod_cam = can_mod_cam;
+		this.can_mod_user = can_mod_user;
+		this.can_see_all_cam = can_see_all_cam;
+		this.can_delegate_cam = can_delegate_cam;
+	}
+
 	public String getUsername() {
 		return username;
 	}

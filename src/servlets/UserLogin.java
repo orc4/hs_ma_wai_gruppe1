@@ -18,7 +18,7 @@ public class UserLogin extends HttpServlet {
 	private static final long serialVersionUID = -3206094083375113178L;
 
 	final Storage storageDao = StorageFactory.getInstance().getStorage();
-	final String USER_ATTRIBUTE = "username";
+	public final static String USER_ATTRIBUTE = "userid";
 
 	private void progressRequest(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
@@ -49,35 +49,10 @@ public class UserLogin extends HttpServlet {
 		}
 
 		if (password.equals(user.getPassword())) {
-
-			session.setAttribute(USER_ATTRIBUTE, username);
-
+			session.setAttribute(USER_ATTRIBUTE, user.getId());
 		}
 
-		// List<User> collection = storageDao.listUser();
-		// request.setAttribute("users", collection);
-		// RequestDispatcher dispatcher =
-		// getServletContext().getRequestDispatcher("/jsp/user_list.jsp");
-		// dispatcher.forward(request, response);
-		//
-		// Long id = null;
-		//
-		// if (request.getParameter("id") != null) {
-		// id = Long.valueOf(request.getParameter("id"));
-		// }
-		//
-		// String author = request.getParameter("author");
-		// String title = request.getParameter("title");
-
-		// try {
-		// bookDao.save(book);
-		// response.sendRedirect(request.getContextPath() + "/list");
-		// } catch (BookNotSavedException e) {
-		// RequestDispatcher dispatcher =
-		// getServletContext().getRequestDispatcher("/jsp/error.jsp");
-		// dispatcher.forward(request, response);
-		// }
-
+		// TODO: Irgendwie zurück auf user_cam_view - wie der auch immer ist!
 	}
 
 	@Override
