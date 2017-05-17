@@ -27,14 +27,22 @@ public interface Storage {
 
 	public List<User> listUser();
 
-	public List<Picture> getPictureBetween(Cam cam, Date from, Date to, long limit);
+	public List<Picture> getPictureBetween(long camId, Date from, Date to, long limit);
 
-	public List<Date> getMonthsWithPictures(Cam cam, Date from, Date to);
+	public List<Date> getMonthsWithPictures(long camId, Date from, Date to);
+
+	public List<Date> getDaysWithPictures(long camId, Date from, Date to);
+
+	public List<Date> getHoursWithPictures(long camId, Date from, Date to);
 
 	public Picture getPicture(long id);
 
 	public User getUserByName(String username);
 
 	public User getUserById(Long id);
+
+	public void setUserCamAllow(long userId, long camId);
+
+	public void unsetUserCamAllow(long userId, long camId);
 
 }
