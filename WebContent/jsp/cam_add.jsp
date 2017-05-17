@@ -6,33 +6,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Add Camera</title>
 <style>
-     	body{
-     		background-color: #42f48f;
-     	}
-     	
-      </style>
-  </head>
- 
-  <body>
+   	body {
+   		background-color: #42f48f;
+   	}
+</style>
+</head>
+<body>
   	<h1><center>Add Camera</center></h1>
-	<form name="edit" action="edit" method="post">
+	<form name="form_cam_add" action="action_cam_add" method="post">
 		<center><table border="1">
 			<tbody>
-				
 				<tr>
 					<td>Location:</td>
-					<td><input type="text" name="author" value=""></td>		
+					<td><input type="text" name="location" value=""></td>		
 					</tr><tr>		
 					<td>URL:</td>	
-					<td><input type="text" name="title" value=""></td>
+					<td><input type="text" name="url" value=""></td>
 					</tr><tr>	
 					<td colspan="2"><input type="submit" name="btnSave" value="add"></td>
 				</tr>
 			</tbody>
 		</table></center>
 	</form>
-</head>
-<body>
-
 </body>
 </html>
