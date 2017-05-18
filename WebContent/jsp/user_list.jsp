@@ -19,12 +19,12 @@
 			</tr>			
 			<c:forEach var="user" items="${users}">
 				<tr>
-					<td><c:out value="${user.getId}"/></td>
-					<td><c:out value="${user.getUsername}"/></td>
-					<td><c:out value="${user.getVorname}"/></td>
-					<td><c:out value="${user.getNachname}"/></td>
-					<td><a href="user_edit?action=edit&id=${user.getId}">Ändern</a></td>
-					<td><a href="user_list?action=delete&id=${user.getId}">Löschen</a></td>
+					<td><c:out value="${user.id}"/></td>
+					<td><c:out value="${user.username}"/></td>
+					<td><c:out value="${user.vorname}"/></td>
+					<td><c:out value="${user.nachname}"/></td>
+					<td><a href="user_edit?action=edit&id=${user.id}">Ändern</a></td>
+					<td><a href="user_list?action=delete&id=${user.id}">Löschen</a></td>
 				</tr>
 			</c:forEach>	
   		</tbody>

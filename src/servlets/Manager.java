@@ -454,16 +454,16 @@ public class Manager extends HttpServlet {
 
 	private void handle_cam_list(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// FIXME: wieder einkommentieren
-		// // User Holen
-		// User user = this.getLoggedInUser(request);
-		// if (user == null) {
-		// throw new UserNotLoggedIn();
-		// }
-		// // Berechtigungen Prüfen
-		// if (!user.isCan_see_all_cam()) {
-		// throw new UserNotPermitted(user.getUsername());
-		// }
+
+		// User Holen
+		User user = this.getLoggedInUser(request);
+		if (user == null) {
+			throw new UserNotLoggedIn();
+		}
+		// Berechtigungen Prüfen
+		if (!user.isCan_see_all_cam()) {
+			throw new UserNotPermitted(user.getUsername());
+		}
 
 		// Liste von Storage holen
 		List<Cam> camList = storageDao.getCamList();
@@ -532,15 +532,16 @@ public class Manager extends HttpServlet {
 
 	private void handle_user_list(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// User Holen
-		User user = this.getLoggedInUser(request);
-		if (user == null) {
-			throw new UserNotLoggedIn();
-		}
-		// Berechtigungen Prüfen
-		if (!user.isCan_mod_user()) {
-			throw new UserNotPermitted(user.getUsername());
-		}
+		// FIXME: zum testen auskommentiert
+		// // User Holen
+		// User user = this.getLoggedInUser(request);
+		// if (user == null) {
+		// throw new UserNotLoggedIn();
+		// }
+		// // Berechtigungen Prüfen
+		// if (!user.isCan_mod_user()) {
+		// throw new UserNotPermitted(user.getUsername());
+		// }
 
 		// Liste von Storage holen
 		List<User> userList = storageDao.listUser();
