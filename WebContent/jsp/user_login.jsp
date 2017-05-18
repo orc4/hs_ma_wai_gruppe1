@@ -13,16 +13,16 @@
  
   <body>
   	<h1><center>Login</center></h1>
-	<form name="edit" action="edit" method="post">
+	<form name="edit" action="login" method="post">
 		<center><table border="1">
 			<tbody>
 				
 				<tr>
 					<td>User Name:</td>
-					<td><input type="text" name="author" value=""></td>		
+					<td><input type="text" name="username" value=""></td>		
 					</tr><tr>		
 					<td>Password:</td>	
-					<td><input type="text" name="title" value=""></td>
+					<td><input type="text" name="password" value=""></td>
 					</tr><tr>	
 					<td colspan="2"><input type="submit" name="btnSave" value="login"></td>
 				</tr>
