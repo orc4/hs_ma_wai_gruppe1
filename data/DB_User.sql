@@ -5,6 +5,7 @@ CREATE SEQUENCE wai_user_id_seq START WITH 1 INCREMENT BY 1;
 CREATE TABLE public.wai_user
 (
   id integer NOT NULL DEFAULT nextval('wai_user_id_seq'::regclass),
+  username character varying(1024),
   vorname character varying,
   nachname character varying,
   can_mod_cam boolean NOT NULL DEFAULT false,
@@ -12,7 +13,7 @@ CREATE TABLE public.wai_user
   can_delegate_cam boolean NOT NULL DEFAULT false,
   can_see_all boolean NOT NULL DEFAULT false,
   salt character varying(120),
-  username bit varying(1024),
+  password character varying(1024),
   CONSTRAINT wai_user_pkey PRIMARY KEY (id)
 )
 WITH (
