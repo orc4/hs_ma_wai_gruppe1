@@ -1,5 +1,7 @@
 package storage;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -58,13 +60,61 @@ public class StorageImpl implements Storage {
 		return resultSet;
 
 	}
-
+	
+	// Interface 
 	@Override
 	public List<Cam> getCamList() {
+		ArrayList<Cam> camList = new ArrayList<>();
+
+		try {
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery("SELECT id, name, uri, interval FROM wai_cam");
+
+			while (resultSet.next()) {
+				URI uri = new URI(resultSet.getString("uri"));
+				Cam c = new Cam(resultSet.getLong("id"), resultSet.getString("name"),
+						uri, resultSet.getLong("interval"));
+				camList.add(c);
+			}
+		} catch (NamingException | SQLException | URISyntaxException e) {
+			// sollte Nie vorkommen!
+			e.printStackTrace();
+		} finally {
+			if (connection != null)
+				try {
+					connection.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			if (statement != null)
+				try {
+					statement.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			if (resultSet != null)
+				try {
+					resultSet.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+		}
+		return (camList);
+	}
+
+	@Override
+	public void addPic(Picture pic) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<Cam> getCamForUser(long User) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public void addCam(Cam cam) {
 		// TODO Auto-generated method stub
@@ -155,13 +205,19 @@ public class StorageImpl implements Storage {
 	}
 
 	@Override
-	public Picture getPicture(long id) {
+	public List<Date> getDaysWithPictures(long camId, Date from, Date to) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Cam> getCamForUser(long User) {
+	public List<Date> getHoursWithPictures(long camId, Date from, Date to) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Picture getPicture(long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -188,18 +244,6 @@ public class StorageImpl implements Storage {
 	public void unsetUserCamAllow(long userId, long camId) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public List<Date> getDaysWithPictures(long camId, Date from, Date to) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Date> getHoursWithPictures(long camId, Date from, Date to) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

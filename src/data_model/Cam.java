@@ -3,7 +3,6 @@ package data_model;
 import java.net.URI;
 
 public class Cam {
-
 	private long id;
 	private String name;
 	private URI uri;
@@ -44,5 +43,4 @@ public class Cam {
 		this.uri = uri;
 		this.interval = interval;
 	}
-
 }
