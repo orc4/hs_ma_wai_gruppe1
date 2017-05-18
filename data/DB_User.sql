@@ -24,7 +24,7 @@ WITH (
 INSERT INTO public.wai_user (vorname, nachname, can_mod_cam, can_mod_user, can_delegate_cam, can_see_all, salt, username)
 VALUES ('Dennis', 'Schmidt', 'false', 'true', 'true' ,'true', 'Test', '10');
 INSERT INTO public.wai_user (vorname, nachname, can_mod_cam, can_mod_user, can_delegate_cam, can_see_all, salt, username)
-VALUES ('Aron', 'Unbekannt', 'true', 'false', 'true' ,'false', 'Test2', '10');
+VALUES ('Aaron', 'Unbekannt', 'true', 'false', 'true' ,'false', 'Test2', '10');
 
 
 --Anzeigen der Tabelle
