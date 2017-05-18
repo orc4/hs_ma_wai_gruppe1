@@ -7,27 +7,36 @@
      	body{
      		background-color: #42f48f;
      	}
-     	
       </style>
   </head>
- 
   <body>
   	<h1><center>Add User</center></h1>
-	<form name="edit" action="edit" method="post">
-		<center><table border="1">
+	<form name="form_user_add" action="action_user_add" method="post">
+		<center>
+		<table border="1">
 			<tbody>
-				
 				<tr>
+					<td>Username:</td>
+					<td><input type="text" name="username" value=""></td>		
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="text" name="password" value=""></td>		
+				</tr>
+				<tr>	
 					<td>First Name:</td>
-					<td><input type="text" name="author" value=""></td>		
-					</tr><tr>		
+					<td><input type="text" name="firstname" value=""></td>		
+				</tr>
+				<tr>		
 					<td>Last Name:</td>	
-					<td><input type="text" name="title" value=""></td>
-					</tr><tr>	
+					<td><input type="text" name="lastname" value=""></td>
+				</tr>
+				<tr>	
 					<td colspan="2"><input type="submit" name="btnSave" value="add"></td>
 				</tr>
 			</tbody>
-		</table></center>
+		</table>
+		</center>
 	</form>
   </body>
 </html>
