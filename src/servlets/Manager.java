@@ -85,7 +85,9 @@ public class Manager extends HttpServlet {
 	private void progressRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = ACTION_HANDLE_CAM_LIST;
+
 		if (request.getParameter("action") != null) {
+			System.out.println("action = " + action);
 			action = request.getParameter("action");
 		}
 		switch (action) {
@@ -121,7 +123,6 @@ public class Manager extends HttpServlet {
 			break;
 
 		default:
-			// TODO: Log rein - ungültiger wert oder Error
 			break;
 		}
 
@@ -531,15 +532,16 @@ public class Manager extends HttpServlet {
 
 	private void handle_user_list(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// User Holen
-		User user = this.getLoggedInUser(request);
-		if (user == null) {
-			throw new UserNotLoggedIn();
-		}
-		// Berechtigungen Prüfen
-		if (!user.isCan_mod_user()) {
-			throw new UserNotPermitted(user.getUsername());
-		}
+		// FIXME: zum testen auskommentiert
+		// // User Holen
+		// User user = this.getLoggedInUser(request);
+		// if (user == null) {
+		// throw new UserNotLoggedIn();
+		// }
+		// // Berechtigungen Prüfen
+		// if (!user.isCan_mod_user()) {
+		// throw new UserNotPermitted(user.getUsername());
+		// }
 
 		// Liste von Storage holen
 		List<User> userList = storageDao.listUser();

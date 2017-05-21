@@ -11,6 +11,8 @@ public interface Storage {
 
 	public List<Cam> getCamList();
 
+	public void addPic(Picture pic);
+
 	public List<Cam> getCamForUser(long User);
 
 	public void addCam(Cam cam);

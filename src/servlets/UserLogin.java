@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,8 @@ public class UserLogin extends HttpServlet {
 	final Storage storageDao = StorageFactory.getInstance().getStorage();
 	public final static String USER_ATTRIBUTE = "userid";
 
-	private void progressRequest(HttpServletRequest request, HttpServletResponse response) {
+	private void progressRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 
 		if (session.isNew()) {
@@ -38,18 +40,21 @@ public class UserLogin extends HttpServlet {
 		}
 
 		if (username == null | password == null) {
-			throw new UserLoginIncorrect(username);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_login.jsp");
+			dispatcher.forward(request, response);
+			// throw new UserLoginIncorrect(username);
+		} else {
 
-		}
-		User user = null;
-		// User aus Datenbank Holen
-		user = storageDao.getUserByName(username);
-		if (user == null) {
-			throw new UserLoginIncorrect(username);
-		}
+			User user = null;
+			// User aus Datenbank Holen
+			user = storageDao.getUserByName(username);
+			if (user == null) {
+				throw new UserLoginIncorrect(username);
+			}
 
-		if (password.equals(user.getPassword())) {
-			session.setAttribute(USER_ATTRIBUTE, user.getId());
+			if (password.equals(user.getPassword())) {
+				session.setAttribute(USER_ATTRIBUTE, user.getId());
+			}
 		}
 
 		// TODO: Irgendwie zurück auf user_cam_view - wie der auch immer ist!

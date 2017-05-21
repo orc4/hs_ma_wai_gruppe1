@@ -3,9 +3,9 @@
 			  auth="Container"
 			  type="javax.sql.DataSource"
 			  driverClassName="org.postgresql.Driver"
-		      url="jdbc:postgresql://127.0.0.1/wai_gr1"
+		      url="jdbc:postgresql://localhost/wai_gr1"
     		  username="postgres"
-    		  password="dummy"
+    		  password=""
     		  maxTotal="250" maxIdle="5"
 	/>
 	<Resource name="jdbc/waiDB" auth="Container" type="javax.sql.DataSource"
