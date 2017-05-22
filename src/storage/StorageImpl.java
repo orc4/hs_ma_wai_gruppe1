@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,6 +16,7 @@ import javax.naming.NamingException;
 import data_model.Cam;
 import data_model.Picture;
 import data_model.User;
+import exception.CamNotDeletedException;
 import utils.JNDIFactory;
 
 public class StorageImpl implements Storage {
@@ -73,8 +75,11 @@ public class StorageImpl implements Storage {
 
 			while (resultSet.next()) {
 				URI uri = new URI(resultSet.getString("uri"));
-				Cam c = new Cam(resultSet.getLong("id"), resultSet.getString("name"),
-						uri, resultSet.getLong("interval"));
+				Cam c = new Cam(
+						resultSet.getLong("id"),
+						resultSet.getString("name"),
+						uri, 
+						resultSet.getLong("interval"));
 				camList.add(c);
 			}
 		} catch (NamingException | SQLException | URISyntaxException e) {
@@ -114,13 +119,17 @@ public class StorageImpl implements Storage {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	// ???
 	@Override
-	public void addCam(Cam cam) {
-		// TODO Auto-generated method stub
-
+	public Object addCam(Cam cam) throws SQLException, NamingException {
+				connection = jndiFactory.getConnection("jdbc/wai_gr1");
+				PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_cam (name, url, interval) VALUES (?,?,?)");
+				pstmt.setString(1, cam.getName());
+				pstmt.setString(2, resultSet.getString("uri"));
+				pstmt.setLong(3, cam.getInterval());
+				return pstmt.executeUpdate();
 	}
-
+	
 	@Override
 	public void editCam(long id, Cam newCam) {
 		// TODO Auto-generated method stub
@@ -129,8 +138,24 @@ public class StorageImpl implements Storage {
 
 	@Override
 	public void delCam(long id) {
-		// TODO Auto-generated method stub
-
+		Connection connection = null;
+		try {
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			PreparedStatement pstmt = connection.prepareStatement("DELETE FROM wai_cam WHERE id = ?");
+			pstmt.setLong(1, id);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			throw new CamNotDeletedException(id);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+					connection = null;
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -150,20 +175,28 @@ public class StorageImpl implements Storage {
 		// TODO Auto-generated method stub
 
 	}
-
+	
 	@Override
 	public List<User> listUser() {
 		ArrayList<User> userList = new ArrayList<>();
 
 		try {
 			connection = jndiFactory.getConnection("jdbc/wai_gr1");
-
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("select id, vorname, nachname from wai_user");
+			resultSet = statement.executeQuery("SELECT id, username, vorname, nachname, can_mod_cam, can_mod_user, can_delegate_cam, can_see_all, salt, password  FROM wai_user");
 
 			while (resultSet.next()) {
-				User u = new User(resultSet.getLong("id"), resultSet.getString("vorname"),
-						resultSet.getString("nachname"));
+				User u = new User(
+						resultSet.getLong("id"), 
+						resultSet.getString("username"),
+						resultSet.getString("vorname"),
+						resultSet.getString("nachname"),
+						resultSet.getString("password"),
+						resultSet.getString("salt"),
+						resultSet.getBoolean("can_mod_cam"),
+						resultSet.getBoolean("can_mod_user"),
+						resultSet.getBoolean("can_delegate_cam"),
+						resultSet.getBoolean("can_see_all"));
 				userList.add(u);
 			}
 		} catch (NamingException | SQLException e) {
@@ -189,7 +222,7 @@ public class StorageImpl implements Storage {
 					e.printStackTrace();
 				}
 		}
-		return userList;
+		return (userList);
 	}
 
 	@Override

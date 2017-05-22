@@ -1,5 +1,4 @@
-﻿--!!ACHTUNG!! Einzeln nutzen
---Löschen der Tabelle
+﻿--Löschen der Tabelle
 DROP TABLE wai_cam;
 
 --Löschen der Sequence
@@ -27,4 +26,3 @@ INSERT INTO public.wai_cam (name, uri, interval) VALUES ('warum', 'https://www.h
 
 --Anzeigen der Tabelle
 SELECT * FROM public.wai_cam
-

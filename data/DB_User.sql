@@ -1,4 +1,10 @@
-﻿--Erstellen einer Automtischen id für User
+﻿--Löschen der Tabelle
+DROP TABLE wai_user;
+
+--Löschen der Sequence
+DROP SEQUENCE wai_user_id_seq;
+
+--Erstellen einer Automtischen id für User
 CREATE SEQUENCE wai_user_id_seq START WITH 1 INCREMENT BY 1;
 
 --Erstellen einer Tabelle
@@ -22,11 +28,9 @@ WITH (
 
 --Einfügen von Inhalt der Tabelle
 INSERT INTO public.wai_user (vorname, nachname, can_mod_cam, can_mod_user, can_delegate_cam, can_see_all, salt, username)
-VALUES ('Dennis', 'Schmidt', 'false', 'true', 'true' ,'true', 'Test', '10');
+VALUES ('Dennis', 'Schmidt', 'false', 'true', 'true' ,'true', 'Test', 'Damm');
 INSERT INTO public.wai_user (vorname, nachname, can_mod_cam, can_mod_user, can_delegate_cam, can_see_all, salt, username)
-VALUES ('Aaron', 'Unbekannt', 'true', 'false', 'true' ,'false', 'Test2', '10');
-
+VALUES ('Aaron', 'Unbekannt', 'true', 'false', 'true' ,'false', 'Test2', 'Hs');
 
 --Anzeigen der Tabelle
 SELECT * FROM public.wai_user
-

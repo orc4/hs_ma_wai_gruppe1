@@ -1,7 +1,4 @@
-postgres local
 dbname: wai_gr1
-hhhh
-
 
 sql zum anlegen:
 CREATE TABLE public.wai_user

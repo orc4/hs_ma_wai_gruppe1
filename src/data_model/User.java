@@ -1,7 +1,6 @@
 package data_model;
 
 public class User {
-
 	private long id;
 	private String vorname;
 	private String nachname;
