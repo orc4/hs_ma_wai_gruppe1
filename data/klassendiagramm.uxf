@@ -14,7 +14,6 @@
 -id: Long
 -Name: String
 -URL: Long
--interval: Long (seconds)
 
 
 </panel_attributes>
