@@ -8,5 +8,30 @@
 </head>
 <body>
 
+ <body>
+	<form name="form_user_edit" action="cam_mod" method="post">		
+		<table border="1">
+			<tbody>
+				<tr>
+					<td>ID:</td>
+					<td><input type="text" name="camId" value="${cam.id}"></td>		
+				</tr>
+				<tr>
+					<td>URL</td>
+					<td><input type="text" name="camUri" value="${cam.uri}"></td>		
+				</tr>
+				<tr>
+					<td>Name:</td>
+					<td><input type="text" name="camName" value="${cam.name}"></td>		
+				</tr>
+				
+				<tr>	
+					<td colspan="2"><input type="submit" name="btnSave" value="Save"></td>
+				</tr>				
+			</tbody>
+		</table>
+	</form>
+  </body>
+
 </body>
 </html>

@@ -14,20 +14,30 @@
 				<td>Name:   </td>
 				<td>Url:    </td>
 				<td>Id:     </td>	
+				<td>   </td>	
+				<td>    </td>	
 			</tr>			
-			<c:forEach var="Cam" items="${cams}">
+			<c:forEach var="cam" items="${cams}">
 				<tr>
-					<td><c:out value="${Cam.getName}"/></td>					
-					<td><c:out value="${Cam.getUri}"/></td>
-					<td><c:out value="${Cam.getId}"/></td>
-					<td><a href="cam_edit?action=edit&id=${Cam.getId}">change</a></td>
-					<td><a href="cam_list?action=delete&id=${Cam.getId}">delete</a></td>
+					<td><c:out value="${cam.name}"/></td>					
+					<td><c:out value="${cam.uri}"/></td>
+					<td><c:out value="${cam.id}"/></td>
+					<td>
+					  <form action="cam_mod_view" method="post">
+	    			    <button name="camId" value="${cam.id}">Ändern</button>
+					  </form>
+					</td>
+					<td>
+					  <form action="cam_del" method="post">
+	    			    <button name="camId" value="${cam.id}">Löschen</button>
+					  </form>
+					</td>
 				</tr>
 			</c:forEach>	
   		</tbody>
   	</table>
   	<br>
-  	<a href="cam_add.jsp">Add new camera</a>
+  	<a href="cam_add_view">Add new camera</a>
   	<br>
   	<a href="menu.jsp">Main menu</a>
 </center>
