@@ -23,13 +23,22 @@
 					<td><c:out value="${user.username}"/></td>
 					<td><c:out value="${user.vorname}"/></td>
 					<td><c:out value="${user.nachname}"/></td>
-					<td><a href="user_edit?action=edit&id=${user.id}">Ändern</a></td>
-					<td><a href="user_list?action=delete&id=${user.id}">Löschen</a></td>
+					<td>
+					  <form action="user_mod_view" method="post">
+	    			    <button name="userId" value="${user.id}">Ändern</button>
+					  </form>
+					</td>
+					<td>
+					  <form action="user_del" method="post">
+	    			    <button name="userId" value="${user.id}">Löschen</button>
+					  </form>
+					</td>
 				</tr>
 			</c:forEach>	
   		</tbody>
   	</table>
   	<br>
-  	<a href="user_add?action=add">Neuen Benutzer hinzufügen</a>
+  			
+  	<a href="user_add_view">Neuen Benutzer hinzufügen</a>
   </body>
 </html>

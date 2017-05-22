@@ -13,7 +13,7 @@
 
 <body>
   	<h1><center>Login</center></h1>
-	<form name="form_user_login" action="action_user_login" method="post">
+	<form name="form_user_login" action="login" method="post">
 		<center>
 		<table border="1">
 			<tbody>
