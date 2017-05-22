@@ -11,25 +11,29 @@ public class Picture {
 
 	// Konstruktoren
 	public Picture(long id, String path, Date date) {
-		super();
 		this.id = id;
 		this.path = path;
 		this.date = date;
 	}
-	
+
+	public Picture(String path, Date date) {
+		this.path = path;
+		this.date = date;
+	}
+
+	public Cam getCam() {
+		return (cam);
+	}
+
+	public Date getDate() {
+		return (date);
+	}
+
 	// Gettermethoden
 	public long getId() {
 		return (id);
 	}
-	
-	public Cam getCam() {
-		return (cam);
-	}
-	
-	public Date getDate() {
-		return (date);
-	}
-	
+
 	public String getPath() {
 		return (path);
 	}
