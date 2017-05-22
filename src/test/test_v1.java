@@ -1,6 +1,9 @@
 package test;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -23,52 +26,45 @@ public class test_v1 extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		List<User> users = storageDao.listUser();
+		List<User> users = storageDao.getListUser();
 		List<Cam> cams = storageDao.getCamList();
-
-		try {
-			List<Cam> cams2 = (List<Cam>) storageDao.addCam(null);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		cams2.
+		
+		// Test Cam hinzufügen
+
+		
+		// Test Cam zum löschen
+//		storageDao.delCam(1);
+		
+		// Test User hinzufügen
+//		User u = new User("Schichtleiter", "Markus", "Mair", "ag1", "salt", false, false, false, false);
+//		storageDao.addUser(u);
+		
+		// Test User zu Löschen
+//		storageDao.delUser(3);
 		
 		// Test für User
-//		for (User user : users) {
-//			System.out.println(user.getId());
-//			System.out.println(user.getUsername());
-//			System.out.println(user.getVorname());
-//			System.out.println(user.getNachname());
-//			System.out.println(user.getPassword());
-//			System.out.println(user.getSalt());
-//			System.out.println(user.isCan_mod_cam());
-//			System.out.println(user.isCan_see_all_cam());
-//			System.out.println(user.isCan_delegate_cam());
-//			System.out.println(user.isCan_mod_user());
-//		}
-		
+//		 for (User user : users) {
+//		 System.out.println(user.getId());
+//		 System.out.println(user.getUsername());
+//		 System.out.println(user.getVorname());
+//		 System.out.println(user.getNachname());
+//		 System.out.println(user.getPassword());
+//		 System.out.println(user.getSalt());
+//		 System.out.println(user.isCan_mod_cam());
+//		 System.out.println(user.isCan_see_all_cam());
+//		 System.out.println(user.isCan_delegate_cam());
+//		 System.out.println(user.isCan_mod_user());
+//		 }
+
 		// Test für Cams
 //		for (Cam cam : cams) {
-//		System.out.println(cam.getId());
-//		System.out.println(cam.getName());
-//		System.out.println(cam.getUri());
-//		System.out.println(cam.getInterval());
-//		
-//	}
-		
-		
-//		for (Cam cam : cams) {
-//		System.out.println(cam.getId());
-//		System.out.println(cam.getName());
-//		System.out.println(cam.getUri());
-//		System.out.println(cam.getInterval());
-//		
-//	}
+//			System.out.println(cam.getId());
+//			System.out.println(cam.getName());
+//			System.out.println(cam.getUri());
+//			System.out.println(cam.getInterval());
+//		}
+
 		super.doGet(req, resp);
 	}
 }
