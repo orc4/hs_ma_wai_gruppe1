@@ -8,7 +8,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -44,7 +43,6 @@ public class Manager extends HttpServlet {
 	private final String ACTION_HANDLE_CAM_DEL = "cam_del";
 	private final String ACTION_HANDLE_CAM_LIST = "cam_list";
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_MOD = "handle_user_cam_delegate_mod";
-	private final String ACTION_HANDLE_USER_CAM_DELEGATE_MOD_VIEW = "handle_user_cam_delegate_mod_view";
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_LIST = "user_cam_delegate_list";
 	private final String ACTION_HANDLE_PASSWORD_CHANGE = "password_change";
 	private final String ACTION_HANDLE_PASSWORD_CHANGE_VIEW = "password_change_view";
@@ -341,21 +339,43 @@ public class Manager extends HttpServlet {
 		// Ergebnis ist ein Hash-array - userid - camid - boolean (nur true -
 		// false gibt es nicht!)
 		List<User> userList = storageDao.getListUser();
-		HashMap<Long, HashMap<Long, Boolean>> userCamHashMap = new HashMap<>();
 		List<Cam> camList = storageDao.getCamList();
-		for (User listUser : userList) {
+
+		// Alternative mapping Array:
+		boolean[][] userCamArray = new boolean[userList.size()][camList.size()];
+		for (int i = 0; i < userList.size(); i++) {
+			User listUser = userList.get(i);
 			List<Cam> allowedCamList = storageDao.getCamForUser(listUser.getId());
-			HashMap<Long, Boolean> userMap = new HashMap<>();
-			for (Cam cam : allowedCamList) {
-				userMap.put(cam.getId(), Boolean.TRUE);
+			for (int j = 0; j < camList.size(); j++) {
+				Cam cam = camList.get(j);
+				Boolean allowed = false;
+				for (Cam cam2 : allowedCamList) {
+					if (cam.getId() == cam2.getId()) {
+						allowed = true;
+					}
+				}
+				userCamArray[i][j] = allowed;
 			}
-			userCamHashMap.put(listUser.getId(), userMap);
 		}
 
+		// HashMap<Long, HashMap<Long, Boolean>> userCamHashMap = new
+		// HashMap<>();
+		//
+		// for (User listUser : userList) {
+		// List<Cam> allowedCamList =
+		// storageDao.getCamForUser(listUser.getId());
+		// HashMap<Long, Boolean> userMap = new HashMap<>();
+		// for (Cam cam : allowedCamList) {
+		// userMap.put(cam.getId(), Boolean.TRUE);
+		// }
+		// userCamHashMap.put(listUser.getId(), userMap);
+		// }
+
 		// Liste als Parameter setzen
-		request.setAttribute("camList", camList);
-		request.setAttribute("userList", userList);
-		request.setAttribute("userCamMap", userCamHashMap);
+		request.setAttribute("cams", camList);
+		request.setAttribute("users", userList);
+		request.setAttribute("userCamArray", userCamArray);
+
 		// Return
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_cam_list.jsp");
 		dispatcher.forward(request, response);
@@ -396,20 +416,6 @@ public class Manager extends HttpServlet {
 		}
 		handle_user_cam_delegate_list(request, response);
 
-	}
-
-	private void handle_user_cam_delegate_mod_view(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// user holen
-		User user = this.getLoggedInUser(request, response);
-
-		// checken ob rechte zum cam delegate
-		if (!user.isCan_delegate_cam()) {
-			throw new UserNotPermitted(user.getUsername());
-		}
-		// request umleiten
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_delegate_mod.jsp");
-		dispatcher.forward(request, response);
 	}
 
 	private void handle_user_del(HttpServletRequest request, HttpServletResponse response)
@@ -797,9 +803,6 @@ public class Manager extends HttpServlet {
 			break;
 		case ACTION_HANDLE_CAM_DEL:
 			this.handle_cam_del(request, response);
-			break;
-		case ACTION_HANDLE_USER_CAM_DELEGATE_MOD_VIEW:
-			this.handle_user_cam_delegate_mod_view(request, response);
 			break;
 		case ACTION_HANDLE_PASSWORD_CHANGE_VIEW:
 			this.handle_password_change_view(request, response);
