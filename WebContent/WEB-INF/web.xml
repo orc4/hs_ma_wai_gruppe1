@@ -4,17 +4,14 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" 
 	id="WebApp_ID" version="3.1">
   <display-name>wai_gruppe1</display-name>
-<!--   <welcome-file-list> -->
-<!--     <welcome-file>index.html</welcome-file> -->
-<!--     <welcome-file>index.htm</welcome-file> -->
-<!--     <welcome-file>index.jsp</welcome-file> -->
-<!--     <welcome-file>default.html</welcome-file> -->
-<!--     <welcome-file>default.htm</welcome-file> -->
-<!--     <welcome-file>default.jsp</welcome-file> -->
-<!--   </welcome-file-list> -->
+
   <servlet>
     <servlet-name>Manager</servlet-name>
     <servlet-class>servlets.Manager</servlet-class>
+     <init-param>
+      <param-name>log4j-properties-location</param-name>
+      <param-value>WEB-INF/log4j.properties</param-value>
+   </init-param>
   </servlet>
    <servlet>
     <servlet-name>UserLogin</servlet-name>
@@ -25,9 +22,23 @@
     <servlet-class>test.test_v1</servlet-class>
   </servlet>
   
-    <servlet-mapping>
+  
+  <servlet-mapping>
     <servlet-name>Manager</servlet-name>
-    <url-pattern>/user_list</url-pattern>
+    <url-pattern></url-pattern> <!-- default! -->
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Manager</servlet-name>
+    <url-pattern>/user_*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>Manager</servlet-name>
+    <url-pattern>/manager/*</url-pattern>
+  </servlet-mapping>
+      <servlet-mapping>
+    <servlet-name>Manager</servlet-name>
+    <url-pattern>/manager</url-pattern>
   </servlet-mapping>
   
    <servlet-mapping>
@@ -36,20 +47,23 @@
   </servlet-mapping>
   
   <servlet-mapping>
+  
     <servlet-name>testv1</servlet-name>
     <url-pattern>/testv1</url-pattern>
   </servlet-mapping>
   
   
-  <!--  
+
+ 
+  <servlet>
+    <servlet-name>QuartzInitializer</servlet-name> 
+    <servlet-class>service.QuartzInitializerServlet</servlet-class> 
+    <load-on-startup>1</load-on-startup> 
+  </servlet>
+
    <listener>
     <listener-class>utils.SystemStartup</listener-class> 
   </listener>
+
   
-  <servlet>
-    <servlet-name>QuartzInitializer</servlet-name> 
-    <servlet-class>utils.QuartzInitializerServlet</servlet-class> 
-    <load-on-startup>1</load-on-startup> 
-  </servlet>
-  -->
 </web-app>
