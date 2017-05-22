@@ -37,8 +37,11 @@ public class Manager extends HttpServlet {
 	private final String ACTION_HANDLE_USER_MOD_VIEW = "user_mod_view";
 	private final String ACTION_HANDLE_USER_LIST = "user_list";
 	private final String ACTION_HANDLE_USER_DEL = "user_del";
-	private final String ACTION_HANDLE_CAM_MOD = "handle_cam_mod";
-	private final String ACTION_HANDLE_CAM_MOD_VIEW = "handle_cam_mod_view";
+	private final String ACTION_HANDLE_CAM_ADD = "cam_add";
+	private final String ACTION_HANDLE_CAM_MOD = "cam_mod";
+	private final String ACTION_HANDLE_CAM_MOD_VIEW = "cam_mod_view";
+	private final String ACTION_HANDLE_CAM_ADD_VIEW = "cam_add_view";
+	private final String ACTION_HANDLE_CAM_DEL = "cam_del";
 	private final String ACTION_HANDLE_CAM_LIST = "cam_list";
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_MOD = "handle_user_cam_delegate_mod";
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_MOD_VIEW = "handle_user_cam_delegate_mod_view";
@@ -66,7 +69,7 @@ public class Manager extends HttpServlet {
 	private final String PARAMETER_USER_CAN_MOD_USER = "user_can_mod_user";
 	private final String PARAMETER_USER_CAN_SEE_ALL_CAM = "user_can_see_all_cam";
 	private final String PARAMETER_USER_CAN_DELEGATE_CAM = "user_can_delegate_cam";
-	private final String PARAMETER_CAM_ID = "cam_id";
+	private final String PARAMETER_CAM_ID = "camId";
 	private final String PARAMETER_CAM_DATE_FROM = "cam_date_from";
 	private final String PARAMETER_CAM_DATE_TO = "cam_date_to";
 	private final String PARAMETER_CAM_YEAR = "cam_date_year";
@@ -103,6 +106,45 @@ public class Manager extends HttpServlet {
 
 	}
 
+	private void handle_cam_add_view(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// user holen
+		User user = this.getLoggedInUser(request, response);
+
+		// checken ob rechte zum cam mod
+		if (!user.isCan_mod_cam()) {
+			throw new UserNotPermitted(user.getUsername());
+		}
+
+		// umleiten
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_add.jsp");
+		dispatcher.forward(request, response);
+
+	}
+
+	private void handle_cam_del(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// User holen
+		User user = this.getLoggedInUser(request, response);
+
+		// Berechtigungen Prüfen
+		if (!user.isCan_mod_cam()) {
+			throw new UserNotPermitted(user.getUsername());
+		}
+
+		// Checken ob alle Params da sind!
+		if (request.getParameter(PARAMETER_CAM_ID) != null) {
+			long camId = Long.parseLong(request.getParameter(PARAMETER_CAM_ID));
+			storageDao.delCam(camId);
+
+		} else {
+			throw new MissingParameterException();
+		}
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/");
+		dispatcher.forward(request, response);
+
+	}
+
 	private void handle_cam_list(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -136,21 +178,32 @@ public class Manager extends HttpServlet {
 		}
 		// Parameter aus Request holen
 		URI camUri;
-		long camId = Long.parseLong(request.getParameter("camId"), -1);
+		long camId;
+		if (request.getParameter("camId") != null) {
+			camId = Long.parseLong(request.getParameter("camId"));
+		} else {
+			camId = -1;
+		}
+
 		String camName = request.getParameter("camName");
 		try {
 			camUri = new URI(request.getParameter("camUri"));
 		} catch (URISyntaxException e) {
 			camUri = null;
 		}
-		long camInterval = Long.parseLong(request.getParameter("camInterval"), -1);
 
 		// Überprüfen der Parameter
-		if (camId == -1 | camInterval == -1 | camName == null | camUri == null) {
+		if (camName == null | camUri == null) {
 			throw new MissingParameterException();
 		}
 
-		storageDao.editCam(camId, new Cam(camId, camName, camUri, camInterval));
+		if (camId == -1) {// cam add
+			storageDao.addCam(new Cam(-1, camName, camUri));
+			System.out.println("neue cam eigentlich!!!");
+		} else {
+			storageDao.editCam(camId, new Cam(camId, camName, camUri));
+			System.out.println("edit cam eigentlich!!!");
+		}
 
 		// Return
 		// RequestDispatcher dispatcher =
@@ -169,6 +222,24 @@ public class Manager extends HttpServlet {
 		if (!user.isCan_mod_cam()) {
 			throw new UserNotPermitted(user.getUsername());
 		}
+
+		// Parameter holen
+		long camId;
+		if (request.getParameter(PARAMETER_CAM_ID) != null) {
+			camId = Long.parseLong(request.getParameter(PARAMETER_CAM_ID));
+		} else {
+			throw new MissingParameterException();
+		}
+
+		List<Cam> cams = storageDao.getCamList();
+		Cam camToEdit = null;
+		for (Cam cam : cams) {
+			if (cam.getId() == camId)
+				camToEdit = cam;
+		}
+		// cam als parameter setzen!
+		request.setAttribute("cam", camToEdit);
+
 		// umleiten
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_edit.jsp");
 		dispatcher.forward(request, response);
@@ -709,12 +780,21 @@ public class Manager extends HttpServlet {
 		case ACTION_HANDLE_USER_ADD_VIEW:
 			this.handle_user_add_view(request, response);
 			break;
-
 		case ACTION_HANDLE_CAM_MOD:
+			this.handle_cam_mod(request, response);
+			break;
+		case ACTION_HANDLE_CAM_ADD_VIEW:
+			this.handle_cam_add_view(request, response);
+			break;
+
+		case ACTION_HANDLE_CAM_ADD:
 			this.handle_cam_mod(request, response);
 			break;
 		case ACTION_HANDLE_CAM_MOD_VIEW:
 			this.handle_cam_mod_view(request, response);
+			break;
+		case ACTION_HANDLE_CAM_DEL:
+			this.handle_cam_del(request, response);
 			break;
 		case ACTION_HANDLE_USER_CAM_DELEGATE_MOD_VIEW:
 			this.handle_user_cam_delegate_mod_view(request, response);
