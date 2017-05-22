@@ -46,8 +46,8 @@ public class Manager extends HttpServlet {
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_MOD = "handle_user_cam_delegate_mod";
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_MOD_VIEW = "handle_user_cam_delegate_mod_view";
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_LIST = "user_cam_delegate_list";
-	private final String ACTION_HANDLE_PASSWORD_CHANGE = "handle_password_change";
-	private final String ACTION_HANDLE_PASSWORD_CHANGE_VIEW = "handle_password_change_view";
+	private final String ACTION_HANDLE_PASSWORD_CHANGE = "password_change";
+	private final String ACTION_HANDLE_PASSWORD_CHANGE_VIEW = "password_change_view";
 	private final String ACTION_HANDLE_VIEW_CAMS = "handle_view_cams";
 	private final String ACTION_HANDLE_VIEW_CAMS_SEARCH = "handle_view_cams_search";
 	private final String ACTION_HANDLE_VIEW_CAMS_SEARCH_VIEW = "handle_view_cams_search_view";
@@ -277,10 +277,10 @@ public class Manager extends HttpServlet {
 		String passwordOld = request.getParameter(PARAMETER_USER_PASSWORD);
 		String passwordNew1 = request.getParameter(PARAMETER_USER_PASSWORD_NEW1);
 		String passwordNew2 = request.getParameter(PARAMETER_USER_PASSWORD_NEW2);
-		if (passwordOld.equals(user.getPassword())) {
+		if (!passwordOld.equals(user.getPassword())) {
 			throw new UserLoginIncorrect(user.getUsername());
 		}
-		if (passwordNew1 != passwordNew2) {
+		if (!passwordNew1.equals(passwordNew2)) {
 			throw new MissingParameterException();
 			// FIXME: vill hier noch andere exception mit meldung werfen?
 		}
@@ -755,7 +755,9 @@ public class Manager extends HttpServlet {
 		User user = this.getLoggedInUser(request, response);
 		if (user != null) {
 			System.out.println("logged in User: " + user.getUsername());
-			action = pathInfo;
+			if (pathInfo != null) {
+				action = pathInfo;
+			}
 		} else {
 			System.out.println("no user logged in");
 			action = ACTION_LOGIN;
