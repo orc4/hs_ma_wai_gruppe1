@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -45,10 +46,10 @@ public class Manager extends HttpServlet {
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_LIST = "user_cam_delegate_list";
 	private final String ACTION_HANDLE_PASSWORD_CHANGE = "password_change";
 	private final String ACTION_HANDLE_PASSWORD_CHANGE_VIEW = "password_change_view";
-	private final String ACTION_HANDLE_VIEW_CAMS = "handle_view_cams";
-	private final String ACTION_HANDLE_VIEW_CAMS_SEARCH = "handle_view_cams_search";
-	private final String ACTION_HANDLE_VIEW_CAMS_SEARCH_VIEW = "handle_view_cams_search_view";
-	private final String ACTION_HANDLE_VIEW_CAM_SINGLE = "handle_view_cam_single";
+	private final String ACTION_HANDLE_VIEW_CAMS = "view_cams";
+	private final String ACTION_HANDLE_VIEW_CAMS_SEARCH = "view_cams_search";
+	private final String ACTION_HANDLE_VIEW_CAMS_SEARCH_VIEW = "view_cams_search_view";
+	private final String ACTION_HANDLE_VIEW_CAM_SINGLE = "view_cam_single";
 	private final String ACTION_LOGOUT = "logout";
 	private final String ACTION_DASHBOARD = "handle_dashboard";
 	private final String ACTION_LOGIN = "login";
@@ -658,16 +659,25 @@ public class Manager extends HttpServlet {
 
 	private void handle_view_cams(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("hier1");
 		// User Holen
 		User user = this.getLoggedInUser(request, response);
 
 		// Liste von Storage holen
 		List<Cam> camList = storageDao.getCamForUser(user.getId());
 
+		// Jeweils das letze Bild holen
+		List<Picture> pics = new ArrayList<>();
+		for (Cam cam : camList) {
+			pics.add(storageDao.getLatestPicture(cam.getId()));
+		}
+
 		// Liste als Parameter setzen
 		request.setAttribute("cams", camList);
+		request.setAttribute("pics", pics);
+
 		// Return
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_cam_list.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cams.jsp");
 		dispatcher.forward(request, response);
 
 	}
@@ -688,6 +698,7 @@ public class Manager extends HttpServlet {
 		List<Cam> camList = storageDao.getCamForUser(user.getId());
 
 		long camId = Long.parseLong(request.getParameter(PARAMETER_CAM_ID));
+
 		Date dateFrom = Date.valueOf(request.getParameter(PARAMETER_CAM_DATE_FROM));
 		Date dateTo = Date.valueOf(request.getParameter(PARAMETER_CAM_DATE_TO));
 
@@ -713,7 +724,7 @@ public class Manager extends HttpServlet {
 		request.setAttribute("pics", picList);
 
 		// Return
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_cam_search.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam_search.jsp");
 		dispatcher.forward(request, response);
 
 	}
@@ -725,8 +736,12 @@ public class Manager extends HttpServlet {
 
 		// darf eigentlich jeder?!
 
+		// Liste der Cams für den User holen
+		List<Cam> cams = storageDao.getCamForUser(user.getId());
+
+		request.setAttribute("cams", cams);
 		// request umleiten
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_cam_search.jsp");
+		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam_search.jsp");
 		dispatcher.forward(request, response);
 	}
 
