@@ -10,36 +10,29 @@ public class Picture {
 	private String path;
 
 	// Konstruktoren
-	public Picture(Date date, String path, long camId) {
+	public Picture(long camId, Date date, String path) {
 		this.date = date;
 		this.path = path;
 		this.camId = camId;
 	}
 
-	public Picture(long id, Date date, String path, long camId) {
+	public Picture(long id, long camId, Date date, String path) {
 		this.id = id;
 		this.date = date;
 		this.path = path;
 		this.camId = camId;
 	}
 
-	public long getCamId() {
-		return camId;
+	public Picture(long camId) {
+		this.camId = camId;
 	}
 
-	public Date getDate() {
-		return (date);
+	// Getter- und Setter-Methoden
+	// Settermethoden
+	public void setId(long id) {
+		this.id = id;
 	}
-
-	// Gettermethoden
-	public long getId() {
-		return (id);
-	}
-
-	public String getPath() {
-		return (path);
-	}
-
+	
 	public void setCamId(long camId) {
 		this.camId = camId;
 	}
@@ -48,11 +41,24 @@ public class Picture {
 		this.date = date;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	// Gettermethoden
+	public long getId() {
+		return (id);
+	}
+	
+	public long getCamId() {
+		return (camId);
+	}
+
+	public Date getDate() {
+		return (date);
+	}
+	
+	public String getPath() {
+		return (path);
 	}
 }

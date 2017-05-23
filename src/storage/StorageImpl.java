@@ -14,6 +14,7 @@ import javax.naming.NamingException;
 import data_model.Cam;
 import data_model.Picture;
 import data_model.User;
+import exception.NotFoundException;
 import utils.JNDIFactory;
 
 public class StorageImpl implements Storage {
@@ -120,18 +121,91 @@ public class StorageImpl implements Storage {
 
 	@Override
 	public User getUserByName(String username) {
-		return (null);
+		try {
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");			
+			String sqlStatement = "SELECT * FROM wai_user WHERE username=?;";		
+			pstmt = connection.prepareStatement(sqlStatement);
+			pstmt.setString(1, username);
+			resultSet = pstmt.executeQuery();
+			
+			if (resultSet.next()) {
+				User u = new User(
+					resultSet.getLong("id"), 
+					resultSet.getString("username"), 
+					resultSet.getString("vorname"), 
+					resultSet.getString("nachname"), 
+					resultSet.getString("password"), 
+					resultSet.getString("salt"), 
+					resultSet.getBoolean("can_mod_cam"), 
+					resultSet.getBoolean("can_mod_user"), 
+					resultSet.getBoolean("can_see_all_cam"), 
+					resultSet.getBoolean("can_delegate_cam"));
+					return(u);
+			} else {
+				throw new NotFoundException(username);
+			}
+		} catch (Exception e) {
+			throw new NotFoundException(username);
+		} finally {
+			closeVerbindungen(connection);
+		}
 	}
 
 	@Override
 	public User getUserById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");			
+			String sqlStatement = "SELECT * FROM wai_user WHERE id=?;";		
+			pstmt = connection.prepareStatement(sqlStatement);
+			pstmt.setLong(1, id);
+			resultSet = pstmt.executeQuery();
+			
+			if (resultSet.next()) {
+				User u = new User(
+					resultSet.getLong("id"), 
+					resultSet.getString("username"), 
+					resultSet.getString("vorname"), 
+					resultSet.getString("nachname"), 
+					resultSet.getString("password"), 
+					resultSet.getString("salt"), 
+					resultSet.getBoolean("can_mod_cam"), 
+					resultSet.getBoolean("can_mod_user"), 
+					resultSet.getBoolean("can_see_all_cam"), 
+					resultSet.getBoolean("can_delegate_cam"));
+					return(u);
+			} else {
+				throw new NotFoundException(id);
+			}
+		} catch (Exception e) {
+			throw new NotFoundException(id);
+		} finally {
+			closeVerbindungen(connection);
+		}
 	}
 
 	@Override
 	public void setUserCamAllow(long userId, long camId) {
-		// TODO Auto-generated method stub
+		try{
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			String sqlStatement = "SELECT u.id AS uid, c.id AS cid, c.name AS cname, "
+								+ "c.url AS curl, cu.cam_id AS caid, cu.user_id AS cuid "
+								+ "FROM wai_user u, wai_cam c, wai_cam_user cu "
+								+ "WHERE u.id=cu.user_id AND c.id=cu.cam_id AND u.id=? AND c.id=?;";	
+			pstmt = connection.prepareStatement(sqlStatement);
+			pstmt.setLong(1, userId);
+			pstmt.setLong(2, camId);
+			resultSet = pstmt.executeQuery();
+			
+			while (resultSet.next()) {
+// ????
+			}
+		} catch (NamingException | SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeVerbindungen(connection);
+		}
 	}
 
 	@Override
@@ -168,24 +242,27 @@ public class StorageImpl implements Storage {
 	}
 
 	@Override
-	public List<Cam> getCamForUser(long User) {
+	public List<Cam> getCamForUser(long userId) {
 		ArrayList<Cam> camListUser = new ArrayList<>();
 
 		try {
-			String sqlStatement = "SELECT u.id AS uid, c.id AS cid, c.name AS cname, c.url AS curl, cu.cam_id AS caid, cu.user_id AS cuid"
-								+ "FROM wai_user u, wai_cam c, wai_cam_user cu"
-								+ "WHERE u.uid=cu.cuid AND c.cid=cu.caid AND u.id=?";
-			progressSql2(sqlStatement);
-
-			while (resultSet.next()) {				
-				URL url = new URL(resultSet.getString("curl"));
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");			
+			String sqlStatement = "SELECT u.id AS uid, c.id AS cid, c.name AS cname, "
+								+ "c.url AS curl, cu.cam_id AS caid, cu.user_id AS cuid "
+								+ "FROM wai_user u, wai_cam c, wai_cam_user cu "
+								+ "WHERE u.id=cu.user_id AND c.id=cu.cam_id AND u.id=?;";		
+			pstmt = connection.prepareStatement(sqlStatement);
+			pstmt.setLong(1, userId);
+			resultSet = pstmt.executeQuery();
+			
+			while (resultSet.next()) {
 				Cam c = new Cam(
 						resultSet.getLong("cid"),
 						resultSet.getString("cname"),
-						url);
+						new URL(resultSet.getString("curl")));
 				camListUser.add(c);
 			}
-		} catch (NamingException | SQLException | URISyntaxException e) {
+		} catch (NamingException | SQLException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -264,13 +341,55 @@ public class StorageImpl implements Storage {
 
 	@Override
 	public Picture getPicture(long id) {
-		return null;
+		try {
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");			
+			String sqlStatement = "SELECT * FROM wai_picture WHERE id=?;";		
+			pstmt = connection.prepareStatement(sqlStatement);
+			pstmt.setLong(1, id);
+			resultSet = pstmt.executeQuery();
+			
+			if (resultSet.next()) {
+				Picture p = new Picture(
+					resultSet.getLong("id"), 
+					resultSet.getLong("camId"), 
+					resultSet.getDate("date"), 
+					resultSet.getString("path"));
+					return(p);
+			} else {
+				throw new NotFoundException(id);
+			}
+		} catch (Exception e) {
+			throw new NotFoundException(id);
+		} finally {
+			closeVerbindungen(connection);
+		}
 	}
 
 	@Override
 	public Picture getLatestPicture(long camId) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");			
+			String sqlStatement = "SELECT * FROM wai_picture WHERE cam_id=? "
+								+ "ORDER BY id DESC LIMIT 1;";		
+			pstmt = connection.prepareStatement(sqlStatement);
+			pstmt.setLong(1, camId);
+			resultSet = pstmt.executeQuery();
+			
+			if (resultSet.next()) {
+				Picture p = new Picture(
+					resultSet.getLong("id"), 
+					resultSet.getLong("camId"), 
+					resultSet.getDate("date"), 
+					resultSet.getString("path"));
+					return(p);
+			} else {
+				throw new NotFoundException("ID: " + camId + " wurde nicht gefunden!");
+			}
+		} catch (Exception e) {
+			throw new NotFoundException(camId);
+		} finally {
+			closeVerbindungen(connection);
+		}
 	}
 	
 	// ----SONSTIGES----
@@ -280,13 +399,6 @@ public class StorageImpl implements Storage {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sqlStatement);
 		return (resultSet);
-	}
-	
-	public ResultSet progressSql2(String sqlStatement) throws Exception, SQLException {
-		connection = jndiFactory.getConnection("jdbc/wai_gr1");
-		pstmt = connection.prepareStatement(sqlStatement);
-		resultSet = pstmt.executeQuery();
-	return (resultSet);
 	}
 	
 	// Schlieﬂen der Verbindung von Connection, Statement, ResultSet 

@@ -41,6 +41,10 @@ public class User {
 		this.can_delegate_cam = can_delegate_cam;
 	}
 
+	public User(String username) {
+		this.username = username;
+	}
+
 	// Getter- und Setter-Methoden
 	// Settermethoden
 	public void setUsername(String username) {
