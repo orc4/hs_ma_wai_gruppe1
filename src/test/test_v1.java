@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.sun.corba.se.impl.protocol.giopmsgheaders.CancelRequestMessage_1_2;
 
 import data_model.Cam;
+import data_model.Picture;
 import data_model.User;
 import storage.Storage;
 import storage.StorageFactory;
@@ -30,8 +31,16 @@ public class test_v1 extends HttpServlet {
 		List<Cam> cams = storageDao.getCamList();
 		
 		
+		
 		// Test Cam hinzufügen
+		URL url = new URL("https://www.google.de/");
+		Cam c = new Cam("newCamera1", url);
+		storageDao.addCam(c);
 
+		
+		// Test Picture hinzufügen
+//		Picture pic = new Picture("shit");
+//		storageDao.addPic(pic);
 		
 		// Test Cam zum löschen
 //		storageDao.delCam(1);
@@ -61,8 +70,7 @@ public class test_v1 extends HttpServlet {
 //		for (Cam cam : cams) {
 //			System.out.println(cam.getId());
 //			System.out.println(cam.getName());
-//			System.out.println(cam.getUri());
-//			System.out.println(cam.getInterval());
+//			System.out.println(cam.getUrl());
 //		}
 
 		super.doGet(req, resp);

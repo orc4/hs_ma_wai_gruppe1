@@ -1,42 +1,29 @@
 package data_model;
 
-import java.net.URI;
+import java.net.URL;
 
 public class Cam {
 	// Private Variablen
 	private long id;
 	private String name;
-	private URI uri;
-
-	public Cam() {
+	private URL url;
+	
+	// Konstruktoren
+	public Cam(){
 		super();
 	}
 
-	// Konstruktoren
-	public Cam(long id, String name, URI uri) {
+	public Cam(String name, URL url) {
+		super();
+		this.name = name;
+		this.url = url;
+	}
+	
+	public Cam(long id, String name, URL url) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.uri = uri;
-	}
-
-	public Cam(String name, URI uri) {
-		super();
-		this.name = name;
-		this.uri = uri;
-	}
-
-	// Gettermethoden
-	public long getId() {
-		return (id);
-	}
-
-	public String getName() {
-		return (name);
-	}
-
-	public URI getUri() {
-		return (uri);
+		this.url = url;
 	}
 
 	// Getter- und Setter-Methoden
@@ -44,8 +31,21 @@ public class Cam {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public void setUrL(URL url) {
+		this.url = url;
+	}
+	
+	// Gettermethoden
+	public long getId() {
+		return (id);
+	}
+	
+	public String getName() {
+		return (name);
+	}
 
-	public void setUri(URI uri) {
-		this.uri = uri;
+	public URL getUrl() {
+		return (url);
 	}
 }

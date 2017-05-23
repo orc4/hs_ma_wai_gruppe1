@@ -1,6 +1,6 @@
 package storage;
 
-import java.net.URI;
+import java.net.URL;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,7 +14,6 @@ import javax.naming.NamingException;
 import data_model.Cam;
 import data_model.Picture;
 import data_model.User;
-import exception.CamNotDeletedException;
 import utils.JNDIFactory;
 
 public class StorageImpl implements Storage {
@@ -131,13 +130,11 @@ public class StorageImpl implements Storage {
 	@Override
 	public void setUserCamAllow(long userId, long camId) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void unsetUserCamAllow(long userId, long camId) {
 		// TODO Auto-generated method stub
-
 	}
 	
 	
@@ -147,16 +144,15 @@ public class StorageImpl implements Storage {
 		ArrayList<Cam> camList = new ArrayList<>();
 
 		try {
-			String sqlStatement = "SELECT id, name, uri, interval FROM wai_cam";
+			String sqlStatement = "SELECT id, name, url FROM wai_cam";
 			progressSql(sqlStatement);
 
-			while (resultSet.next()) {
-				URI uri = new URI(resultSet.getString("uri"));
+			while (resultSet.next()) {				
+				URL url = new URL(resultSet.getString("url"));
 				Cam c = new Cam(
 						resultSet.getLong("id"),
 						resultSet.getString("name"),
-						uri, 
-						resultSet.getLong("interval"));
+						url);
 				camList.add(c);
 			}
 		} catch (NamingException | SQLException | URISyntaxException e) {
@@ -175,13 +171,19 @@ public class StorageImpl implements Storage {
 	}
 	
 	@Override
-	public Object addCam(Cam cam) throws SQLException, NamingException {
-				connection = jndiFactory.getConnection("jdbc/wai_gr1");
-				PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_cam (name, url, interval) VALUES (?,?,?)");
-				pstmt.setString(1, cam.getName());
-				pstmt.setString(2, resultSet.getString("uri"));
-				pstmt.setLong(3, cam.getInterval());
-				return (pstmt.executeUpdate());
+	public void addCam(Cam cam) {
+		try{
+//			URL url = new URL(resultSet.getString("url"));
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_cam (name, url) VALUES (?,?)");
+			pstmt.setString(1, cam.getName());
+			pstmt.setURL(2, cam.getUrl());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeVerbindungen(connection);
+		}
 	}
 	
 	@Override
@@ -193,16 +195,9 @@ public class StorageImpl implements Storage {
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
-			throw new CamNotDeletedException(id);
+			e.printStackTrace();
 		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-					connection = null;
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
+			closeVerbindungen(connection);
 		}
 	}
 	
@@ -210,11 +205,10 @@ public class StorageImpl implements Storage {
 	public void editCam(long id, Cam newCam) {
 		try {
 			Connection connection = jndiFactory.getConnection("jdbc/wai_gr1");
-			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_cam (name, uri, interval) VALUES (?, ?, ?)");
+			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_cam (name, url) VALUES (?, ?)");
 			pstmt.setString(1, newCam.getName());
 //			URI uri = new URI(resultSet.getString("uri"));
 //			pstmt.setURL(2, newCam.setUri(uri)); // ????
-			pstmt.setLong(3, newCam.getInterval());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -233,6 +227,18 @@ public class StorageImpl implements Storage {
 	
 	@Override
 	public void addPic(Picture pic) {
+		try {
+			Connection connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_picture (path) VALUES (?)");
+			pstmt.setString(1, pic.getPath());
+			pstmt.setString(1, pic.getPath());
+			pstmt.setString(1, pic.getPath());
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeVerbindungen(connection);
+		}
 	}
 
 	@Override
