@@ -22,8 +22,8 @@ public class Picture {
 		this.camId = camId;
 	}
 
-	public long getCam() {
-		return (camId);
+	public long getCamId() {
+		return camId;
 	}
 
 	public Date getDate() {
@@ -37,5 +37,21 @@ public class Picture {
 
 	public String getPath() {
 		return (path);
+	}
+
+	public void setCamId(long camId) {
+		this.camId = camId;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 }
