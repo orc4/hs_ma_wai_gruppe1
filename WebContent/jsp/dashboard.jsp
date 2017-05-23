@@ -19,7 +19,6 @@
 <p><a href="http://localhost:8080/wai_gruppe1/manager/logout">logout</a></p> 
 <p><a href="http://localhost:8080/wai_gruppe1/manager/password_change_view">Passwort aendern</a></p> 
 <p><a href="http://localhost:8080/wai_gruppe1/manager/view_cams">Eigene Cams Anschauen</a> </p>
-<p><a href="http://localhost:8080/wai_gruppe1/manager/view_cams_search_view">Cams durchsuchen</a> </p>
 <p><a href="http://localhost:8080/wai_gruppe1/manager/view_cam_single">Eine Cam anzeigen</a> </p>
 
 

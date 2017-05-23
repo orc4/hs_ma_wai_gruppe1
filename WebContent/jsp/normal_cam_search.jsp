@@ -28,8 +28,8 @@
 		<table border="1">
 			<tbody>
 				<tr>
-					<td>ID:</td>
-					<td><input type="text" name="camId" value=""></td>		
+					<td>camId:</td>
+					<td><input type="text" name="camId" value="${camId}" readonly></td>		
 				</tr>
 				<tr>
 					<td>von</td>
@@ -42,7 +42,7 @@
 				
 				
 				<tr>	
-					<td colspan="2"><input type="submit" name="btnSave" value="Save"></td>
+					<td colspan="2"><input type="submit" name="btnSave" value="Suchen"></td>
 				</tr>				
 			</tbody>
 		</table>
@@ -58,13 +58,9 @@
 			</tr>			
 			<c:forEach var="pic" items="${pics}" varStatus="i">
 				<tr>
-				
 					<td>
 					   <p><fmt:formatDate type = "both" value = "${pic.date}" /></p>
-					
 					</td>					
-					
-			
 					<td><a href="../getPic?picId=${pics[i.index].id}"><img src="../getPic?picId=${pics[i.index].id}&thumb" style="width:100px;height:100px;"></a>
 					</td>
 				</tr>

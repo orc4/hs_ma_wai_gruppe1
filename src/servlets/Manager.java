@@ -723,10 +723,8 @@ public class Manager extends HttpServlet {
 		// Liste als Parameter setzen
 		request.setAttribute("pics", picList);
 
-		// Return
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam_search.jsp");
-		dispatcher.forward(request, response);
-
+		// Auf das gleiche zurück wie angefragt
+		handle_view_cams_search_view(request, response);
 	}
 
 	private void handle_view_cams_search_view(HttpServletRequest request, HttpServletResponse response)
@@ -735,11 +733,10 @@ public class Manager extends HttpServlet {
 		User user = this.getLoggedInUser(request, response);
 
 		// darf eigentlich jeder?!
+		long camId = Long.parseLong(request.getParameter(PARAMETER_CAM_ID));
 
-		// Liste der Cams für den User holen
-		List<Cam> cams = storageDao.getCamForUser(user.getId());
+		request.setAttribute("camId", camId);
 
-		request.setAttribute("cams", cams);
 		// request umleiten
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam_search.jsp");
 		dispatcher.forward(request, response);
