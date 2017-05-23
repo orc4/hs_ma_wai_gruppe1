@@ -20,7 +20,7 @@
 			<c:forEach var="cam" items="${cams}">
 				<tr>
 					<td><c:out value="${cam.name}"/></td>					
-					<td><c:out value="${cam.uri}"/></td>
+					<td><c:out value="${cam.url}"/></td>
 					<td><c:out value="${cam.id}"/></td>
 					<td>
 					  <form action="cam_mod_view" method="post">

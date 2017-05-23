@@ -18,7 +18,7 @@
 				</tr>
 				<tr>
 					<td>URL</td>
-					<td><input type="text" name="camUri" value="${cam.uri}"></td>		
+					<td><input type="text" name="camUri" value="${cam.url}"></td>		
 				</tr>
 				<tr>
 					<td>Name:</td>

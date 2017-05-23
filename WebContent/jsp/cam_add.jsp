@@ -14,11 +14,11 @@
 			<tbody>
 				<tr>
 					<td>URL</td>
-					<td><input type="text" name="camUri" value="${cam.uri}"></td>		
+					<td><input type="text" name="camUri" value=""></td>		
 				</tr>
 				<tr>
 					<td>Name:</td>
-					<td><input type="text" name="camName" value="${cam.name}"></td>		
+					<td><input type="text" name="camName" value=""></td>		
 				</tr>
 				
 				<tr>	
