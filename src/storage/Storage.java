@@ -18,16 +18,17 @@ public interface Storage {
 	public void unsetUserCamAllow(long userId, long camId);								// 
 
 	// Cameras
-	public List<Cam> getCamList();														// Erledigt
+	public List<Cam> getCamList();														// Erledigt 
 	public List<Cam> getCamForUser(long User);											// 
-	public void addCam(Cam cam); 														// 
+	public void addCam(Cam cam); 														// Erledigt
 	public void delCam(long id);														// Erledigt 
-	public void editCam(long id, Cam newCam);											// 
+	public void editCam(long id, Cam newCam);											// Erledigt
 	
 	// Picture
 	public List<Picture> getPictureBetween(long camId, Date from, Date to, long limit);	// 
-	public void addPic(Picture pic);													// 
+	public void addPic(Picture pic);													// Erledigt
 	public Picture getPicture(long id);													// 
+	public Picture getLatestPicture(long camId);										// 
 	
 	// Sonstiges
 	public List<Date> getMonthsWithPictures(long camId, Date from, Date to);			// 

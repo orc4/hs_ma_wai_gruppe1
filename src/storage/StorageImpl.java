@@ -21,6 +21,7 @@ public class StorageImpl implements Storage {
 	protected JNDIFactory jndiFactory = JNDIFactory.getInstance();
 	private Connection connection = null;
 	private Statement statement = null;
+	private PreparedStatement pstmt = null;
 	private ResultSet resultSet = null;
 
 	
@@ -61,8 +62,8 @@ public class StorageImpl implements Storage {
 	@Override
 	public void addUser(User user) {
 		try {
-			Connection connection = jndiFactory.getConnection("jdbc/wai_gr1");
-			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_user (username, vorname, nachname, password, salt, can_mod_cam, can_mod_user, can_see_all_cam, can_delegate_cam) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			pstmt = connection.prepareStatement("INSERT INTO wai_user (username, vorname, nachname, password, salt, can_mod_cam, can_mod_user, can_see_all_cam, can_delegate_cam) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			pstmt.setString(1, user.getUsername());
 			pstmt.setString(2, user.getVorname());
 			pstmt.setString(3, user.getNachname());
@@ -83,8 +84,8 @@ public class StorageImpl implements Storage {
 	@Override
 	public void delUser(long id) {
 		try {
-			Connection connection = jndiFactory.getConnection("jdbc/wai_gr1");
-			PreparedStatement pstmt = connection.prepareStatement("DELETE FROM wai_user WHERE id=?");
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			pstmt = connection.prepareStatement("DELETE FROM wai_user WHERE id=?");
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -97,8 +98,8 @@ public class StorageImpl implements Storage {
 	@Override
 	public void editUser(long id, User user) {	
 		try {
-			Connection connection = jndiFactory.getConnection("jdbc/wai_gr1");
-			PreparedStatement pstmt = connection.prepareStatement("UPDATE wai_user SET username = ?, vorname = ?, nachname = ?, password = ?, salt = ?, can_mod_cam = ?, can_mod_user = ?, can_see_all_cam = ?, can_delegate_cam = ? WHERE id = ?");
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			pstmt = connection.prepareStatement("UPDATE wai_user SET username = ?, vorname = ?, nachname = ?, password = ?, salt = ?, can_mod_cam = ?, can_mod_user = ?, can_see_all_cam = ?, can_delegate_cam = ? WHERE id = ?");
 			pstmt.setString(1, user.getUsername());
 			pstmt.setString(2, user.getVorname());
 			pstmt.setString(3, user.getNachname());
@@ -112,13 +113,14 @@ public class StorageImpl implements Storage {
 			pstmt.executeUpdate();
 		} catch (SQLException | NamingException e) {
 			e.printStackTrace();
+		}  finally {
+			closeVerbindungen(connection);
 		}
 	}
 
 	@Override
 	public User getUserByName(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return (null);
 	}
 
 	@Override
@@ -167,17 +169,39 @@ public class StorageImpl implements Storage {
 
 	@Override
 	public List<Cam> getCamForUser(long User) {
-		return null;
+		ArrayList<Cam> camListUser = new ArrayList<>();
+
+		try {
+			String sqlStatement = "SELECT u.id AS uid, c.id AS cid, c.name AS cname, c.url AS curl, cu.cam_id AS caid, cu.user_id AS cuid"
+								+ "FROM wai_user u, wai_cam c, wai_cam_user cu"
+								+ "WHERE u.uid=cu.cuid AND c.cid=cu.caid AND u.id=?";
+			progressSql2(sqlStatement);
+
+			while (resultSet.next()) {				
+				URL url = new URL(resultSet.getString("curl"));
+				Cam c = new Cam(
+						resultSet.getLong("cid"),
+						resultSet.getString("cname"),
+						url);
+				camListUser.add(c);
+			}
+		} catch (NamingException | SQLException | URISyntaxException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeVerbindungen(connection);
+		}
+		return (camListUser);
 	}
 	
 	@Override
 	public void addCam(Cam cam) {
 		try{
-//			URL url = new URL(resultSet.getString("url"));
 			connection = jndiFactory.getConnection("jdbc/wai_gr1");
-			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_cam (name, url) VALUES (?,?)");
+			pstmt = connection.prepareStatement("INSERT INTO wai_cam (name, url) VALUES (?,?)");
 			pstmt.setString(1, cam.getName());
-			pstmt.setURL(2, cam.getUrl());
+			pstmt.setString(2, cam.getUrl().toString());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -188,10 +212,9 @@ public class StorageImpl implements Storage {
 	
 	@Override
 	public void delCam(long id) {
-		Connection connection = null;
 		try {
 			connection = jndiFactory.getConnection("jdbc/wai_gr1");
-			PreparedStatement pstmt = connection.prepareStatement("DELETE FROM wai_cam WHERE id = ?");
+			pstmt = connection.prepareStatement("DELETE FROM wai_cam WHERE id = ?");
 			pstmt.setLong(1, id);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -204,11 +227,10 @@ public class StorageImpl implements Storage {
 	@Override
 	public void editCam(long id, Cam newCam) {
 		try {
-			Connection connection = jndiFactory.getConnection("jdbc/wai_gr1");
-			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_cam (name, url) VALUES (?, ?)");
-			pstmt.setString(1, newCam.getName());
-//			URI uri = new URI(resultSet.getString("uri"));
-//			pstmt.setURL(2, newCam.setUri(uri)); // ????
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			pstmt = connection.prepareStatement("UPDATE wai_cam SET name = ?, url = ? WHERE id = ?");
+			pstmt.setString(1, newCam.getName()); 				//Setzt den 1. String
+			pstmt.setString(2, newCam.getUrl().toString());		//Setzt den 2. String
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -228,11 +250,10 @@ public class StorageImpl implements Storage {
 	@Override
 	public void addPic(Picture pic) {
 		try {
-			Connection connection = jndiFactory.getConnection("jdbc/wai_gr1");
-			PreparedStatement pstmt = connection.prepareStatement("INSERT INTO wai_picture (path) VALUES (?)");
-			pstmt.setString(1, pic.getPath());
-			pstmt.setString(1, pic.getPath());
-			pstmt.setString(1, pic.getPath());
+			connection = jndiFactory.getConnection("jdbc/wai_gr1");
+			pstmt = connection.prepareStatement("INSERT INTO wai_picture (date, path) VALUES (?, ?)");
+			pstmt.setDate(1, pic.getDate());
+			pstmt.setString(2, pic.getPath());
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -246,6 +267,11 @@ public class StorageImpl implements Storage {
 		return null;
 	}
 
+	@Override
+	public Picture getLatestPicture(long camId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	// ----SONSTIGES----
 	// Herrstellung der Verbindung mit Connection, Statement, ResultSet ect.
@@ -255,13 +281,13 @@ public class StorageImpl implements Storage {
 			resultSet = statement.executeQuery(sqlStatement);
 		return (resultSet);
 	}
-
-	// Test
-//	public PreparedStatement pstm(String statement2) throws SQLException, NamingException {
-//		Connection connection = jndiFactory.getConnection("jdbc/wai_gr1");
-//		PreparedStatement pstmt = connection.prepareStatement(statement2);
-//		return (pstmt);
-//	}
+	
+	public ResultSet progressSql2(String sqlStatement) throws Exception, SQLException {
+		connection = jndiFactory.getConnection("jdbc/wai_gr1");
+		pstmt = connection.prepareStatement(sqlStatement);
+		resultSet = pstmt.executeQuery();
+	return (resultSet);
+	}
 	
 	// Schlieﬂen der Verbindung von Connection, Statement, ResultSet 
 	// Beenden der Verbindungen mit der Datenbank
@@ -275,6 +301,12 @@ public class StorageImpl implements Storage {
 		if (statement != null)
 			try {
 				statement.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		if (pstmt != null)
+			try {
+				pstmt.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

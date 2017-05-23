@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -29,25 +30,37 @@ public class test_v1 extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<User> users = storageDao.getListUser();
 		List<Cam> cams = storageDao.getCamList();
+		List<Cam> camsUser = storageDao.getCamForUser(1);
+		
+		// Test für CamForUser
+//		for (Cam cam : camsUser) {
+//			System.out.println(cam.getId());
+//			System.out.println(cam.getName());
+//			System.out.println(cam.getUrl());
+//		}
 		
 		
+		// Test für Picture hinzufügen
+//		Date date = new Date(2000-05-23);
+//		Picture pic = new Picture(date, "blub");
+//		storageDao.addPic(pic);
 		
 		// Test Cam hinzufügen
-		URL url = new URL("https://www.google.de/");
-		Cam c = new Cam("newCamera1", url);
-		storageDao.addCam(c);
+//		URL url = null;
+//		url = new URL("https://www.google.de/");
+//		Cam c = new Cam("newCamera1", url);
+//		storageDao.addCam(c);
 
-		
 		// Test Picture hinzufügen
 //		Picture pic = new Picture("shit");
 //		storageDao.addPic(pic);
 		
 		// Test Cam zum löschen
-//		storageDao.delCam(1);
+//		storageDao.delCam(4);
 		
 		// Test User hinzufügen
-//		User u = new User("Schichtleiter", "Markus", "Mair", "ag1", "salt", false, false, false, false);
-//		storageDao.addUser(u);
+		User u = new User("Abeiter", "Thomas", "Bender", "ggg1", "salt", false, false, false, false);
+		storageDao.addUser(u);
 		
 		// Test User zu Löschen
 //		storageDao.delUser(3);

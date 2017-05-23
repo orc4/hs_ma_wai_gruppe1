@@ -13,8 +13,9 @@ WITH (
 );
 
 --Einfügen von Inhalt der Tabelle
-INSERT INTO public.wai_cam_user (cam_id, user_id) VALUES (10, 1);
-INSERT INTO public.wai_cam_user (cam_id, user_id) VALUES (21, 2);
+INSERT INTO public.wai_cam_user (cam_id, user_id) VALUES (1, 1);
+INSERT INTO public.wai_cam_user (cam_id, user_id) VALUES (3, 2);
+INSERT INTO public.wai_cam_user (cam_id, user_id) VALUES (5, 2);
 
 --Anzeigen der Tabelle
 SELECT * FROM public.wai_cam_user
