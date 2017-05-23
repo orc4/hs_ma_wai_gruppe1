@@ -1,8 +1,7 @@
 package servlets;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -171,7 +170,7 @@ public class Manager extends HttpServlet {
 			throw new UserNotPermitted(user.getUsername());
 		}
 		// Parameter aus Request holen
-		URI camUri;
+		URL camUri;
 		long camId;
 		if (request.getParameter("camId") != null) {
 			camId = Long.parseLong(request.getParameter("camId"));
@@ -180,11 +179,7 @@ public class Manager extends HttpServlet {
 		}
 
 		String camName = request.getParameter("camName");
-		try {
-			camUri = new URI(request.getParameter("camUri"));
-		} catch (URISyntaxException e) {
-			camUri = null;
-		}
+		camUri = new URL(request.getParameter("camUri"));
 
 		// Überprüfen der Parameter
 		if (camName == null | camUri == null) {
@@ -789,7 +784,6 @@ public class Manager extends HttpServlet {
 		case ACTION_HANDLE_CAM_ADD_VIEW:
 			this.handle_cam_add_view(request, response);
 			break;
-
 		case ACTION_HANDLE_CAM_ADD:
 			this.handle_cam_mod(request, response);
 			break;
@@ -835,7 +829,6 @@ public class Manager extends HttpServlet {
 		case ACTION_HANDLE_VIEW_CAM_SINGLE:
 			this.handle_view_cam_single(request, response);
 			break;
-
 		default:
 			this.handle_dashboard(request, response);
 			break;
