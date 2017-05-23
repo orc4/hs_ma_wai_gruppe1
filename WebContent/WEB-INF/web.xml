@@ -1,69 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" 
-	id="WebApp_ID" version="3.1">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>wai_gruppe1</display-name>
-
   <servlet>
     <servlet-name>Manager</servlet-name>
     <servlet-class>servlets.Manager</servlet-class>
-     <init-param>
+    <init-param>
       <param-name>log4j-properties-location</param-name>
       <param-value>WEB-INF/log4j.properties</param-value>
-   </init-param>
+    </init-param>
   </servlet>
-   <servlet>
+  <servlet>
     <servlet-name>UserLogin</servlet-name>
     <servlet-class>servlets.UserLogin</servlet-class>
   </servlet>
-   <servlet>
+    <servlet>
+    <servlet-name>picDownload</servlet-name>
+    <servlet-class>servlets.PicDownload</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>testv1</servlet-name>
     <servlet-class>test.test_v1</servlet-class>
   </servlet>
-  
-  
   <servlet-mapping>
     <servlet-name>Manager</servlet-name>
-    <url-pattern></url-pattern> <!-- default! -->
+    <url-pattern></url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Manager</servlet-name>
     <url-pattern>/user_*</url-pattern>
   </servlet-mapping>
-  
   <servlet-mapping>
     <servlet-name>Manager</servlet-name>
     <url-pattern>/manager/*</url-pattern>
   </servlet-mapping>
-      <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>Manager</servlet-name>
     <url-pattern>/manager</url-pattern>
   </servlet-mapping>
-  
-   <servlet-mapping>
+  <servlet-mapping>
     <servlet-name>UserLogin</servlet-name>
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
-  
   <servlet-mapping>
-  
     <servlet-name>testv1</servlet-name>
     <url-pattern>/testv1</url-pattern>
   </servlet-mapping>
-  
-  
-
- 
+  <servlet-mapping>
+    <servlet-name>picDownload</servlet-name>
+    <url-pattern>/getPic</url-pattern>
+  </servlet-mapping>
   <servlet>
-    <servlet-name>QuartzInitializer</servlet-name> 
-    <servlet-class>service.QuartzInitializerServlet</servlet-class> 
-    <load-on-startup>1</load-on-startup> 
+    <servlet-name>QuartzInitializer</servlet-name>
+    <servlet-class>service.QuartzInitializerServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
-
-   <listener>
-    <listener-class>utils.SystemStartup</listener-class> 
+  <listener>
+    <listener-class>utils.SystemStartup</listener-class>
   </listener>
-
-  
 </web-app>
