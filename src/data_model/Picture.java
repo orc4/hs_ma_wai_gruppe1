@@ -13,6 +13,7 @@ public class Picture {
 	public Picture(Date date, String path, long camId) {
 		this.date = date;
 		this.path = path;
+		this.camId = camId;
 	}
 
 	public Picture(long id, Date date, String path, long camId) {
