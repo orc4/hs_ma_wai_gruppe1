@@ -38,7 +38,8 @@
   		</tbody>
   	</table>
   	<br>
-  			
+	
   	<a href="user_add_view">Neuen Benutzer hinzufügen</a>
+  	<a href="dashboard.jsp">Main menu</a>
   </body>
 </html>

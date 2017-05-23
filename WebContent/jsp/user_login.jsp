@@ -33,8 +33,7 @@
 		</center>
 	</form>
 	<center>
-		No account yet?
-		<a href="abc" >Register</a>
+		<a href="dashboard.jsp">Main menu</a>
 	</center>
 </body>
 </html>

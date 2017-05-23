@@ -56,5 +56,6 @@
 			</tbody>
 		</table>
 	</form>
+	<a href="dashboard.jsp">Main menu</a>
   </body>
 </html>

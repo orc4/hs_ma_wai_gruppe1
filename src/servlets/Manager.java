@@ -42,7 +42,7 @@ public class Manager extends HttpServlet {
 	private final String ACTION_HANDLE_CAM_ADD_VIEW = "cam_add_view";
 	private final String ACTION_HANDLE_CAM_DEL = "cam_del";
 	private final String ACTION_HANDLE_CAM_LIST = "cam_list";
-	private final String ACTION_HANDLE_USER_CAM_DELEGATE_MOD = "handle_user_cam_delegate_mod";
+	private final String ACTION_HANDLE_USER_CAM_DELEGATE_MOD = "user_cam_delegate_mod";
 	private final String ACTION_HANDLE_USER_CAM_DELEGATE_LIST = "user_cam_delegate_list";
 	private final String ACTION_HANDLE_PASSWORD_CHANGE = "password_change";
 	private final String ACTION_HANDLE_PASSWORD_CHANGE_VIEW = "password_change_view";
@@ -74,10 +74,6 @@ public class Manager extends HttpServlet {
 	private final String PARAMETER_CAM_MONTH = "cam_date_month";
 	private final String PARAMETER_CAM_DAY = "cam_date_day";
 	private final String PARAMETER_CAM_HOUR = "cam_date_hour";
-
-	// Für Cam/User zuweisung
-	private final String PARAMETER_USERID = "userid";
-	private final String PARAMETER_CAMID = "camid";
 
 	private final String PARAMETER_STATUS = "camStatus";
 	final Storage storageDao = StorageFactory.getInstance().getStorage();
@@ -397,22 +393,21 @@ public class Manager extends HttpServlet {
 			throw new UserNotPermitted(user.getUsername());
 		}
 		// Parameter prüfen
-		if (request.getParameter(PARAMETER_USERID) == null | request.getParameter(PARAMETER_CAMID) == null
-				| request.getParameter(PARAMETER_STATUS) == null) {
+		if (request.getParameter(PARAMETER_USER_ID) == null | request.getParameter(PARAMETER_CAM_ID) == null) {
 			throw new MissingParameterException();
 		}
 
 		// Parameter aus Request holen
-		long userId = Long.parseLong(request.getParameter(PARAMETER_USERID), -1);
-		long camId = Long.parseLong(request.getParameter(PARAMETER_CAMID), -1);
+		long userId = Long.parseLong(request.getParameter(PARAMETER_USER_ID));
+		long camId = Long.parseLong(request.getParameter(PARAMETER_CAM_ID));
 		// camStatus = true wenn Erlauben - false wenn nicht!
-		boolean camStatus = Boolean.getBoolean(request.getParameter(PARAMETER_STATUS));
-
+		System.out.println("Raw parameter " + request.getParameter(PARAMETER_STATUS));
+		boolean camStatus = Boolean.parseBoolean(request.getParameter(PARAMETER_STATUS));
 		// in Dao Schreiben
 		if (camStatus == true) {
-			storageDao.setUserCamAllow(userId, camId);
-		} else {
 			storageDao.unsetUserCamAllow(userId, camId);
+		} else {
+			storageDao.setUserCamAllow(userId, camId);
 		}
 		handle_user_cam_delegate_list(request, response);
 

@@ -39,7 +39,7 @@
   	<br>
   	<a href="cam_add_view">Add new camera</a>
   	<br>
-  	<a href="menu.jsp">Main menu</a>
+  	<a href="dashboard.jsp">Main menu</a>
 </center>
 </body>
 </html>

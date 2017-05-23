@@ -23,11 +23,20 @@
 				<tr>
 					<td><c:out value="${cam.name}"/></td>	
 					<c:forEach var="user" items="${users}" varStatus="j">  						
-						<td>${userCamArray[j.index][i.index]}</td>
+						<td>
+					  <form action="user_cam_delegate_mod" method="post">
+					    <input type="hidden" name="userId" value="${user.id}">
+					    <input type="hidden" name="camId" value="${cam.id}">
+	    			    <button name="camStatus" style="background-color:${userCamArray[j.index][i.index] ? "green" : "red"}" value="${userCamArray[j.index][i.index]}">Toogle
+	    			    
+
+	    			    </button>
+					  </form>
+					</td>
 					</c:forEach>	
 			
 			</tr>	
-					<!-- <td>
+				<!-- <td>
 					  <form action="cam_mod_view" method="post">
 	    			    <button name="camId" value="${cam.id}">Ändern</button>
 					  </form>
@@ -42,9 +51,7 @@
   		</tbody>
   	</table>
   	<br>
-  	<a href="cam_add_view">Add new camera</a>
-  	<br>
-  	<a href="menu.jsp">Main menu</a>
+  	<a href="dashboard.jsp">Main menu</a>
 </center>
 </body>
 </html>
