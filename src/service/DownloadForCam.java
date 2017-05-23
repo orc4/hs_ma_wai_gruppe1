@@ -31,7 +31,7 @@ public class DownloadForCam implements Runnable {
 			Calendar calendar = Calendar.getInstance();
 			Date dateNow = new Date(calendar.getTime().getTime());
 			File targetFile = StorageFormatter.getStorageLocation(dateNow, cam.getId());
-			URL url = cam.getUri().toURL();
+			URL url = cam.getUrl();
 
 			// Download
 			FileUtils.copyURLToFile(url, targetFile, 60, 60);
@@ -39,7 +39,8 @@ public class DownloadForCam implements Runnable {
 			// Thumb erstellen
 			MyPictureShrink.createThumbnail(targetFile);
 			jlog.info("Thumb für camid: " + cam.getId() + " erfolgreich erstellt");
-			storageDao.addPic(new Picture(StorageFormatter.getRelativePath(dateNow, cam.getId()), dateNow));
+			storageDao
+					.addPic(new Picture(dateNow, StorageFormatter.getRelativePath(dateNow, cam.getId()), cam.getId()));
 			jlog.info("Bild für camid: " + cam.getId() + " in db Hinzugefügt");
 
 		} catch (IOException e) {
