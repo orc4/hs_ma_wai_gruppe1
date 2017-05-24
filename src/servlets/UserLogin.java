@@ -64,6 +64,8 @@ public class UserLogin extends HttpServlet {
 
 			if (password.equals(user.getPassword())) {
 				session.setAttribute(USER_ATTRIBUTE, user.getId());
+			} else {
+				throw new UserLoginIncorrect(username);
 			}
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/");
 			dispatcher.forward(request, response);

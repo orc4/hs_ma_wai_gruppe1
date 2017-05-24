@@ -25,6 +25,7 @@ WITH (
 INSERT INTO public.wai_picture (cam_id, date, path) VALUES (2, '2017-05-15', 'Test');
 INSERT INTO public.wai_picture (cam_id, date, path) VALUES (5, '2017-05-16', 'Test2');
 INSERT INTO public.wai_picture (cam_id, date, path) VALUES (9, '2017-04-15', 'Test3');
+INSERT INTO public.wai_picture (cam_id, date, path) VALUES (3, '2017-04-16', 'Test4');
 
 --Anzeigen der Tabelle
 SELECT * FROM public.wai_picture

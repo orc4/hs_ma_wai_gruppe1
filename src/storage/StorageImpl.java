@@ -378,7 +378,7 @@ public class StorageImpl implements Storage {
 			if (resultSet.next()) {
 				Picture p = new Picture(
 					resultSet.getLong("id"), 
-					resultSet.getLong("camId"), 
+					resultSet.getLong("cam_id"), 
 					resultSet.getDate("date"), 
 					resultSet.getString("path"));
 					return(p);

@@ -33,7 +33,7 @@
 		</center>
 	</form>
 	<center>
-		<a href="dashboard.jsp">Main menu</a>
+		<a href="jsp/dashboard.jsp">Main menu</a>
 	</center>
 </body>
 </html>

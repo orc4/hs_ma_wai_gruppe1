@@ -22,6 +22,9 @@ WITH (
 --Einfügen von Inhalt der Tabelle
 INSERT INTO public.wai_cam (name, url) VALUES ('WER', 'https://www.hs-mannheim.de/');
 INSERT INTO public.wai_cam (name, url) VALUES ('warum', 'https://www.hs-mannheim.de/');
+INSERT INTO public.wai_cam (name, url) VALUES ('Three', 'https://www.hs-mannheim.de/');
+INSERT INTO public.wai_cam (name, url) VALUES ('Dummy', 'https://www.hs-mannheim.de/');
+INSERT INTO public.wai_cam (name, url) VALUES ('Five', 'https://www.hs-mannheim.de/');
 
 --Anzeigen der Tabelle
 SELECT * FROM public.wai_cam
