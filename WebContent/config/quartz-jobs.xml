@@ -22,7 +22,7 @@
 		<job>
 			<name>WAI-Job</name>
 			<group>GROUP-1</group>
-			<job-class>application.AppCore</job-class>
+			<job-class>service.AppCore</job-class>
 		</job>
 	
 		<trigger>

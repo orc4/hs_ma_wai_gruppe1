@@ -12,32 +12,24 @@
   		<tbody>
 	  		<tr>	  						
 				<td>Name:   </td>
-				<td>Url:    </td>
 				<td>Id:     </td>	
-				<td>   </td>	
-				<td>    </td>	
+				<td></td>
+				<td></td>
+				<td></td>	
 			</tr>			
-			<c:forEach var="cam" items="${cams}">
+			<c:forEach var="cam" items="${cams}" varStatus="i">
 				<tr>
 					<td><c:out value="${cam.name}"/></td>					
-					<td><c:out value="${cam.url}"/></td>
 					<td><c:out value="${cam.id}"/></td>
+					<td><a href="view_cams_search_view?camId=${cam.id}">durchsuchen</a></td>
+					<td><a href="view_cam_single?camId=${cam.id}">stöbern</a></td>
 					<td>
-					  <form action="cam_mod_view" method="post">
-	    			    <button name="camId" value="${cam.id}">Ändern</button>
-					  </form>
-					</td>
-					<td>
-					  <form action="cam_del" method="post">
-	    			    <button name="camId" value="${cam.id}">Löschen</button>
-					  </form>
+					<img src="../getPic?picId=${pics[i.index].id}&thumb" style="width:100px;height:100px;">
 					</td>
 				</tr>
 			</c:forEach>	
   		</tbody>
   	</table>
-  	<br>
-  	<a href="cam_add_view">Add new camera</a>
   	<br>
   	<a href="dashboard.jsp">Main menu</a>
 </center>

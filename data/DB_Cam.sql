@@ -1,5 +1,4 @@
-﻿--!!ACHTUNG!! Einzeln nutzen
---Löschen der Tabelle
+﻿--Löschen der Tabelle
 DROP TABLE wai_cam;
 
 --Löschen der Sequence
@@ -13,8 +12,7 @@ CREATE TABLE public.wai_cam
 (
   id integer NOT NULL DEFAULT nextval('wai_cam_id_seq'::regclass),
   name character varying(1024),
-  uri character varying(1024),
-  interval bigint,
+  url character varying(1024),
   CONSTRAINT wai_cam_pkey PRIMARY KEY (id)
 )
 WITH (
@@ -22,9 +20,8 @@ WITH (
 );
 
 --Einfügen von Inhalt der Tabelle
-INSERT INTO public.wai_cam (name, uri, interval) VALUES ('WER', 'https://www.hs-mannheim.de/', 2);
-INSERT INTO public.wai_cam (name, uri, interval) VALUES ('warum', 'https://www.hs-mannheim.de/', 5);
+INSERT INTO public.wai_cam (name, url) VALUES ('WER', 'https://www.hs-mannheim.de/');
+INSERT INTO public.wai_cam (name, url) VALUES ('warum', 'https://www.hs-mannheim.de/');
 
 --Anzeigen der Tabelle
 SELECT * FROM public.wai_cam
-

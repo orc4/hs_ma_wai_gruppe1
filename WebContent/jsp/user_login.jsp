@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" %>
+    pageEncoding="ISO-8859-1"%>
 <%@ page import="servlets.UserLogin" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,8 +12,8 @@
 </head>
 
 <body>
-  	<center><h1>Login</h1></center>
-	<form name="form_user_login" action="action_user_login" method="post">
+  	<h1><center>Login</center></h1>
+	<form name="form_user_login" action="login" method="post">
 		<center>
 		<table border="1">
 			<tbody>
@@ -33,8 +33,7 @@
 		</center>
 	</form>
 	<center>
-		No account yet?
-		<a href="abc" >Register</a>
+		<a href="dashboard.jsp">Main menu</a>
 	</center>
 </body>
 </html>

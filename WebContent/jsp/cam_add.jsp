@@ -4,29 +4,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add Camera</title>
-<style>
-   	body {
-   		background-color: #42f48f;
-   	}
-</style>
+<title>Edit Camera</title>
 </head>
 <body>
-  	<h1><center>Add Camera</center></h1>
-	<form name="form_cam_add" action="action_cam_add" method="post">
-		<center><table border="1">
+
+ <body>
+	<form name="form_user_edit" action="cam_mod" method="post">		
+		<table border="1">
 			<tbody>
 				<tr>
-					<td>Location:</td>
-					<td><input type="text" name="location" value=""></td>		
-					</tr><tr>		
-					<td>URL:</td>	
-					<td><input type="text" name="url" value=""></td>
-					</tr><tr>	
-					<td colspan="2"><input type="submit" name="btnSave" value="add"></td>
+					<td>URL</td>
+					<td><input type="text" name="camUri" value=""></td>		
 				</tr>
+				<tr>
+					<td>Name:</td>
+					<td><input type="text" name="camName" value=""></td>		
+				</tr>
+				
+				<tr>	
+					<td colspan="2"><input type="submit" name="btnSave" value="Save"></td>
+				</tr>				
 			</tbody>
-		</table></center>
+		</table>
 	</form>
+	<a href="dashboard.jsp">Main menu</a>
+  </body>
+
 </body>
 </html>

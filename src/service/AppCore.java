@@ -1,65 +1,31 @@
 package service;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import utils.JNDIFactory;
+import data_model.Cam;
+import storage.Storage;
+import storage.StorageFactory;
 
 public class AppCore implements Job {
 
 	private static Logger jlog = Logger.getLogger(AppCore.class);
 
-	JNDIFactory jndiFactory = JNDIFactory.getInstance();
+	final Storage storageDao = StorageFactory.getInstance().getStorage();
 
 	public AppCore() {
 	}
 
 	private void process() throws Exception {
-		Connection connection = null;
-		Statement statement = null;
-		ResultSet resultSet = null;
-
-		try {
-			connection = jndiFactory.getConnection("jdbc/waiDB");
-
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery("select id, value from test");
-
-			jlog.info(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-
-			while (resultSet.next())
-				jlog.info(resultSet.getInt("id") + " has value: " + resultSet.getString("value"));
-
-		} finally {
-			if (connection != null)
-				try {
-					connection.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			if (statement != null)
-				try {
-					statement.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			if (resultSet != null)
-				try {
-					resultSet.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
+		List<Cam> cams = storageDao.getCamList();
+		for (Cam cam : cams) {
+			jlog.info("Download für camid: " + cam.getId() + " gestartet");
+			DownloadForCam dl = new DownloadForCam(cam, storageDao);
+			new Thread(dl).start();
 		}
 	}
 

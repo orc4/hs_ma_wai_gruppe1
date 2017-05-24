@@ -3,33 +3,62 @@ package data_model;
 import java.sql.Date;
 
 public class Picture {
-
+	// Private Variablen
 	private long id;
-	private String path;
+	private long camId;
 	private Date date;
-	private Cam cam;
+	private String path;
 
-	public Cam getCam() {
-		return cam;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public String getPath() {
-		return path;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public Picture(long id, String path, Date date) {
-		super();
-		this.id = id;
+	// Konstruktoren
+	public Picture(long camId, Date date, String path) {
+		this.date = date;
 		this.path = path;
+		this.camId = camId;
+	}
+
+	public Picture(long id, long camId, Date date, String path) {
+		this.id = id;
+		this.date = date;
+		this.path = path;
+		this.camId = camId;
+	}
+
+	public Picture(long camId) {
+		this.camId = camId;
+	}
+
+	// Getter- und Setter-Methoden
+	// Settermethoden
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public void setCamId(long camId) {
+		this.camId = camId;
+	}
+
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	// Gettermethoden
+	public long getId() {
+		return (id);
+	}
+	
+	public long getCamId() {
+		return (camId);
+	}
+
+	public Date getDate() {
+		return (date);
+	}
+	
+	public String getPath() {
+		return (path);
+	}
 }

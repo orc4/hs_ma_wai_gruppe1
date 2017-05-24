@@ -18,15 +18,25 @@ public class UserLogin extends HttpServlet {
 
 	private static final long serialVersionUID = -3206094083375113178L;
 
-	final Storage storageDao = StorageFactory.getInstance().getStorage();
 	public final static String USER_ATTRIBUTE = "userid";
+	final Storage storageDao = StorageFactory.getInstance().getStorage();
+
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		progressRequest(request, response);
+	}
+
+	@Override
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		progressRequest(request, response);
+	}
 
 	private void progressRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession(true);
 
 		if (session.isNew()) {
-			session.setMaxInactiveInterval(3600000);
+			session.setMaxInactiveInterval(3600);
 		}
 
 		String username = null;
@@ -55,19 +65,11 @@ public class UserLogin extends HttpServlet {
 			if (password.equals(user.getPassword())) {
 				session.setAttribute(USER_ATTRIBUTE, user.getId());
 			}
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/");
+			dispatcher.forward(request, response);
 		}
 
 		// TODO: Irgendwie zurück auf user_cam_view - wie der auch immer ist!
-	}
-
-	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		progressRequest(request, response);
-	}
-
-	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		progressRequest(request, response);
 	}
 
 }

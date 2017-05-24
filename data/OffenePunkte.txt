@@ -1,0 +1,8 @@
+- Pfad zum speichern irgendwo zentral festlegen
+- größe von den thumbmails checken?!
+- die redirects auf was es am ende geht richtig machen
+- user bearbeiten löscht aktuell die User?!
+- view für eine cam richitg machen
+- SQL für get months with pictures richitg machen
+- SALT irgendwie einbauen?! - aber nur beim login checken wenn vorhanden sonst klartext!?
+- alternativ beim ändern vom PW vom admin, gleich salt generieren usw.
