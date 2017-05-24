@@ -47,6 +47,8 @@ public class StorageDummy implements Storage {
 
 	@Override
 	public void addPic(Picture pic) {
+		pic.setId(pics.size());
+		System.out.println("Pic mit id " + pic.getId() + " hinzugefügt Camid: " + pic.getCamId());
 		pics.add(pic);
 
 	}
@@ -97,14 +99,14 @@ public class StorageDummy implements Storage {
 
 	@Override
 	public List<Cam> getCamForUser(long user) {
-		if (user == 1) {
-			List<Cam> newList = new ArrayList<>();
-			newList.add(cams.get(1));
-			newList.add(cams.get(2));
-			return newList;
-		} else {
-			return cams;
-		}
+		// if (user == 1) {
+		// List<Cam> newList = new ArrayList<>();
+		// newList.add(cams.get(1));
+		// newList.add(cams.get(2));
+		// return newList;
+		// } else {
+		return cams;
+		// }
 	}
 
 	@Override
