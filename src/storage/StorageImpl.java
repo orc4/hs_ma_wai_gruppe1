@@ -55,7 +55,7 @@ public class StorageImpl implements Storage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			closeVerbindungen(connection);				// Schließen der Verbindungen!!!
+			closeVerbindungen(connection);				// Schlieï¿½en der Verbindungen!!!
 		}
 		return (userList);
 	}
@@ -401,7 +401,7 @@ public class StorageImpl implements Storage {
 		return (resultSet);
 	}
 	
-	// Schließen der Verbindung von Connection, Statement, ResultSet 
+	// Schlieï¿½en der Verbindung von Connection, Statement, ResultSet 
 	// Beenden der Verbindungen mit der Datenbank
 	private void closeVerbindungen(Connection connection) {
 		if (connection != null)
@@ -430,11 +430,6 @@ public class StorageImpl implements Storage {
 			}
 	}
 	
-	@Override
-	public List<Date> getMonthsWithPictures(long camId, Date from, Date to) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<Date> getDaysWithPictures(long camId, Date from, Date to) {
@@ -443,7 +438,7 @@ public class StorageImpl implements Storage {
 	}
 
 	@Override
-	public List<Date> getHoursWithPictures(long camId, Date from, Date to) {
+	public List<Integer> getHoursWithPictures(long camId, Date date) {
 		// TODO Auto-generated method stub
 		return null;
 	}

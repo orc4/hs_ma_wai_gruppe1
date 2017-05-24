@@ -117,14 +117,49 @@ public class StorageDummy implements Storage {
 
 	@Override
 	public List<Date> getDaysWithPictures(long camId, Date from, Date to) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Date> dateList = new ArrayList<>();
+		dateList.add(new Date(new java.util.Date(2017, 05, 1).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 2).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 3).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 4).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 5).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 6).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 7).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 8).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 9).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 10).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 11).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 12).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 13).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 14).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 15).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 16).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 17).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 18).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 19).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 20).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 21).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 22).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 23).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 24).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 25).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 26).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 27).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 28).getTime()));
+		dateList.add(new Date(new java.util.Date(2017, 05, 29).getTime()));
+		return dateList;
 	}
 
 	@Override
-	public List<Date> getHoursWithPictures(long camId, Date from, Date to) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Integer> getHoursWithPictures(long camId, Date date) {
+		
+		List<Integer> dateList = new ArrayList<>();
+		
+		for (int i = 0; i < 24; i++) {
+			dateList.add(new Integer(i));
+		}
+		
+		return dateList;
 	}
 
 	@Override
@@ -135,12 +170,6 @@ public class StorageDummy implements Storage {
 	@Override
 	public List<User> getListUser() {
 		return users;
-	}
-
-	@Override
-	public List<Date> getMonthsWithPictures(long camId, Date from, Date to) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

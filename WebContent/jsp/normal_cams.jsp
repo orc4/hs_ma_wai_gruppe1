@@ -14,13 +14,15 @@
 				<td>Name:   </td>
 				<td>Id:     </td>	
 				<td></td>
+				<td></td>
 				<td></td>	
 			</tr>			
 			<c:forEach var="cam" items="${cams}" varStatus="i">
 				<tr>
 					<td><c:out value="${cam.name}"/></td>					
 					<td><c:out value="${cam.id}"/></td>
-			<td><a href="view_cams_search_view?camId=${cam.id}">durchsuchen</a></td>
+					<td><a href="view_cams_search_view?camId=${cam.id}">durchsuchen</a></td>
+					<td><a href="view_cam_single?camId=${cam.id}">stöbern</a></td>
 					<td>
 					<img src="../getPic?picId=${pics[i.index].id}&thumb" style="width:100px;height:100px;">
 					</td>
