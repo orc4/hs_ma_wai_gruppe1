@@ -40,7 +40,7 @@ public class DownloadForCam implements Runnable {
 			MyPictureShrink.createThumbnail(targetFile);
 			jlog.info("Thumb für camid: " + cam.getId() + " erfolgreich erstellt");
 			storageDao
-					.addPic(new Picture(dateNow, StorageFormatter.getRelativePath(dateNow, cam.getId()), cam.getId()));
+					.addPic(new Picture(cam.getId(), dateNow, StorageFormatter.getRelativePath(dateNow, cam.getId())));
 			jlog.info("Bild für camid: " + cam.getId() + " in db Hinzugefügt");
 
 		} catch (IOException e) {
