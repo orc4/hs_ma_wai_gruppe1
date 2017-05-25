@@ -26,14 +26,15 @@
 					<td><input type="password" name="password" value=""></td>
 				</tr>
 				<tr>	
-					<td colspan="2"><input type="submit" name="btnSave" value="login"></td>
+					<td colspan="2"><center><input type="submit" name="btnSave" value="login"></center></td>
 				</tr>
 			</tbody>
 		</table>
 		</center>
 	</form>
+	<br>
 	<center>
-		<a href="jsp/dashboard.jsp">Main menu</a>
+		<a href="/wai_gruppe1/jsp/dashboard.jsp">Main menu</a>
 	</center>
 </body>
 </html>

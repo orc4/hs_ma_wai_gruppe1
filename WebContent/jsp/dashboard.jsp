@@ -5,27 +5,26 @@
 <html>
 <body>
 
-<h1>Poor Man Nav</h1>
+<h1>Main Menu</h1>
 
-<h2>Session infos</h2>
-<p>Userid: ${user.id}</p>
-<p>Username: ${user.username}</p>
-<p>Name: ${user.nachname}, ${user.vorname} </p>
+<h2>Session Infos</h2>
+Userid: ${user.id}<br>
+Username: ${user.username}<br>
+Name: ${user.nachname}, ${user.vorname} <br>
 
-
-<h2>User zeugs</h2>
+<h2>User Menu</h2>
 <p>Das hier darf jeder!</p>
-<p><a href="http://localhost:8080/wai_gruppe1/login">login</a></p> 
-<p><a href="http://localhost:8080/wai_gruppe1/manager/logout">logout</a></p> 
-<p><a href="http://localhost:8080/wai_gruppe1/manager/password_change_view">Passwort aendern</a></p> 
-<p><a href="http://localhost:8080/wai_gruppe1/manager/view_cams">Eigene Cams Anschauen</a> </p>
+<a href="${pageContext.request.contextPath}/login">login</a><br> 
+<a href="${pageContext.request.contextPath}/manager/logout">logout</a><br> 
+<a href="${pageContext.request.contextPath}/manager/password_change_view">Passwort ändern</a><br> 
+<a href="${pageContext.request.contextPath}/manager/view_cams">Eigene Cams anschauen</a> <br>
 
 
-<h2>Admin zeugs</h2>
+<h2>Admin Menu</h2>
 <p>Das hier darf normal nur der Admin!</p>
-<p><a href="http://localhost:8080/wai_gruppe1/manager/user_list">User Verwalten</a> </p>
-<p><a href="http://localhost:8080/wai_gruppe1/manager/cam_list">Cams Verwalten</a> </p>
-<p><a href="http://localhost:8080/wai_gruppe1/manager/user_cam_delegate_list">User-Cam delegation Verwalten</a></p> 
+<a href="${pageContext.request.contextPath}/manager/user_list">User verwalten</a> <br>
+<a href="${pageContext.request.contextPath}/manager/cam_list">Cams verwalten</a> <br>
+<a href="${pageContext.request.contextPath}/manager/user_cam_delegate_list">User-Cam Delegation verwalten</a><br> 
 
 </body>
 </html>

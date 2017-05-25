@@ -48,7 +48,7 @@
 		</table>
 	</form>
 
-
+	<br>
 	<table border="1">
   		<tbody>
 	  		<tr>	  						
@@ -68,7 +68,7 @@
   		</tbody>
   	</table>
 
-
+	<br>
   	<a href="dashboard.jsp">Main menu</a>
 </center>
 </body>

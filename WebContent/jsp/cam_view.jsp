@@ -15,61 +15,123 @@
 </head>
 <body>
   	<center><h1>View Camera</h1></center>
-	<form name="form_cam_view" action="../cam_list?action=handle_view_cam_single" method="post">
-		<input type="hidden" name="cam_id" value="1">
+	<form name="form_cam_view" action="view_cam_single" method="post">
+		<input type="hidden" name="camId" value="${camId}">
 		<center>
 		<table border=1>
 		  <tbody>
 			<tr>
 				<td>Year:</td>
-				<td><select name="cam_date_year">
-					<option value="2017">2017</option>
-					<c:forEach var="Year" items="${years}">
-						<option value="<c:out value="${Year}"/>"><c:out value="${Year}"/></option>
-					</c:forEach>
+				<td><select name="cam_date_year" style="width:55px" onChange="document.forms['form_cam_view'].submit();">
+					<option value=""></option>
+					<c:choose>
+						<c:when test="${years == null && year != null}">
+							<option value="<c:out value="${year}"/>" selected><c:out value="${year}"/></option>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="yr" items="${years}">
+								<c:choose>
+									<c:when test="${year == yr}">
+		        						<option value="<c:out value="${yr}"/>" selected><c:out value="${yr}"/></option>
+		    						</c:when>
+		    						<c:otherwise>
+		    							<option value="<c:out value="${yr}"/>"><c:out value="${yr}"/></option>
+		    						</c:otherwise>
+								</c:choose>
+							</c:forEach>						
+						</c:otherwise>
+					</c:choose>
 				</select></td>
 			</tr>
 			<tr>
 				<td>Month:</td>
-				<td><select name="cam_date_month">
+				<td><select name="cam_date_month" style="width:55px" onChange="document.forms['form_cam_view'].submit();">
 					<option value=""></option>
-					<c:forEach var="Month" items="${months}">
-						<option value="<c:out value="${Month}"/>"><c:out value="${Month}"/></option>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${months == null && month != null}">
+							<option value="<c:out value="${month}"/>" selected><c:out value="${month}"/></option>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="mn" items="${months}">
+								<c:choose>
+									<c:when test="${month == mn}">
+		        						<option value="<c:out value="${mn}"/>" selected><c:out value="${mn}"/></option>
+		    						</c:when>
+		    						<c:otherwise>
+		    							<option value="<c:out value="${mn}"/>"><c:out value="${mn}"/></option>
+		    						</c:otherwise>
+								</c:choose>
+							</c:forEach>						
+						</c:otherwise>
+					</c:choose>
 				</select></td>
 			</tr>
 			<tr>
 				<td>Day:</td>
-				<td><select name="cam_date_day">
+				<td><select name="cam_date_day" style="width:55px" onChange="document.forms['form_cam_view'].submit();">
 					<option value=""></option>
-					<c:forEach var="Day" items="${days}">
-						<option value="<c:out value="${Day}"/>"><c:out value="${Day}"/></option>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${days == null && day != null}">
+							<option value="<c:out value="${day}"/>" selected><c:out value="${day}"/></option>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="dy" items="${days}">
+								<c:choose>
+									<c:when test="${day == dy}">
+		        						<option value="<c:out value="${dy}"/>" selected><c:out value="${dy}"/></option>
+		    						</c:when>
+		    						<c:otherwise>
+		    							<option value="<c:out value="${dy}"/>"><c:out value="${dy}"/></option>
+		    						</c:otherwise>
+								</c:choose>
+							</c:forEach>						
+						</c:otherwise>
+					</c:choose>
 				</select></td>
 			</tr>
 			<tr>
 				<td>Hour:</td>
-				<td><select name="cam_date_hour">
+				<td><select name="cam_date_hour" style="width:55px" onChange="document.forms['form_cam_view'].submit();">
 					<option value=""></option>
-					<c:forEach var="Hour" items="${hours}">
-						<option value="<c:out value="${Hour}"/>"><c:out value="${Hour}"/></option>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${hours == null && hour != null}">
+							<option value="<c:out value="${hour}"/>" selected><c:out value="${hour}"/></option>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="hr" items="${hours}">
+								<c:choose>
+									<c:when test="${hour == hr}">
+		        						<option value="<c:out value="${hr}"/>" selected><c:out value="${hr}"/></option>
+		    						</c:when>
+		    						<c:otherwise>
+		    							<option value="<c:out value="${hr}"/>"><c:out value="${hr}"/></option>
+		    						</c:otherwise>
+								</c:choose>
+							</c:forEach>						
+						</c:otherwise>
+					</c:choose>
 				</select></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input type="submit" name="btnView" value="view"></td>
+				<td colspan="2"><center><input type="submit" name="btnView" value="view"></center></td>
 			</tr>
 		  </tbody>
 		</table>
+		<c:if test="${pics != null}">		
+		<br><br>
 		<table border="1">
 			<tbody>
-				<c:forEach var="Pic" items="${pics}">
-					<tr>
-						<td><img src="<c:out value="${Pic.path}"/>"></td>
-					</tr>
-				</c:forEach>					
+				<tr>
+					<c:forEach var="Pic" items="${pics}" varStatus="i">
+						<td><a href="../getPic?picId=${Pic.id}" target="_blank"><img src="../getPic?picId=${Pic.id}&thumb" width="64" height="48"></a></td>
+						<c:if test="${i.index > 0 && i.index % 4 == 0}"><c:out value="</tr><tr>" escapeXml="false" /></c:if>
+					</c:forEach>					
+				</tr>
 			</tbody>
 		</table>
+		</c:if>
+		<br>
+		<a href="dashboard.jsp">Main menu</a>
 		</center>
 	</form>
 </body>
