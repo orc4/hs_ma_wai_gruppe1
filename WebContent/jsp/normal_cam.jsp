@@ -6,6 +6,11 @@
 <html>
 <head>
   <title>Show single cam</title>
+  <style>
+   	body {
+   		background-color: #42f48f;
+   	}
+  </style>
 </head>
 <body>
 <h1>Show single cam</h1>
