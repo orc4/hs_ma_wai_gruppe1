@@ -17,17 +17,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import data_model.Cam;
 import data_model.Picture;
 import data_model.User;
 import exception.MissingParameterException;
 import exception.UserLoginIncorrect;
 import exception.UserNotPermitted;
+import service.AppCore;
 import storage.Storage;
 import storage.StorageFactory;
 
 public class Manager extends HttpServlet {
 	private static final long serialVersionUID = -605260502302364704L;
+	
+	private static Logger jlog = Logger.getLogger(Manager.class);
 
 	// Allgemeiner Parameter
 	private final int MAX_PICTURES = 200;
@@ -189,17 +194,9 @@ public class Manager extends HttpServlet {
 
 		if (camId == -1) {// cam add
 			storageDao.addCam(new Cam(-1, camName, camUri));
-			System.out.println("neue cam eigentlich!!!");
 		} else {
 			storageDao.editCam(camId, new Cam(camId, camName, camUri));
-			System.out.println("edit cam eigentlich!!!");
 		}
-
-		// Return
-		// RequestDispatcher dispatcher =
-		// getServletContext().getRequestDispatcher("/jsp/cam_list.jsp");
-		// dispatcher.forward(request, response);
-
 		handle_cam_list(request, response);
 	}
 
@@ -297,7 +294,6 @@ public class Manager extends HttpServlet {
 
 	private void handle_redirect_login(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("hier in login");
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_login.jsp");
 		dispatcher.forward(request, response);
 
@@ -398,14 +394,12 @@ public class Manager extends HttpServlet {
 		long userId = Long.parseLong(request.getParameter(PARAMETER_USER_ID));
 		long camId = Long.parseLong(request.getParameter(PARAMETER_CAM_ID));
 		// camStatus = true wenn Erlauben - false wenn nicht!
-		System.out.println("Raw parameter " + request.getParameter(PARAMETER_STATUS));
 		boolean camStatus = Boolean.parseBoolean(request.getParameter(PARAMETER_STATUS));
+		
 		// in Dao Schreiben
 		if (camStatus == true) {
-			System.out.println("unset cam allow user: "+ userId + " camid "+camId);
 			storageDao.unsetUserCamAllow(userId, camId);
 		} else {
-			System.out.println("set cam allow user: "+ userId + " camid "+camId);
 			storageDao.setUserCamAllow(userId, camId);
 		}
 		handle_user_cam_delegate_list(request, response);
@@ -456,14 +450,12 @@ public class Manager extends HttpServlet {
 
 	private void handle_user_mod(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("hier1.0");
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 		// Berechtigungen Prüfen
 		if (!user.isCan_mod_user()) {
 			throw new UserNotPermitted(user.getUsername());
 		}
-		System.out.println("hier1.1");
 
 		// Checken ob alle Params da sind!
 		if (!(request.getParameter(PARAMETER_USER_VORNAME) == null
@@ -483,7 +475,6 @@ public class Manager extends HttpServlet {
 		}
 		// FIXME: refactor Salt irgendwie separat behandeln
 		// Parameter aus Request holen
-		System.out.println("hier2");
 
 		long userId;
 		String vorname = null, nachname = null, username = null;
@@ -500,7 +491,6 @@ public class Manager extends HttpServlet {
 		can_see_all_cam = Boolean.parseBoolean(request.getParameter(PARAMETER_USER_CAN_SEE_ALL_CAM));
 		can_delegate_cam = Boolean.parseBoolean(request.getParameter(PARAMETER_USER_CAN_DELEGATE_CAM));
 
-		System.out.println("hier3");
 		if (addUser) {
 			userId = -1;
 		} else {
@@ -535,7 +525,6 @@ public class Manager extends HttpServlet {
 		long userid;
 		if (request.getParameter(PARAMETER_USER_ID) != null) {
 			userid = Long.parseLong(request.getParameter(PARAMETER_USER_ID));
-			System.out.println(userid);
 		} else {
 			throw new MissingParameterException();
 		}
@@ -615,7 +604,6 @@ public class Manager extends HttpServlet {
 			request.setAttribute("days", dayList);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
 			dispatcher.forward(request, response);
-			System.out.println("Tage zurückgegeben");
 		} else if (hour == -1) {
 			// Nr 3. - Tag - Stunden von Tag
 			DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
@@ -631,7 +619,6 @@ public class Manager extends HttpServlet {
 			List<Integer> hourList = storageDao.getHoursWithPictures(camId, date);
 			request.setAttribute("hours", hourList);
 			request.setAttribute("currentDate", date);
-			System.out.println("Stunden zurückgegeben");
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
 			dispatcher.forward(request, response);
 
@@ -654,7 +641,6 @@ public class Manager extends HttpServlet {
 			
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
 			dispatcher.forward(request, response);
-			System.out.println("Bilder zurückgegeben");
 		}
 
 	}
@@ -762,21 +748,22 @@ public class Manager extends HttpServlet {
 			pathInfo = pathInfo.substring(1);
 			pathInfo = pathInfo.split("&")[0];
 		}
-		System.out.println("servletPath: " + servletPath);
-		System.out.println("pathInfo: " + pathInfo);
+		jlog.info("servletPath: " + servletPath);
+		jlog.info("pathInfo: " + pathInfo);
 
 		// Eingelloggter User holen
 		User user = this.getLoggedInUser(request, response);
 		if (user != null) {
-			System.out.println("logged in User: " + user.getUsername());
+			jlog.info("user " + user.getUsername() + "is logged in");
 			if (pathInfo != null) {
 				action = pathInfo;
 			}
 		} else {
-			System.out.println("no user logged in");
+			jlog.info("no user logged in");
 			action = ACTION_LOGIN;
 		}
-		System.out.println("action = " + action);
+		jlog.info("action: " + action);
+		
 
 		switch (action) {
 		// WICHTIG! REIHENFOLGE BEACHTEN - der macht irgendwie contains!!!

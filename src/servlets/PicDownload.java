@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import data_model.Cam;
 import data_model.Picture;
 import data_model.User;
@@ -26,9 +28,9 @@ import storage.StorageFactory;
  */
 @WebServlet("/PicDownload")
 public class PicDownload extends HttpServlet {
-
 	private static final long serialVersionUID = 1L;
 	private String storageLocation = "/tmp/cams/";
+	private static Logger jlog = Logger.getLogger(PicDownload.class);
 
 	final Storage storageDao = StorageFactory.getInstance().getStorage();
 	private final String PARAMETER_PICTURE_ID = "picId";
@@ -70,8 +72,7 @@ public class PicDownload extends HttpServlet {
 		}
 		Picture pic = storageDao.getPicture(picId);
 		if (pic == null){
-			System.out.println("Bild nicht gefunden");
-			
+			jlog.warn("Bild mit Bild-ID: "+picId +" nicht gefunden");
 		}else{
 		long camId = pic.getCamId();
 

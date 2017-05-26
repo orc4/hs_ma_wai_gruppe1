@@ -396,7 +396,6 @@ public class StorageImpl implements Storage {
 	public void addPic(Picture pic) {
 		Connection connection = null;
 		PreparedStatement pstmt = null;
-		System.out.println("Pic hinzugefügt Camid: " + pic.getCamId() + " date: "+ pic.getDate() +" path "+pic.getPath());
 		try {
 			connection = jndiFactory.getConnection("jdbc/wai_gr1");
 			pstmt = connection.prepareStatement("INSERT INTO wai_picture (date, path, cam_id) VALUES (?, ?, ?)");
@@ -568,7 +567,6 @@ public class StorageImpl implements Storage {
 		} finally {
 			closeVerbindungen(resultSet, pstmt, connection);
 		}
-		System.out.println("liste länge: "+hoursWithPics.size());
 		return hoursWithPics;
 	}
 }
