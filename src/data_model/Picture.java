@@ -5,9 +5,9 @@ import java.sql.Date;
 public class Picture {
 	// Private Variablen
 	private long id;
-	private long camId;
-	private Date date;
-	private String path;
+	private final long camId;
+	private final Date date;
+	private final String path;
 
 	// Konstruktoren
 	public Picture(long camId, Date date, String path) {
@@ -23,28 +23,12 @@ public class Picture {
 		this.camId = camId;
 	}
 
-	public Picture(long camId) {
-		this.camId = camId;
-	}
-
 	// Getter- und Setter-Methoden
 	// Settermethoden
 	public void setId(long id) {
 		this.id = id;
 	}
 	
-	public void setCamId(long camId) {
-		this.camId = camId;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
 	// Gettermethoden
 	public long getId() {
 		return (id);
