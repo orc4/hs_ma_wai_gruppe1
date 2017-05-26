@@ -15,7 +15,7 @@
    		    maxActive="10" maxIdle="2" maxWait="-1" validationQuery="SELECT 1"/>
     		      
 	
-    <Environment name="capture_cams" value="false" type="java.lang.Boolean" override="false"/>
+    <Environment name="capture_cams" value="true" type="java.lang.Boolean" override="false"/>
     <Environment name="projectPath" value="/home/aaron/data/Master/2.sem/wai/git/hs_ma_wai_gruppe1/WebContent" type="java.lang.String" override="false"/>
     <Environment name="configPath" value="/config" type="java.lang.String" override="false"/>
 	
