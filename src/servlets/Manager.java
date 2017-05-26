@@ -402,8 +402,10 @@ public class Manager extends HttpServlet {
 		boolean camStatus = Boolean.parseBoolean(request.getParameter(PARAMETER_STATUS));
 		// in Dao Schreiben
 		if (camStatus == true) {
+			System.out.println("unset cam allow user: "+ userId + " camid "+camId);
 			storageDao.unsetUserCamAllow(userId, camId);
 		} else {
+			System.out.println("set cam allow user: "+ userId + " camid "+camId);
 			storageDao.setUserCamAllow(userId, camId);
 		}
 		handle_user_cam_delegate_list(request, response);
@@ -558,7 +560,6 @@ public class Manager extends HttpServlet {
 
 		// Pflicht Parameter
 		long camId = Long.parseLong(request.getParameter(PARAMETER_CAM_ID));
-		request.setAttribute(PARAMETER_CAM_ID, camId);
 
 		// Liste von Storage holen
 		List<Cam> camList = storageDao.getCamForUser(user.getId());
@@ -578,82 +579,63 @@ public class Manager extends HttpServlet {
 		if (!hasRights)
 			throw new UserNotPermitted(user.getUsername());
 
+		request.setAttribute("camId", camId);
 		int year = -1;
 		int month = -1;
 		int day = -1;
 		int hour = -1;
 
-		// Versuchen Jahr zu holen
-		if (request.getParameter(PARAMETER_CAM_YEAR) != null && request.getParameter(PARAMETER_CAM_YEAR) != "") {
-			int tmp = Integer.parseInt(request.getParameter(PARAMETER_CAM_YEAR));
-			if (tmp >= 1970) {
-				year = tmp;
-			}
-		}
-
-		// Versuchen Monat zu holen
-		if (request.getParameter(PARAMETER_CAM_MONTH) != null && request.getParameter(PARAMETER_CAM_MONTH) != "") {
-			int tmp = Integer.parseInt(request.getParameter(PARAMETER_CAM_MONTH));
-			if (tmp >= 1 && tmp <= 12) {
-				month = tmp;
-			}
-		}
-
-		// Versuchen Tag zu holen
-		if (request.getParameter(PARAMETER_CAM_DAY) != null && request.getParameter(PARAMETER_CAM_DAY) != "") {
-			int tmp = Integer.parseInt(request.getParameter(PARAMETER_CAM_DAY));
-			if (tmp >= 0 && tmp <= 31) {
-				day = tmp;
-			}
-		}
-
-		// Versuchen Stunde zu holen
-		if (request.getParameter(PARAMETER_CAM_HOUR) != null && request.getParameter(PARAMETER_CAM_HOUR) != "") {
+		// Wenn Tag + Stunden gegeben - direkt Bilder zurück
+		if (request.getParameter(PARAMETER_CAM_YEAR) != null && request.getParameter(PARAMETER_CAM_MONTH) != null
+				&& request.getParameter(PARAMETER_CAM_DAY) != null && request.getParameter(PARAMETER_CAM_HOUR) != null) {
 			int tmp = Integer.parseInt(request.getParameter(PARAMETER_CAM_HOUR));
 			if (tmp >= 0 && tmp <= 24) {
 				hour = tmp % 24; // Falls 24 - dann 0!
 			}
+			year = Integer.parseInt(request.getParameter(PARAMETER_CAM_YEAR));
+			month = Integer.parseInt(request.getParameter(PARAMETER_CAM_MONTH));
+			day = Integer.parseInt(request.getParameter(PARAMETER_CAM_DAY));
+
+		} // Wenn nur Tag gegeben - Stunden zurück
+		else if (request.getParameter(PARAMETER_CAM_YEAR) != null && request.getParameter(PARAMETER_CAM_MONTH) != null
+				&& request.getParameter(PARAMETER_CAM_DAY) != null) {
+			year = Integer.parseInt(request.getParameter(PARAMETER_CAM_YEAR));
+			month = Integer.parseInt(request.getParameter(PARAMETER_CAM_MONTH));
+			day = Integer.parseInt(request.getParameter(PARAMETER_CAM_DAY));
+			// Wenn nichts - nur Tage zurück
+		} else {
+			// Wird darunter unterschieden!
 		}
 
 		// Nr. 1 - nur camId - dann Monate mit Bilder anzeigen
-		if (month == -1 | year == -1) {
-			if (year == -1) year = Calendar.getInstance().get(Calendar.YEAR);
-			//TESTING!
-			//List<Date> monthList = storageDao.getMonthsWithPictures(camId, new Date(year, 1, 1),
-			//		new Date(Calendar.getInstance().getTimeInMillis()));
-			List<Integer> monthList = new ArrayList<Integer>();
-			monthList.add(5);
-			request.setAttribute("year", year);
-			request.setAttribute("months", monthList);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_view.jsp");
-			dispatcher.forward(request, response);
-		}
-		request.setAttribute("year", year);
-		request.setAttribute("month", month);
-		if (day == -1) {
-			// Nr. 2 - mit monat - Tage mit Bilder anzeigen
-			//TESTING!
-			//List<Date> dayList = storageDao.getDaysWithPictures(camId, new Date(2011, 1, 1),
-			//		new Date(Calendar.getInstance().getTimeInMillis()));
-			List<Integer> dayList = new ArrayList<Integer>();
-			dayList.add(16);
+		if (month == -1 | year == -1 | day == -1) {
+			// Nr. 2 - Tage mit Bilder anzeigen
+			List<Date> dayList = storageDao.getDaysWithPictures(camId, new Date(Calendar.getInstance().getTimeInMillis()-100000),
+					new Date(Calendar.getInstance().getTimeInMillis()));
 			request.setAttribute("days", dayList);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_view.jsp");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
 			dispatcher.forward(request, response);
-		}
-		request.setAttribute("day", day);
-		if (hour == -1) {
+			System.out.println("Tage zurückgegeben");
+		} else if (hour == -1) {
 			// Nr 3. - Tag - Stunden von Tag
-			//TESTING!
-			//List<Integer> hourList = storageDao.getHoursWithPictures(camId, new Date(year, month, day));
-			List<Integer> hourList = new ArrayList<Integer>();
-			hourList.add(15);		
+			DateFormat df = new SimpleDateFormat("yyyy.MM.dd");
+			String target = year + "." + month + "." + day;
+			java.util.Date result = null;
+			try {
+				result = df.parse(target);
+			} catch (ParseException e) {
+				// Darf eigentlich NIEEE knallen!
+				e.printStackTrace();
+			}
+			Date date = new Date(result.getTime());
+			List<Integer> hourList = storageDao.getHoursWithPictures(camId, date);
 			request.setAttribute("hours", hourList);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_view.jsp");
+			request.setAttribute("currentDate", date);
+			System.out.println("Stunden zurückgegeben");
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
 			dispatcher.forward(request, response);
 
 		} else {
-			request.setAttribute("hour", hour);
 			// Nr 4. - Stunde - Alle Bilder einer Stunde (max 60?!)
 			DateFormat df = new SimpleDateFormat("yyyy.MM.dd HH");
 			String target = year + "." + month + "." + day + " " + hour;
@@ -667,39 +649,28 @@ public class Manager extends HttpServlet {
 			Date dateFrom = new Date(result.getTime());
 			Date dateTo = new Date(result.getTime() + 3600000);
 
-			//TESTING!
-			//List<Picture> picList = storageDao.getPictureBetween(camId, dateFrom, dateTo, MAX_PICTURES);
-			List<Picture> picList = new ArrayList<Picture>();
-			Picture pic = new Picture(1, camId, new Date(year, month, day), "pic1");
-			picList.add(pic);
-			pic = new Picture(2, camId, new Date(year, month, day), "pic2");
-			picList.add(pic);
-			pic = new Picture(3, camId, new Date(year, month, day), "pic3");
-			picList.add(pic);
-			pic = new Picture(4, camId, new Date(year, month, day), "pic4");
-			picList.add(pic);
-			pic = new Picture(5, camId, new Date(year, month, day), "pic5");
-			picList.add(pic);
-			pic = new Picture(6, camId, new Date(year, month, day), "pic6");
-			picList.add(pic);
-			pic = new Picture(7, camId, new Date(year, month, day), "pic7");
-			picList.add(pic);
-			
+			List<Picture> picList = storageDao.getPictureBetween(camId, dateFrom, dateTo, MAX_PICTURES);
 			request.setAttribute("pics", picList);
-			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cam_view.jsp");
+			
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
 			dispatcher.forward(request, response);
+			System.out.println("Bilder zurückgegeben");
 		}
 
 	}
-
+	
 	private void handle_view_cams(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("hier1");
 		// User Holen
 		User user = this.getLoggedInUser(request, response);
 
 		// Liste von Storage holen
-		List<Cam> camList = storageDao.getCamForUser(user.getId());
+		List<Cam> camList;
+		if(user.isCan_see_all_cam()){
+			camList = storageDao.getCamList();
+		}else{
+			camList = storageDao.getCamForUser(user.getId());
+		}
 
 		// Jeweils das letze Bild holen
 		List<Picture> pics = new ArrayList<>();
