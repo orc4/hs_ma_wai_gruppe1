@@ -69,8 +69,10 @@ public class PicDownload extends HttpServlet {
 			picId = Long.parseLong(request.getParameter(PARAMETER_PICTURE_ID));
 		}
 		Picture pic = storageDao.getPicture(picId);
-		if (pic == null)
+		if (pic == null){
 			System.out.println("Bild nicht gefunden");
+			
+		}else{
 		long camId = pic.getCamId();
 
 		// User holen
@@ -78,10 +80,14 @@ public class PicDownload extends HttpServlet {
 
 		// checken ob User Rechte hat
 		boolean hasRights = false;
-		List<Cam> cams = storageDao.getCamForUser(user.getId());
-		for (Cam cam : cams) {
-			if (cam.getId() == camId) {
-				hasRights = true;
+		if(user.isCan_see_all_cam()){
+			hasRights=true;
+		}else{
+			List<Cam> cams = storageDao.getCamForUser(user.getId());
+			for (Cam cam : cams) {
+				if (cam.getId() == camId) {
+					hasRights = true;
+				}
 			}
 		}
 		if (!hasRights) {
@@ -108,7 +114,8 @@ public class PicDownload extends HttpServlet {
 		OutputStream out = response.getOutputStream();
 		ImageIO.write(bi, "jpg", out);
 		out.close();
-
+		
+		}
 	}
 
 }
