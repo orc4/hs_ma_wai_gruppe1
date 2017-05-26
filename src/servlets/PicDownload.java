@@ -16,12 +16,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import data_model.Cam;
 import data_model.Picture;
 import data_model.User;
 import storage.Storage;
 import storage.StorageFactory;
+import utils.JNDIFactory;
 
 /**
  * Servlet implementation class PicDownload
@@ -29,13 +31,28 @@ import storage.StorageFactory;
 @WebServlet("/PicDownload")
 public class PicDownload extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String storageLocation = "/tmp/cams/";
+//	private String storageLocation = "/tmp/cams/";
 	private static Logger jlog = Logger.getLogger(PicDownload.class);
 
 	final Storage storageDao = StorageFactory.getInstance().getStorage();
 	private final String PARAMETER_PICTURE_ID = "picId";
 	private final String PARAMETER_PICTURE_THUMB = "thumb";
 
+	
+	private  static File getStoragePath(){		
+		JNDIFactory jndiFactory = JNDIFactory.getInstance();
+		File storageLocation=null;
+		try {
+			storageLocation = new File(jndiFactory.getEnvironmentAsString("projectPath")
+					+ jndiFactory.getEnvironmentAsString("picturePath"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return storageLocation;
+	}
+	
+	
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -100,7 +117,7 @@ public class PicDownload extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		File picFile = new File(storageLocation + pic.getPath());
+		File picFile = new File(getStoragePath() + "/" + pic.getPath());
 		if (request.getParameter(PARAMETER_PICTURE_THUMB) != null) {
 			// Wenn thumbmail angefordert wird
 			String base = picFile.getParent();
@@ -111,6 +128,7 @@ public class PicDownload extends HttpServlet {
 		// User hat rechte - jetzt kann die Antwort kommen!
 		response.setContentType("image/jpeg");
 
+		System.out.println(picFile);
 		BufferedImage bi = ImageIO.read(picFile);
 		OutputStream out = response.getOutputStream();
 		ImageIO.write(bi, "jpg", out);

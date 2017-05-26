@@ -16,7 +16,7 @@
     		      
 	
     <Environment name="capture_cams" value="true" type="java.lang.Boolean" override="false"/>
-    <Environment name="projectPath" value="/home/aaron/data/Master/2.sem/wai/git/hs_ma_wai_gruppe1/WebContent" type="java.lang.String" override="false"/>
+    <Environment name="projectPath" value="/home/aaron/data/Master/2.sem/wai/git/test/hs_ma_wai_gruppe1/WebContent" type="java.lang.String" override="false"/>
     <Environment name="configPath" value="/config" type="java.lang.String" override="false"/>
-	
+	<Environment name="picturePath" value="/../data/cams" type="java.lang.String" override="false"/>
 </Context>
