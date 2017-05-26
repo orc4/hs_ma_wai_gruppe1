@@ -59,7 +59,7 @@
 			<c:forEach var="pic" items="${pics}" varStatus="i">
 				<tr>
 					<td>
-					   <p><fmt:formatDate type = "both" value = "${pic.date}" /></p>
+					   <p><fmt:formatDate type = "both" value = "${pic.date}" pattern="dd.MM.yyyy HH:mm" /></p>
 					</td>					
 					<td><a href="../getPic?picId=${pics[i.index].id}"><img src="../getPic?picId=${pics[i.index].id}&thumb" style="width:100px;height:100px;"></a>
 					</td>
