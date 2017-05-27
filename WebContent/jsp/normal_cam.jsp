@@ -13,7 +13,7 @@
   </style>
 </head>
 <body>
-<h1>Show single cam</h1>
+<center><h1>Show single cam</h1></center>
 <center>
 	<table border="1">
   		<tbody>
@@ -50,7 +50,7 @@
 			</tr>	
   		</tbody>
   	</table>
-
+	<br>
 	<table border="1">
   		<tbody>
 	  		<tr>	  						
@@ -69,8 +69,7 @@
 			</c:forEach>	
   		</tbody>
   	</table>
-
-
+	<br>
   	<a href="dashboard.jsp">Main menu</a>
 </center>
 </body>

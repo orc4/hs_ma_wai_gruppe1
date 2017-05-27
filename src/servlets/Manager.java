@@ -693,6 +693,12 @@ public class Manager extends HttpServlet {
 
 		Date dateFrom = Date.valueOf(request.getParameter(PARAMETER_CAM_DATE_FROM));
 		Date dateTo = Date.valueOf(request.getParameter(PARAMETER_CAM_DATE_TO));
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateTo);
+		cal.add(Calendar.HOUR_OF_DAY, 23);
+		cal.add(Calendar.MINUTE, 59);
+		cal.add(Calendar.SECOND, 59);
+		dateTo = new java.sql.Date(cal.getTimeInMillis());
 
 		// Prüfen ob recht auf Cam?
 		boolean hasRights = false;
