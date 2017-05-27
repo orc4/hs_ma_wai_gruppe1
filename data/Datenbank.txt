@@ -21,7 +21,7 @@ CREATE TABLE public.wai_picture
 (
   id integer NOT NULL DEFAULT nextval('wai_picture_id_seq'::regclass),
   cam_id bigint,
-  date date,
+  date timestamp,
   path character varying(1024),
   CONSTRAINT wai_picture_pkey PRIMARY KEY (id)
 )
