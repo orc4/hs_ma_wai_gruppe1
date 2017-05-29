@@ -599,7 +599,7 @@ public class Manager extends HttpServlet {
 		// Nr. 1 - nur camId - dann Monate mit Bilder anzeigen
 		if (month == -1 | year == -1 | day == -1) {
 			// Nr. 2 - Tage mit Bilder anzeigen
-			List<Date> dayList = storageDao.getDaysWithPictures(camId, new Date(Calendar.getInstance().getTimeInMillis()-100000),
+			List<Date> dayList = storageDao.getDaysWithPictures(camId, new Date(Calendar.getInstance().getTimeInMillis()-1728000000),
 					new Date(Calendar.getInstance().getTimeInMillis()));
 			request.setAttribute("days", dayList);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
@@ -693,12 +693,20 @@ public class Manager extends HttpServlet {
 
 		Date dateFrom = Date.valueOf(request.getParameter(PARAMETER_CAM_DATE_FROM));
 		Date dateTo = Date.valueOf(request.getParameter(PARAMETER_CAM_DATE_TO));
+		int timeFrom = Integer.parseInt(request.getParameter("cam_time_from"));
+		int timeTo = Integer.parseInt(request.getParameter("cam_time_to"));
 		Calendar cal = Calendar.getInstance();
+		cal.setTime(dateFrom);
+		cal.add(Calendar.HOUR_OF_DAY, timeFrom);
+		dateFrom = new java.sql.Date(cal.getTimeInMillis());
 		cal.setTime(dateTo);
-		cal.add(Calendar.HOUR_OF_DAY, 23);
-		cal.add(Calendar.MINUTE, 59);
-		cal.add(Calendar.SECOND, 59);
+		cal.add(Calendar.HOUR_OF_DAY, timeTo);
 		dateTo = new java.sql.Date(cal.getTimeInMillis());
+		//cal.setTime(dateTo);
+		//cal.add(Calendar.HOUR_OF_DAY, 23);
+		//cal.add(Calendar.MINUTE, 59);
+		//cal.add(Calendar.SECOND, 59);
+		//dateTo = new java.sql.Date(cal.getTimeInMillis());
 
 		// Prüfen ob recht auf Cam?
 		boolean hasRights = false;
@@ -720,6 +728,11 @@ public class Manager extends HttpServlet {
 
 		// Liste als Parameter setzen
 		request.setAttribute("pics", picList);
+
+		request.setAttribute(PARAMETER_CAM_DATE_FROM, dateFrom);
+		request.setAttribute(PARAMETER_CAM_DATE_TO, dateTo);
+		request.setAttribute("cam_time_from", timeFrom);
+		request.setAttribute("cam_time_to", timeTo);
 
 		// Auf das gleiche zurück wie angefragt
 		handle_view_cams_search_view(request, response);

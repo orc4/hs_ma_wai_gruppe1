@@ -519,7 +519,7 @@ public class StorageImpl implements Storage {
 			String sqlStatement = "SELECT Date(date) as datetime "
 					+ "FROM wai_picture "
 					+ "WHERE cam_id=? and date >= ? and date <= ?"
-					+ "GROUP BY datetime;";
+					+ "GROUP BY datetime order by datetime;";
 			pstmt = connection.prepareStatement(sqlStatement);
 			pstmt.setLong(1, camId);
 			pstmt.setTimestamp(2, new Timestamp(from.getTime()));

@@ -18,6 +18,7 @@
 	<table border="1">
   		<tbody>
   		<tr>
+  			<c:if test="${days != null}">
   			<c:forEach var="day" items="${days}" varStatus="i">
 	  			<td>				
 	  			<fmt:formatDate var="date_year" value="${day}" pattern="yyyy" /> 
@@ -31,6 +32,8 @@
 				</td>	
 				<c:if test="${(i.index+1)%10==0 }"></tr><tr></c:if>
 			</c:forEach>
+			</c:if>
+			<c:if test="${days == null}"><td>${currentDate}</td></c:if>
 			</tr>	
   		</tbody>
   	</table>
@@ -56,7 +59,6 @@
 	  		<tr>	  						
 				<td>Date:   </td>
 				<td>Pic:     </td>	
-				<td>   </td>	
 			</tr>			
 			<c:forEach var="pic" items="${pics}" varStatus="i">
 				<tr>

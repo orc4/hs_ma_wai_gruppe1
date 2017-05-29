@@ -15,13 +15,27 @@
     $( "#cam_date_from" ).datepicker({ dateFormat: 'yy-mm-dd' }).val();;
   } );
   </script>
-      <script>
+  <script>
   $( function() {
     $( "#cam_date_to" ).datepicker({ dateFormat: 'yy-mm-dd' }).val();;
   } );
   </script>
+  <script>
+  function fill() {
+	  for(var i = 0;i < document.getElementById("cam_time_from").length;i++){
+	      if(document.getElementById("cam_time_from").options[i].value == "${cam_time_from}"){
+	          document.getElementById("cam_time_from").selectedIndex = i;
+	      }
+	  }
+	  for(var i = 0;i < document.getElementById("cam_time_to").length;i++){
+	      if(document.getElementById("cam_time_to").options[i].value == "${cam_time_to}"){
+	          document.getElementById("cam_time_to").selectedIndex = i;
+	      }
+	  }
+  }
+  </script>
 </head>
-<body>
+<body onload="fill()">
 <center>
 
 <form name="form_cam_search" action="view_cams_search" method="post">		
@@ -33,11 +47,63 @@
 				</tr>
 				<tr>
 					<td>von</td>
-					<td><input type="text" name="cam_date_from" id="cam_date_from"></td>		
+					<td><input type="text" name="cam_date_from" id="cam_date_from" value="${cam_date_from}"></td>
+					<td><select name="cam_time_from" id="cam_time_from">
+						<option value="00">00</option>
+						<option value="01">01</option>
+						<option value="02">02</option>
+						<option value="03">03</option>
+						<option value="04">04</option>
+						<option value="05">05</option>
+						<option value="06">06</option>
+						<option value="07">07</option>
+						<option value="08">08</option>
+						<option value="09">09</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+						<option value="21">21</option>
+						<option value="22">22</option>
+						<option value="23">23</option>
+					</select></td>		
 				</tr>
 				<tr>
 					<td>bis:</td>
-					<td><input type="text" name="cam_date_to" id="cam_date_to"></td>		
+					<td><input type="text" name="cam_date_to" id="cam_date_to" value="${cam_date_to}"></td>
+					<td><select name="cam_time_to" id="cam_time_to">
+						<option value="00">00</option>
+						<option value="01">01</option>
+						<option value="02">02</option>
+						<option value="03">03</option>
+						<option value="04">04</option>
+						<option value="05">05</option>
+						<option value="06">06</option>
+						<option value="07">07</option>
+						<option value="08">08</option>
+						<option value="09">09</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+						<option value="13">13</option>
+						<option value="14">14</option>
+						<option value="15">15</option>
+						<option value="16">16</option>
+						<option value="17">17</option>
+						<option value="18">18</option>
+						<option value="19">19</option>
+						<option value="20">20</option>
+						<option value="21">21</option>
+						<option value="22">22</option>
+						<option value="23">23</option>
+					</select></td>		
 				</tr>
 				
 				
@@ -54,7 +120,6 @@
 	  		<tr>	  						
 				<td>Date:   </td>
 				<td>Pic:     </td>	
-				<td>   </td>	
 			</tr>			
 			<c:forEach var="pic" items="${pics}" varStatus="i">
 				<tr>
