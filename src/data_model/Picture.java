@@ -22,24 +22,18 @@ public class Picture {
 		this.path = path;
 		this.camId = camId;
 	}
-
-	// Getter- und Setter-Methoden
-	// Settermethoden
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	// Gettermethoden
-	public long getId() {
-		return (id);
-	}
 	
 	public long getCamId() {
 		return (camId);
 	}
-
+	
 	public Date getDate() {
 		return (date);
+	}
+
+	// Gettermethoden
+	public long getId() {
+		return (id);
 	}
 	
 	public String getPath() {

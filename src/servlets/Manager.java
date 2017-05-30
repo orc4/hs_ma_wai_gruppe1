@@ -25,7 +25,6 @@ import data_model.User;
 import exception.MissingParameterException;
 import exception.UserLoginIncorrect;
 import exception.UserNotPermitted;
-import service.AppCore;
 import storage.Storage;
 import storage.StorageFactory;
 
@@ -273,8 +272,8 @@ public class Manager extends HttpServlet {
 			// FIXME: vill hier noch andere exception mit meldung werfen?
 		}
 
-		user.setPassword(passwordNew1);
-		storageDao.editUser(user.getId(), user);
+		User u = new User(user.getId(), user.getUsername(), user.getVorname(), user.getNachname(), passwordNew1, user.getSalt(), user.isCan_mod_cam(), user.isCan_mod_user(), user.isCan_see_all_cam(), user.isCan_delegate_cam());
+		storageDao.editUser(u.getId(), u);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/manager");
 		dispatcher.forward(request, response);
 

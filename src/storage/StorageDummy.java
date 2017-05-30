@@ -47,7 +47,6 @@ public class StorageDummy implements Storage {
 
 	@Override
 	public void addPic(Picture pic) {
-		pic.setId(pics.size());
 		System.out.println("Pic mit id " + pic.getId() + " hinzugefügt Camid: " + pic.getCamId());
 		pics.add(pic);
 
