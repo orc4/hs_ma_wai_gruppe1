@@ -22,8 +22,11 @@ import org.apache.log4j.Logger;
 import data_model.Cam;
 import data_model.Picture;
 import data_model.User;
+import exception.CamNotDeletedException;
 import exception.MissingParameterException;
+import exception.NotFoundException;
 import exception.UserLoginIncorrect;
+import exception.UserNotLoggedIn;
 import exception.UserNotPermitted;
 import storage.Storage;
 import storage.StorageFactory;
@@ -105,7 +108,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_cam_add_view(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException ,UserNotPermitted{
 		// user holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -121,7 +124,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_cam_del(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException {
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -144,7 +147,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_cam_list(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException ,UserNotPermitted{
 
 		// User Holen
 		User user = this.getLoggedInUser(request, response);
@@ -166,7 +169,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_cam_mod(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException,UserNotPermitted, MissingParameterException {
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -200,7 +203,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_cam_mod_view(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException ,UserNotPermitted,MissingParameterException{
 		// user holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -251,7 +254,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_password_change(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, UserNotPermitted,MissingParameterException,UserLoginIncorrect{
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -299,7 +302,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_add_view(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, UserNotPermitted {
 		// user holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -314,7 +317,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_cam_delegate_list(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, UserNotPermitted {
 
 		// User holen
 		User user = this.getLoggedInUser(request, response);
@@ -375,7 +378,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_cam_delegate_mod(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException,UserNotPermitted,MissingParameterException {
 
 		// User holen
 		User user = this.getLoggedInUser(request, response);
@@ -406,7 +409,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_del(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException ,UserNotPermitted,MissingParameterException {
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -428,7 +431,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_list(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException, UserNotPermitted  {
 
 		// User Holen
 		User user = this.getLoggedInUser(request, response);
@@ -448,7 +451,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_mod(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException ,UserNotPermitted,MissingParameterException {
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 		// Berechtigungen Prüfen
@@ -510,7 +513,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_mod_view(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException,UserNotPermitted,MissingParameterException  {
 		// user holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -537,7 +540,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_view_cam_single(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException ,UserNotPermitted,MissingParameterException {
 		User user = this.getLoggedInUser(request, response);
 
 		// Prüfen ob parameter gesetzt sind
@@ -674,7 +677,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_view_cams_search(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws ServletException, IOException,UserNotPermitted,MissingParameterException  {
 		// User Holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -754,6 +757,10 @@ public class Manager extends HttpServlet {
 
 	private void progressRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		try {
+			
+		
 
 		String action = ACTION_DASHBOARD;
 		if (request.getParameter("action") != null) {
@@ -855,6 +862,11 @@ public class Manager extends HttpServlet {
 		default:
 			this.handle_dashboard(request, response);
 			break;
+		}
+		} catch (CamNotDeletedException|MissingParameterException|NotFoundException|UserLoginIncorrect|UserNotLoggedIn|UserNotPermitted e) {
+			request.setAttribute("error", e);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
+			dispatcher.forward(request, response);
 		}
 
 	}
