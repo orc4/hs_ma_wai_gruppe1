@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.naming.NamingException;
@@ -318,7 +320,11 @@ public class StorageImpl implements Storage {
 			
 			while (resultSet.next()) {
 				Timestamp p = resultSet.getTimestamp("hours");
-				hoursWithPics.add(p.getHours());
+				Calendar calendar = GregorianCalendar.getInstance();
+				calendar.setTime(p); 
+				hoursWithPics.add(calendar.get(Calendar.HOUR_OF_DAY));
+				//deprecated
+				//hoursWithPics.add(p.getHours());
 			} 
 		} catch (Exception e) {
 			e.printStackTrace();
