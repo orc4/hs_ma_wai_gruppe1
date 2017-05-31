@@ -21,10 +21,11 @@ Name: ${user.nachname}, ${user.vorname} <br>
 <a href="${pageContext.request.contextPath}/manager/view_cams">Eigene Cams anschauen</a> <br>
 
 
-<h2>Admin Menu</h2>
-<p>Besondere Rechte!</p>
 
-
+<c:if test = "${(user.can_mod_user) || (user.can_mod_cam)|| (user.can_delegate_cam)}">
+	<h2>Special Menu</h2>
+	<p>Besondere Rechte!</p>
+</c:if>
 
 
 <c:if test = "${ user.can_mod_user }">
