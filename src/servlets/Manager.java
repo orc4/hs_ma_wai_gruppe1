@@ -287,11 +287,6 @@ public class Manager extends HttpServlet {
 
 	private void handle_password_change_view(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// user holen
-		User user = this.getLoggedInUser(request, response);
-
-		// darf jeder!
-
 		// request umleiten
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_password_change.jsp");
 		dispatcher.forward(request, response);
@@ -745,9 +740,6 @@ public class Manager extends HttpServlet {
 
 	private void handle_view_cams_search_view(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// user holen
-		User user = this.getLoggedInUser(request, response);
-
 		// darf eigentlich jeder?!
 		long camId = Long.parseLong(request.getParameter(PARAMETER_CAM_ID));
 
