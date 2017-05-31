@@ -165,6 +165,7 @@ public class StorageImpl implements Storage {
 			pstmt = connection.prepareStatement("UPDATE wai_cam SET name = ?, url = ? WHERE id = ?");
 			pstmt.setString(1, newCam.getName()); 				//Setzt den 1. String
 			pstmt.setString(2, newCam.getUrl().toString());		//Setzt den 2. String
+			pstmt.setLong(3, id);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
