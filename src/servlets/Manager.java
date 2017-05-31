@@ -299,9 +299,7 @@ public class Manager extends HttpServlet {
 
 	private void handle_redirect_login(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/user_login.jsp");
-		dispatcher.forward(request, response);
-
+		response.sendRedirect(request.getContextPath() + "/login");
 	}
 
 	private void handle_user_add_view(HttpServletRequest request, HttpServletResponse response)

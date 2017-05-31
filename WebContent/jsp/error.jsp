@@ -10,5 +10,7 @@
 <body>
 	<h1>Es ist ein Fehler aufgetreten!</h1>
 	Message: ${ error.message}
+	<br>
+	<a href="dashboard.jsp">Main menu</a>
 </body>
 </html>
