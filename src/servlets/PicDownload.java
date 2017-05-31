@@ -124,7 +124,6 @@ public class PicDownload extends HttpServlet {
 				// User hat rechte - jetzt kann die Antwort kommen!
 				response.setContentType("image/jpeg");
 
-				System.out.println(picFile);
 				BufferedImage bi = ImageIO.read(picFile);
 				OutputStream out = response.getOutputStream();
 				ImageIO.write(bi, "jpg", out);
