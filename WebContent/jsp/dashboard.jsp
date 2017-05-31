@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -21,10 +22,22 @@ Name: ${user.nachname}, ${user.vorname} <br>
 
 
 <h2>Admin Menu</h2>
-<p>Das hier darf normal nur der Admin!</p>
-<a href="${pageContext.request.contextPath}/manager/user_list">User verwalten</a> <br>
-<a href="${pageContext.request.contextPath}/manager/cam_list">Cams verwalten</a> <br>
-<a href="${pageContext.request.contextPath}/manager/user_cam_delegate_list">User-Cam Delegation verwalten</a><br> 
+<p>Besondere Rechte!</p>
+
+
+
+
+<c:if test = "${ user.can_mod_user }">
+       <a href="${pageContext.request.contextPath}/manager/user_list">User verwalten</a> <br>
+</c:if>
+<c:if test = "${user.can_mod_cam}">
+       <a href="${pageContext.request.contextPath}/manager/cam_list">Cams verwalten</a> <br>
+</c:if>
+
+<c:if test = "${user.can_delegate_cam}">
+       <a href="${pageContext.request.contextPath}/manager/user_cam_delegate_list">User-Cam Delegation verwalten</a><br>
+</c:if>
+
 
 </body>
 </html>
