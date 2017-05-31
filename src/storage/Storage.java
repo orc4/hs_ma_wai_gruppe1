@@ -32,5 +32,5 @@ public interface Storage {
 	
 	// Sonstiges
 	public List<Date> getDaysWithPictures(long camId, Date from, Date to);				// 
-	public List<Integer> getHoursWithPictures(long camId, Date date);				// 
+	public List<Integer> getHoursWithPictures(long camId, Date date);					// 
 }
