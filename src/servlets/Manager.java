@@ -67,7 +67,7 @@ public class Manager extends HttpServlet {
 	private final String PARAMETER_USER_PASSWORD_NEW1 = "passwordNew1";
 	private final String PARAMETER_USER_PASSWORD_NEW2 = "passwordNew2";
 	private final String PARAMETER_USER_SALT = "salt";
-	private final String PARAMETER_USER_CAN_MOD_CAM = "user_can_mode_cam";
+	private final String PARAMETER_USER_CAN_MOD_CAM = "user_can_mod_cam";
 	private final String PARAMETER_USER_CAN_MOD_USER = "user_can_mod_user";
 	private final String PARAMETER_USER_CAN_SEE_ALL_CAM = "user_can_see_all_cam";
 	private final String PARAMETER_USER_CAN_DELEGATE_CAM = "user_can_delegate_cam";
@@ -457,7 +457,7 @@ public class Manager extends HttpServlet {
 		}
 
 		// Checken ob alle Params da sind!
-		if (!(request.getParameter(PARAMETER_USER_VORNAME) == null
+		if (request.getParameter(PARAMETER_USER_VORNAME) == null
 				| request.getParameter(PARAMETER_USER_NACHNAME) == null
 				| request.getParameter(PARAMETER_USER_USERNAME) == null
 				| request.getParameter(PARAMETER_USER_PASSWORD) == null
@@ -465,7 +465,7 @@ public class Manager extends HttpServlet {
 				| request.getParameter(PARAMETER_USER_CAN_MOD_CAM) == null
 				| request.getParameter(PARAMETER_USER_CAN_MOD_USER) == null
 				| request.getParameter(PARAMETER_USER_CAN_SEE_ALL_CAM) == null
-				| request.getParameter(PARAMETER_USER_CAN_DELEGATE_CAM) == null)) {
+				| request.getParameter(PARAMETER_USER_CAN_DELEGATE_CAM) == null) {
 			throw new MissingParameterException();
 		}
 		boolean addUser = false;
@@ -496,8 +496,7 @@ public class Manager extends HttpServlet {
 			userId = Long.parseLong(request.getParameter(PARAMETER_USER_ID));
 		}
 
-		User u = new User(userId, vorname, nachname, username, password, salt, can_mod_cam, can_mod_user,
-				can_see_all_cam, can_delegate_cam);
+		User u = new User(userId, username, vorname, nachname, password, salt, can_mod_cam, can_mod_user,can_see_all_cam, can_delegate_cam);
 
 		if (addUser) {
 			storageDao.addUser(u);
