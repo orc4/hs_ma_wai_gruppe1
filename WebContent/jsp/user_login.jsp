@@ -12,7 +12,9 @@
 </head>
 
 <body>
-  	<h1><center>Login</center></h1>
+	<center>
+  		<h1>Login</h1>
+	</center>
 	<form name="form_user_login" action="login" method="post">
 		<center>
 		<table border="1">

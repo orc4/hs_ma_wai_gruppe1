@@ -44,9 +44,9 @@
 					<td>
 					  <form action="cam_del" method="post">
 	    			    <button name="camId" value="${cam.id}">Löschen</button>
-					  </form> -->
+					  
 					</td>
-				</tr>
+				</tr></form> -->
 			</c:forEach>	
   		</tbody>
   	</table>
