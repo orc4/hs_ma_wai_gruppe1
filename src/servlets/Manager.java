@@ -636,6 +636,7 @@ public class Manager extends HttpServlet {
 
 			List<Picture> picList = storageDao.getPictureBetween(camId, dateFrom, dateTo, MAX_PICTURES);
 			request.setAttribute("pics", picList);
+			request.setAttribute("currentDate", result);
 			
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
 			dispatcher.forward(request, response);
