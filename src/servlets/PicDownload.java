@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.naming.NoPermissionException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,11 +17,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import data_model.Cam;
 import data_model.Picture;
 import data_model.User;
+import exception.CamNotDeletedException;
+import exception.MissingParameterException;
+import exception.NotFoundException;
+import exception.UserLoginIncorrect;
+import exception.UserNotLoggedIn;
+import exception.UserNotPermitted;
 import storage.Storage;
 import storage.StorageFactory;
 import utils.JNDIFactory;
@@ -31,17 +37,12 @@ import utils.JNDIFactory;
 @WebServlet("/PicDownload")
 public class PicDownload extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-//	private String storageLocation = "/tmp/cams/";
+	// private String storageLocation = "/tmp/cams/";
 	private static Logger jlog = Logger.getLogger(PicDownload.class);
 
-	final Storage storageDao = StorageFactory.getInstance().getStorage();
-	private final String PARAMETER_PICTURE_ID = "picId";
-	private final String PARAMETER_PICTURE_THUMB = "thumb";
-
-	
-	private  static File getStoragePath(){		
+	private static File getStoragePath() {
 		JNDIFactory jndiFactory = JNDIFactory.getInstance();
-		File storageLocation=null;
+		File storageLocation = null;
 		try {
 			storageLocation = new File(jndiFactory.getEnvironmentAsString("projectPath")
 					+ jndiFactory.getEnvironmentAsString("picturePath"));
@@ -50,9 +51,11 @@ public class PicDownload extends HttpServlet {
 		}
 		return storageLocation;
 	}
-	
-	
-	
+
+	final Storage storageDao = StorageFactory.getInstance().getStorage();
+	private final String PARAMETER_PICTURE_ID = "picId";
+	private final String PARAMETER_PICTURE_THUMB = "thumb";
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -74,66 +77,65 @@ public class PicDownload extends HttpServlet {
 			user = storageDao.getUserById(userId);
 		}
 		return user;
-
 	}
 
 	private void progressRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		// Request per get picId + optional thumb
+		try {
+			long picId = 0;
 
-		long picId = 0;
+			if (request.getParameter(PARAMETER_PICTURE_ID) != null) {
+				picId = Long.parseLong(request.getParameter(PARAMETER_PICTURE_ID));
+			}
+			Picture pic = storageDao.getPicture(picId);
+			if (pic == null) {
+				jlog.warn("Bild mit Bild-ID: " + picId + " nicht gefunden");
+			} else {
+				long camId = pic.getCamId();
 
-		if (request.getParameter(PARAMETER_PICTURE_ID) != null) {
-			picId = Long.parseLong(request.getParameter(PARAMETER_PICTURE_ID));
-		}
-		Picture pic = storageDao.getPicture(picId);
-		if (pic == null){
-			jlog.warn("Bild mit Bild-ID: "+picId +" nicht gefunden");
-		}else{
-		long camId = pic.getCamId();
+				// User holen
+				User user = getLoggedInUser(request, response);
 
-		// User holen
-		User user = getLoggedInUser(request, response);
-
-		// checken ob User Rechte hat
-		boolean hasRights = false;
-		if(user.isCan_see_all_cam()){
-			hasRights=true;
-		}else{
-			List<Cam> cams = storageDao.getCamForUser(user.getId());
-			for (Cam cam : cams) {
-				if (cam.getId() == camId) {
+				// checken ob User Rechte hat
+				boolean hasRights = false;
+				if (user.isCan_see_all_cam()) {
 					hasRights = true;
+				} else {
+					List<Cam> cams = storageDao.getCamForUser(user.getId());
+					for (Cam cam : cams) {
+						if (cam.getId() == camId) {
+							hasRights = true;
+						}
+					}
 				}
-			}
-		}
-		if (!hasRights) {
-			try {
-				throw new NoPermissionException();
-			} catch (NoPermissionException e) {
-				// FIXME: Hier auf ne errorseite umleiten!
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		File picFile = new File(getStoragePath() + "/" + pic.getPath());
-		if (request.getParameter(PARAMETER_PICTURE_THUMB) != null) {
-			// Wenn thumbmail angefordert wird
-			String base = picFile.getParent();
-			String filename = picFile.getName();
-			picFile = new File(base + "/thumb/" + filename);
-		}
+				if (!hasRights) {
+					throw new NoPermissionException();
+				}
+				File picFile = new File(getStoragePath() + "/" + pic.getPath());
+				if (request.getParameter(PARAMETER_PICTURE_THUMB) != null) {
+					// Wenn thumbmail angefordert wird
+					String base = picFile.getParent();
+					String filename = picFile.getName();
+					picFile = new File(base + "/thumb/" + filename);
+				}
 
-		// User hat rechte - jetzt kann die Antwort kommen!
-		response.setContentType("image/jpeg");
+				// User hat rechte - jetzt kann die Antwort kommen!
+				response.setContentType("image/jpeg");
 
-		System.out.println(picFile);
-		BufferedImage bi = ImageIO.read(picFile);
-		OutputStream out = response.getOutputStream();
-		ImageIO.write(bi, "jpg", out);
-		out.close();
-		
+				System.out.println(picFile);
+				BufferedImage bi = ImageIO.read(picFile);
+				OutputStream out = response.getOutputStream();
+				ImageIO.write(bi, "jpg", out);
+				out.close();
+
+			}
+		} catch (NoPermissionException | CamNotDeletedException | MissingParameterException | NotFoundException
+				| UserLoginIncorrect | UserNotLoggedIn | UserNotPermitted e) {
+			request.setAttribute("error", e);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
+			dispatcher.forward(request, response);
 		}
 	}
 

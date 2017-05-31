@@ -33,7 +33,7 @@ import storage.StorageFactory;
 
 public class Manager extends HttpServlet {
 	private static final long serialVersionUID = -605260502302364704L;
-	
+
 	private static Logger jlog = Logger.getLogger(Manager.class);
 
 	// Allgemeiner Parameter
@@ -108,7 +108,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_cam_add_view(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException ,UserNotPermitted{
+			throws ServletException, IOException, UserNotPermitted {
 		// user holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -147,7 +147,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_cam_list(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException ,UserNotPermitted{
+			throws ServletException, IOException, UserNotPermitted {
 
 		// User Holen
 		User user = this.getLoggedInUser(request, response);
@@ -169,7 +169,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_cam_mod(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException,UserNotPermitted, MissingParameterException {
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException {
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -203,7 +203,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_cam_mod_view(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException ,UserNotPermitted,MissingParameterException{
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException {
 		// user holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -248,13 +248,14 @@ public class Manager extends HttpServlet {
 		if (session.getAttribute(UserLogin.USER_ATTRIBUTE) != null) {
 			session.removeAttribute(UserLogin.USER_ATTRIBUTE);
 		}
-		//RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login");
-		//dispatcher.forward(request, response);
+		// RequestDispatcher dispatcher =
+		// getServletContext().getRequestDispatcher("/login");
+		// dispatcher.forward(request, response);
 		response.sendRedirect(request.getContextPath() + "/login");
 	}
 
 	private void handle_password_change(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, UserNotPermitted,MissingParameterException,UserLoginIncorrect{
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException, UserLoginIncorrect {
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -275,7 +276,9 @@ public class Manager extends HttpServlet {
 			// FIXME: vill hier noch andere exception mit meldung werfen?
 		}
 
-		User u = new User(user.getId(), user.getUsername(), user.getVorname(), user.getNachname(), passwordNew1, user.getSalt(), user.isCan_mod_cam(), user.isCan_mod_user(), user.isCan_see_all_cam(), user.isCan_delegate_cam());
+		User u = new User(user.getId(), user.getUsername(), user.getVorname(), user.getNachname(), passwordNew1,
+				user.getSalt(), user.isCan_mod_cam(), user.isCan_mod_user(), user.isCan_see_all_cam(),
+				user.isCan_delegate_cam());
 		storageDao.editUser(u.getId(), u);
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/manager");
 		dispatcher.forward(request, response);
@@ -378,7 +381,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_cam_delegate_mod(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException,UserNotPermitted,MissingParameterException {
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException {
 
 		// User holen
 		User user = this.getLoggedInUser(request, response);
@@ -397,7 +400,7 @@ public class Manager extends HttpServlet {
 		long camId = Long.parseLong(request.getParameter(PARAMETER_CAM_ID));
 		// camStatus = true wenn Erlauben - false wenn nicht!
 		boolean camStatus = Boolean.parseBoolean(request.getParameter(PARAMETER_STATUS));
-		
+
 		// in Dao Schreiben
 		if (camStatus == true) {
 			storageDao.unsetUserCamAllow(userId, camId);
@@ -409,7 +412,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_del(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException ,UserNotPermitted,MissingParameterException {
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException {
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -431,7 +434,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_list(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException, UserNotPermitted  {
+			throws ServletException, IOException, UserNotPermitted {
 
 		// User Holen
 		User user = this.getLoggedInUser(request, response);
@@ -451,7 +454,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_mod(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException ,UserNotPermitted,MissingParameterException {
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException {
 		// User holen
 		User user = this.getLoggedInUser(request, response);
 		// Berechtigungen Prüfen
@@ -460,8 +463,7 @@ public class Manager extends HttpServlet {
 		}
 
 		// Checken ob alle Params da sind!
-		if (request.getParameter(PARAMETER_USER_VORNAME) == null
-				| request.getParameter(PARAMETER_USER_NACHNAME) == null
+		if (request.getParameter(PARAMETER_USER_VORNAME) == null | request.getParameter(PARAMETER_USER_NACHNAME) == null
 				| request.getParameter(PARAMETER_USER_USERNAME) == null
 				| request.getParameter(PARAMETER_USER_PASSWORD) == null
 				| request.getParameter(PARAMETER_USER_SALT) == null
@@ -499,7 +501,8 @@ public class Manager extends HttpServlet {
 			userId = Long.parseLong(request.getParameter(PARAMETER_USER_ID));
 		}
 
-		User u = new User(userId, username, vorname, nachname, password, salt, can_mod_cam, can_mod_user,can_see_all_cam, can_delegate_cam);
+		User u = new User(userId, username, vorname, nachname, password, salt, can_mod_cam, can_mod_user,
+				can_see_all_cam, can_delegate_cam);
 
 		if (addUser) {
 			storageDao.addUser(u);
@@ -513,7 +516,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_user_mod_view(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException,UserNotPermitted,MissingParameterException  {
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException {
 		// user holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -540,7 +543,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_view_cam_single(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException ,UserNotPermitted,MissingParameterException {
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException {
 		User user = this.getLoggedInUser(request, response);
 
 		// Prüfen ob parameter gesetzt sind
@@ -577,7 +580,8 @@ public class Manager extends HttpServlet {
 
 		// Wenn Tag + Stunden gegeben - direkt Bilder zurück
 		if (request.getParameter(PARAMETER_CAM_YEAR) != null && request.getParameter(PARAMETER_CAM_MONTH) != null
-				&& request.getParameter(PARAMETER_CAM_DAY) != null && request.getParameter(PARAMETER_CAM_HOUR) != null) {
+				&& request.getParameter(PARAMETER_CAM_DAY) != null
+				&& request.getParameter(PARAMETER_CAM_HOUR) != null) {
 			int tmp = Integer.parseInt(request.getParameter(PARAMETER_CAM_HOUR));
 			if (tmp >= 0 && tmp <= 24) {
 				hour = tmp % 24; // Falls 24 - dann 0!
@@ -600,7 +604,8 @@ public class Manager extends HttpServlet {
 		// Nr. 1 - nur camId - dann Monate mit Bilder anzeigen
 		if (month == -1 | year == -1 | day == -1) {
 			// Nr. 2 - Tage mit Bilder anzeigen
-			List<Date> dayList = storageDao.getDaysWithPictures(camId, new Date(Calendar.getInstance().getTimeInMillis()-1728000000),
+			List<Date> dayList = storageDao.getDaysWithPictures(camId,
+					new Date(Calendar.getInstance().getTimeInMillis() - 1728000000),
 					new Date(Calendar.getInstance().getTimeInMillis()));
 			request.setAttribute("days", dayList);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
@@ -640,13 +645,13 @@ public class Manager extends HttpServlet {
 			List<Picture> picList = storageDao.getPictureBetween(camId, dateFrom, dateTo, MAX_PICTURES);
 			request.setAttribute("pics", picList);
 			request.setAttribute("currentDate", result);
-			
+
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/normal_cam.jsp");
 			dispatcher.forward(request, response);
 		}
 
 	}
-	
+
 	private void handle_view_cams(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// User Holen
@@ -654,9 +659,9 @@ public class Manager extends HttpServlet {
 
 		// Liste von Storage holen
 		List<Cam> camList;
-		if(user.isCan_see_all_cam()){
+		if (user.isCan_see_all_cam()) {
 			camList = storageDao.getCamList();
-		}else{
+		} else {
 			camList = storageDao.getCamForUser(user.getId());
 		}
 
@@ -677,7 +682,7 @@ public class Manager extends HttpServlet {
 	}
 
 	private void handle_view_cams_search(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException,UserNotPermitted,MissingParameterException  {
+			throws ServletException, IOException, UserNotPermitted, MissingParameterException {
 		// User Holen
 		User user = this.getLoggedInUser(request, response);
 
@@ -704,11 +709,11 @@ public class Manager extends HttpServlet {
 		cal.setTime(dateTo);
 		cal.add(Calendar.HOUR_OF_DAY, timeTo);
 		dateTo = new java.sql.Date(cal.getTimeInMillis());
-		//cal.setTime(dateTo);
-		//cal.add(Calendar.HOUR_OF_DAY, 23);
-		//cal.add(Calendar.MINUTE, 59);
-		//cal.add(Calendar.SECOND, 59);
-		//dateTo = new java.sql.Date(cal.getTimeInMillis());
+		// cal.setTime(dateTo);
+		// cal.add(Calendar.HOUR_OF_DAY, 23);
+		// cal.add(Calendar.MINUTE, 59);
+		// cal.add(Calendar.SECOND, 59);
+		// dateTo = new java.sql.Date(cal.getTimeInMillis());
 
 		// Prüfen ob recht auf Cam?
 		boolean hasRights = false;
@@ -757,113 +762,112 @@ public class Manager extends HttpServlet {
 
 	private void progressRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		try {
-			
-		
 
-		String action = ACTION_DASHBOARD;
-		if (request.getParameter("action") != null) {
-			action = request.getParameter("action");
-		}
-
-		String pathInfo = request.getPathInfo();
-		String servletPath = request.getServletPath();
-		if (pathInfo != null && pathInfo.startsWith("/")) { // remove leading /
-			pathInfo = pathInfo.substring(1);
-			pathInfo = pathInfo.split("&")[0];
-		}
-		jlog.info("servletPath: " + servletPath);
-		jlog.info("pathInfo: " + pathInfo);
-
-		// Eingelloggter User holen
-		User user = this.getLoggedInUser(request, response);
-		if (user != null) {
-			jlog.info("user " + user.getUsername() + "is logged in");
-			if (pathInfo != null) {
-				action = pathInfo;
+			String action = ACTION_DASHBOARD;
+			if (request.getParameter("action") != null) {
+				action = request.getParameter("action");
 			}
-		} else {
-			jlog.info("no user logged in");
-			action = ACTION_LOGIN;
-		}
-		jlog.info("action: " + action);
-		
 
-		switch (action) {
-		// WICHTIG! REIHENFOLGE BEACHTEN - der macht irgendwie contains!!!
+			String pathInfo = request.getPathInfo();
+			String servletPath = request.getServletPath();
+			if (pathInfo != null && pathInfo.startsWith("/")) { // remove
+																// leading /
+				pathInfo = pathInfo.substring(1);
+				pathInfo = pathInfo.split("&")[0];
+			}
+			jlog.info("servletPath: " + servletPath);
+			jlog.info("pathInfo: " + pathInfo);
 
-		case ACTION_LOGIN:
-			this.handle_redirect_login(request, response);
-			break;
-		case ACTION_DASHBOARD:
-			this.handle_dashboard(request, response);
-			break;
-		case ACTION_HANDLE_USER_MOD:
-			this.handle_user_mod(request, response);
-			break;
-		case ACTION_HANDLE_USER_MOD_VIEW:
-			this.handle_user_mod_view(request, response);
-			break;
-		case ACTION_HANDLE_USER_ADD_VIEW:
-			this.handle_user_add_view(request, response);
-			break;
-		case ACTION_HANDLE_CAM_MOD:
-			this.handle_cam_mod(request, response);
-			break;
-		case ACTION_HANDLE_CAM_ADD_VIEW:
-			this.handle_cam_add_view(request, response);
-			break;
-		case ACTION_HANDLE_CAM_ADD:
-			this.handle_cam_mod(request, response);
-			break;
-		case ACTION_HANDLE_CAM_MOD_VIEW:
-			this.handle_cam_mod_view(request, response);
-			break;
-		case ACTION_HANDLE_CAM_DEL:
-			this.handle_cam_del(request, response);
-			break;
-		case ACTION_HANDLE_PASSWORD_CHANGE_VIEW:
-			this.handle_password_change_view(request, response);
-			break;
-		case ACTION_HANDLE_VIEW_CAMS_SEARCH_VIEW:
-			this.handle_view_cams_search_view(request, response);
-			break;
-		case ACTION_LOGOUT:
-			this.handle_logout(request, response);
-			break;
-		case ACTION_HANDLE_USER_DEL:
-			this.handle_user_del(request, response);
-			break;
-		case ACTION_HANDLE_USER_LIST:
-			this.handle_user_list(request, response);
-			break;
-		case ACTION_HANDLE_CAM_LIST:
-			this.handle_cam_list(request, response);
-			break;
-		case ACTION_HANDLE_USER_CAM_DELEGATE_MOD:
-			this.handle_user_cam_delegate_mod(request, response);
-			break;
-		case ACTION_HANDLE_USER_CAM_DELEGATE_LIST:
-			this.handle_user_cam_delegate_list(request, response);
-			break;
-		case ACTION_HANDLE_PASSWORD_CHANGE:
-			this.handle_password_change(request, response);
-			break;
-		case ACTION_HANDLE_VIEW_CAMS:
-			this.handle_view_cams(request, response);
-			break;
-		case ACTION_HANDLE_VIEW_CAMS_SEARCH:
-			this.handle_view_cams_search(request, response);
-			break;
-		case ACTION_HANDLE_VIEW_CAM_SINGLE:
-			this.handle_view_cam_single(request, response);
-			break;
-		default:
-			this.handle_dashboard(request, response);
-			break;
-		}
-		} catch (CamNotDeletedException|MissingParameterException|NotFoundException|UserLoginIncorrect|UserNotLoggedIn|UserNotPermitted e) {
+			// Eingelloggter User holen
+			User user = this.getLoggedInUser(request, response);
+			if (user != null) {
+				jlog.info("user " + user.getUsername() + "is logged in");
+				if (pathInfo != null) {
+					action = pathInfo;
+				}
+			} else {
+				jlog.info("no user logged in");
+				action = ACTION_LOGIN;
+			}
+			jlog.info("action: " + action);
+
+			switch (action) {
+			// WICHTIG! REIHENFOLGE BEACHTEN - der macht irgendwie contains!!!
+
+			case ACTION_LOGIN:
+				this.handle_redirect_login(request, response);
+				break;
+			case ACTION_DASHBOARD:
+				this.handle_dashboard(request, response);
+				break;
+			case ACTION_HANDLE_USER_MOD:
+				this.handle_user_mod(request, response);
+				break;
+			case ACTION_HANDLE_USER_MOD_VIEW:
+				this.handle_user_mod_view(request, response);
+				break;
+			case ACTION_HANDLE_USER_ADD_VIEW:
+				this.handle_user_add_view(request, response);
+				break;
+			case ACTION_HANDLE_CAM_MOD:
+				this.handle_cam_mod(request, response);
+				break;
+			case ACTION_HANDLE_CAM_ADD_VIEW:
+				this.handle_cam_add_view(request, response);
+				break;
+			case ACTION_HANDLE_CAM_ADD:
+				this.handle_cam_mod(request, response);
+				break;
+			case ACTION_HANDLE_CAM_MOD_VIEW:
+				this.handle_cam_mod_view(request, response);
+				break;
+			case ACTION_HANDLE_CAM_DEL:
+				this.handle_cam_del(request, response);
+				break;
+			case ACTION_HANDLE_PASSWORD_CHANGE_VIEW:
+				this.handle_password_change_view(request, response);
+				break;
+			case ACTION_HANDLE_VIEW_CAMS_SEARCH_VIEW:
+				this.handle_view_cams_search_view(request, response);
+				break;
+			case ACTION_LOGOUT:
+				this.handle_logout(request, response);
+				break;
+			case ACTION_HANDLE_USER_DEL:
+				this.handle_user_del(request, response);
+				break;
+			case ACTION_HANDLE_USER_LIST:
+				this.handle_user_list(request, response);
+				break;
+			case ACTION_HANDLE_CAM_LIST:
+				this.handle_cam_list(request, response);
+				break;
+			case ACTION_HANDLE_USER_CAM_DELEGATE_MOD:
+				this.handle_user_cam_delegate_mod(request, response);
+				break;
+			case ACTION_HANDLE_USER_CAM_DELEGATE_LIST:
+				this.handle_user_cam_delegate_list(request, response);
+				break;
+			case ACTION_HANDLE_PASSWORD_CHANGE:
+				this.handle_password_change(request, response);
+				break;
+			case ACTION_HANDLE_VIEW_CAMS:
+				this.handle_view_cams(request, response);
+				break;
+			case ACTION_HANDLE_VIEW_CAMS_SEARCH:
+				this.handle_view_cams_search(request, response);
+				break;
+			case ACTION_HANDLE_VIEW_CAM_SINGLE:
+				this.handle_view_cam_single(request, response);
+				break;
+			default:
+				this.handle_dashboard(request, response);
+				break;
+			}
+		} catch (CamNotDeletedException | MissingParameterException | NotFoundException | UserLoginIncorrect
+				| UserNotLoggedIn | UserNotPermitted e) {
 			request.setAttribute("error", e);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/error.jsp");
 			dispatcher.forward(request, response);
