@@ -5,17 +5,21 @@
 <html>
 <head>
 <title>List of Cameras</title>
+  <style>
+   	body {
+   		background-color: #42f48f;
+   	}
+  </style>
 </head>
 <body>
 <center>
+	<h1>Eigene Cams anschauen</h1>
 	<table border="1">
   		<tbody>
 	  		<tr>	  						
 				<td>Name:   </td>
 				<td>Id:     </td>	
-				<td></td>
-				<td></td>
-				<td></td>	
+				<td colspan="3"></td>
 			</tr>			
 			<c:forEach var="cam" items="${cams}" varStatus="i">
 				<tr>

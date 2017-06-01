@@ -5,24 +5,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Edit Camera</title>
+<style>
+   	body {
+   		background-color: #42f48f;
+   	}
+</style>
 </head>
 <body>
-
- <body>
+	<center>
+	<h1>Edit Camera</h1>
 	<form name="form_user_edit" action="cam_mod" method="post">		
 		<table border="1">
 			<tbody>
 				<tr>
 					<td>ID:</td>
-					<td><input type="text" name="camId" value="${cam.id}"></td>		
+					<td><input type="text" name="camId" value="${cam.id}" style="width: 75px"></td>		
 				</tr>
 				<tr>
 					<td>URL</td>
-					<td><input type="text" name="camUri" value="${cam.url}"></td>		
+					<td><input type="text" name="camUri" value="${cam.url}" style="width: 300px"></td>		
 				</tr>
 				<tr>
 					<td>Name:</td>
-					<td><input type="text" name="camName" value="${cam.name}"></td>		
+					<td><input type="text" name="camName" value="${cam.name}" style="width: 300px"></td>		
 				</tr>
 				
 				<tr>	
@@ -31,8 +36,9 @@
 			</tbody>
 		</table>
 	</form>
+	<br>
 	<a href="dashboard.jsp">Main menu</a>
-  </body>
+  </center>
 
 </body>
 </html>

@@ -2,10 +2,17 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
+<head>
+  <style>
+   	body {
+   		background-color: #42f48f;
+   	}
+  </style>
+</head>
 <body>
-
+<div style="width: 250px; margin: auto; border: solid">
+<div style="width: 230px; margin: auto">
 <h1>Main Menu</h1>
 
 <h2>Session Infos</h2>
@@ -39,6 +46,8 @@ Name: ${user.nachname}, ${user.vorname} <br>
        <a href="${pageContext.request.contextPath}/manager/user_cam_delegate_list">User-Cam Delegation verwalten</a><br>
 </c:if>
 
-
+</div>
+<br>
+</div>
 </body>
 </html>

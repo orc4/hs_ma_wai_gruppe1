@@ -5,8 +5,15 @@
 <html>
   <head>      
     <title>Benutzerverwaltung</title>     
+    <style>
+   	body {
+   		background-color: #42f48f;
+   	}
+  	</style>
   </head>
   <body>
+  	<center>
+  	<h1>Benutzerliste</h1>
   	<table border="1">
   		<tbody>
 	  		<tr>
@@ -41,5 +48,6 @@
 	
   	<a href="user_add_view">Neuen Benutzer hinzufügen</a><br>
   	<a href="dashboard.jsp">Main menu</a>
+  	</center>
   </body>
 </html>

@@ -5,9 +5,15 @@
 <html>
 <head>
 <title>List of Cameras</title>
+  <style>
+   	body {
+   		background-color: #42f48f;
+   	}
+  </style>
 </head>
 <body>
 <center>
+	<h1>List of Cameras</h1>
 	<table border="1">
   		<tbody>
 	  		<tr>	  						

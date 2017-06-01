@@ -6,8 +6,15 @@
 <html>
   <head>    
     <title>Edit User</title>
+    <style>
+   	body {
+   		background-color: #42f48f;
+   	}
+  	</style>
   </head>  
   <body>
+  	<center>
+  	<h1>Passwort ändern</h1>
 	<form name="form_user_edit" action="password_change" method="post">		
 		<table border="1">
 			<tbody>
@@ -33,5 +40,6 @@
 		</table>
 	</form>
 	<a href="dashboard.jsp">Main menu</a>
+	</center>
   </body>
 </html>

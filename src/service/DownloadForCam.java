@@ -41,10 +41,10 @@ public class DownloadForCam implements Runnable {
 			jlog.info("Thumb für camid: " + cam.getId() + " erfolgreich erstellt");
 			storageDao
 					.addPic(new Picture(cam.getId(), dateNow, StorageFormatter.getRelativePath(dateNow, cam.getId())));
-			jlog.info("Bild für camid: " + cam.getId() + " in db Hinzugefügt");
+			jlog.info("Bild für camid: " + cam.getId() + " in db hinzugefügt");
 
 		} catch (IOException e) {
-			jlog.error("Download für camid: " + cam.getId() + " schlug Fehl");
+			jlog.error("Download für camid: " + cam.getId() + " schlug fehl");
 			jlog.error(e.getMessage());
 		}
 	}

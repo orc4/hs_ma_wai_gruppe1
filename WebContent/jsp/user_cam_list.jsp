@@ -5,6 +5,11 @@
 <html>
 <head>
 <title>User Cam Delegation</title>
+  <style>
+   	body {
+   		background-color: #42f48f;
+   	}
+  </style>
 </head>
 <body>
 

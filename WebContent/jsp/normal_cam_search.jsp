@@ -34,6 +34,11 @@
 	  }
   }
   </script>
+  <style>
+   	body {
+   		background-color: #42f48f;
+   	}
+  </style>  
 </head>
 <body onload="fill()">
 <center>
@@ -108,7 +113,7 @@
 				
 				
 				<tr>	
-					<td colspan="2"><input type="submit" name="btnSave" value="Suchen"></td>
+					<td colspan="3"><input type="submit" name="btnSave" value="Suchen"></td>
 				</tr>				
 			</tbody>
 		</table>
