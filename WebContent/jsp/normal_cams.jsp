@@ -24,7 +24,15 @@
 					<td><a href="view_cams_search_view?camId=${cam.id}">durchsuchen</a></td>
 					<td><a href="view_cam_single?camId=${cam.id}">stöbern</a></td>
 					<td>
-					<img src="../getPic?picId=${pics[i.index].id}&thumb" style="width:100px;height:100px;">
+					
+					<c:choose>
+	  					<c:when test="${pics[i.index]==null}">
+	  						<img src="http://localhost:8080/wai_gruppe1/not_available.jpg" style="width:100px;height:100px;">
+	  					</c:when>
+	  					<c:otherwise>
+	  						<a href="../getPic?picId=${pics[i.index].id}"><img src="../getPic?picId=${pics[i.index].id}&thumb" style="width:100px;height:100px;"></a>
+	  					</c:otherwise>
+					</c:choose>
 					</td>
 				</tr>
 			</c:forEach>	

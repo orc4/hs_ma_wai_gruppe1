@@ -356,7 +356,8 @@ public class StorageImpl implements Storage {
 					resultSet.getString("path"));
 					return(p);
 			} else {
-				throw new NotFoundException("ID: " + camId + " wurde nicht gefunden!");
+				//throw new NotFoundException("ID: " + camId + " wurde nicht gefunden!");
+				return null;
 			}
 		} catch (Exception e) {
 			throw new NotFoundException(camId);
