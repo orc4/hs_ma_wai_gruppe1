@@ -243,7 +243,7 @@ public class StorageImpl implements Storage {
 		ResultSet resultSet = null;
 
 		try {
-			String sqlStatement = "SELECT id, name, url FROM wai_cam";
+			String sqlStatement = "SELECT id, name, url FROM wai_cam Order by id";
 			connection = jndiFactory.getConnection("jdbc/wai_gr1");
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sqlStatement);
@@ -376,7 +376,7 @@ public class StorageImpl implements Storage {
 		Statement statement = null;
 		ResultSet resultSet = null;
 		try {
-			String sqlStatement = "SELECT id, username, vorname, nachname, password, salt, can_mod_cam, can_mod_user, can_see_all_cam, can_delegate_cam FROM wai_user";
+			String sqlStatement = "SELECT id, username, vorname, nachname, password, salt, can_mod_cam, can_mod_user, can_see_all_cam, can_delegate_cam FROM wai_user order by id";
 			connection = jndiFactory.getConnection("jdbc/wai_gr1");
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sqlStatement);
